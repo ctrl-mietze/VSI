@@ -82,6 +82,30 @@ public class PreferencesHelper {
         return mPrefs.getInt(PreferencesKeys.INSTALLER, PreferencesValues.INSTALLER_ROOTLESS);
     }
 
+    public boolean shouldAllowDowngrade() {
+        return mPrefs.getBoolean(PreferencesKeys.ALLOW_DOWNGRADE, false);
+    }
+
+    public boolean shouldAllowTestApks() {
+        return mPrefs.getBoolean(PreferencesKeys.ALLOW_TEST_APKS, false);
+    }
+
+    /**
+     * -1 means current Android user.
+     */
+    public int getTargetUserId() {
+        String rawUserId = mPrefs.getString(PreferencesKeys.TARGET_USER_ID, "-1");
+        try {
+            return Integer.parseInt(rawUserId);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public boolean shouldDeleteSourceAfterInstall() {
+        return mPrefs.getBoolean(PreferencesKeys.DELETE_SOURCE_AFTER_INSTALL, false);
+    }
+
     public void setBackupFileNameFormat(String format) {
         mPrefs.edit().putString(PreferencesKeys.BACKUP_FILE_NAME_FORMAT, format).apply();
     }

@@ -7,6 +7,7 @@ import com.aefyr.sai.installer2.base.SaiPiSessionObserver;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.impl.rootless.RootlessSaiPackageInstaller;
+import com.aefyr.sai.installer2.impl.rootless.XposedSaiPackageInstaller;
 import com.aefyr.sai.installer2.impl.shell.RootedSaiPackageInstaller;
 import com.aefyr.sai.installer2.impl.shell.ShizukuSaiPackageInstaller;
 import com.aefyr.sai.utils.PreferencesValues;
@@ -42,6 +43,7 @@ public class FlexSaiPackageInstaller implements SaiPackageInstaller, SaiPiSessio
         addInstaller(PreferencesValues.INSTALLER_ROOTLESS, RootlessSaiPackageInstaller.getInstance(mContext));
         addInstaller(PreferencesValues.INSTALLER_ROOTED, RootedSaiPackageInstaller.getInstance(mContext));
         addInstaller(PreferencesValues.INSTALLER_SHIZUKU, ShizukuSaiPackageInstaller.getInstance(mContext));
+        addInstaller(PreferencesValues.INSTALLER_XPOSED, XposedSaiPackageInstaller.getInstance(mContext));
         sInstance = this;
     }
 

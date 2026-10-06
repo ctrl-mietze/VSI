@@ -136,7 +136,12 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                         .into(mAppIcon);
             }
 
-            mStatus.setText(state.status().getReadableName(mContext));
+            String installerMode = getInstallerMode(state.sessionId());
+            if (installerMode == null)
+                mStatus.setText(state.status().getReadableName(mContext));
+            else
+                mStatus.setText(mContext.getString(R.string.installer_session_status_with_mode,
+                        state.status().getReadableName(mContext), installerMode));
 
             switch (state.status()) {
                 case INSTALLATION_SUCCEED:
@@ -161,6 +166,18 @@ public class SaiPiSessionsAdapter extends RecyclerView.Adapter<SaiPiSessionsAdap
                     mShimmer.startShimmer(); //for some reason it doesn't start via showShimmer(true)
                     break;
             }
+        }
+
+        private String getInstallerMode(String sessionId) {
+            if (sessionId.contains("XposedSaiPackageInstaller"))
+                return mContext.getString(R.string.installer_mode_xposed);
+            if (sessionId.contains("ShizukuSaiPackageInstaller"))
+                return mContext.getString(R.string.installer_mode_shizuku);
+            if (sessionId.contains("RootedSaiPackageInstaller"))
+                return mContext.getString(R.string.installer_mode_root);
+            if (sessionId.contains("RootlessSaiPackageInstaller"))
+                return mContext.getString(R.string.installer_mode_rootless);
+            return null;
         }
 
         private void recycle() {

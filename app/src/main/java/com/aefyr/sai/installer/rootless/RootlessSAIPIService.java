@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
+import com.aefyr.sai.BuildConfig;
 import com.aefyr.sai.ui.activities.ConfirmationIntentWrapperActivity;
 import com.aefyr.sai.utils.Utils;
 
@@ -18,11 +19,11 @@ import com.aefyr.sai.utils.Utils;
 public class RootlessSAIPIService extends Service {
     private static final String TAG = "RootlessSAIPIService";
 
-    public static final String ACTION_INSTALLATION_STATUS_NOTIFICATION = "com.aefyr.sai.action.INSTALLATION_STATUS_NOTIFICATION";
-    public static final String EXTRA_INSTALLATION_STATUS = "com.aefyr.sai.extra.INSTALLATION_STATUS";
-    public static final String EXTRA_SESSION_ID = "com.aefyr.sai.extra.SESSION_ID";
-    public static final String EXTRA_PACKAGE_NAME = "com.aefyr.sai.extra.PACKAGE_NAME";
-    public static final String EXTRA_ERROR_DESCRIPTION = "com.aefyr.sai.extra.ERROR_DESCRIPTION";
+    public static final String ACTION_INSTALLATION_STATUS_NOTIFICATION = BuildConfig.APPLICATION_ID + ".action.INSTALLATION_STATUS_NOTIFICATION";
+    public static final String EXTRA_INSTALLATION_STATUS = BuildConfig.APPLICATION_ID + ".extra.INSTALLATION_STATUS";
+    public static final String EXTRA_SESSION_ID = BuildConfig.APPLICATION_ID + ".extra.SESSION_ID";
+    public static final String EXTRA_PACKAGE_NAME = BuildConfig.APPLICATION_ID + ".extra.PACKAGE_NAME";
+    public static final String EXTRA_ERROR_DESCRIPTION = BuildConfig.APPLICATION_ID + ".extra.ERROR_DESCRIPTION";
 
     public static final int STATUS_SUCCESS = 0;
     public static final int STATUS_CONFIRMATION_PENDING = 1;

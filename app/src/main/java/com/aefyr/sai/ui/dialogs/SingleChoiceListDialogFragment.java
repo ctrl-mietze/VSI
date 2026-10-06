@@ -26,7 +26,11 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
     protected static final String ARG_PARAMS = "params";
 
     public interface OnItemSelectedListener {
-        void onItemSelected(String dialogTag, int selectedItemIndex);
+        /**
+         * @return true when the selection was accepted and the dialog may close.
+         *         false keeps the dialog open with the previous item selected.
+         */
+        boolean onItemSelected(String dialogTag, int selectedItemIndex);
     }
 
     private DialogParams mParams;
@@ -108,10 +112,9 @@ public class SingleChoiceListDialogFragment extends BaseBottomSheetDialogFragmen
             else
                 listener = (OnItemSelectedListener) getActivity();
 
-            if (listener != null)
-                listener.onItemSelected(tag, selectedItemIndex);
-
-            dismiss();
+            boolean accepted = listener != null && listener.onItemSelected(tag, selectedItemIndex);
+            if (accepted)
+                dismiss();
         } catch (Exception e) {
             throw new IllegalStateException("Activity/Fragment that uses SingleChoiceListDialogFragment must implement SingleChoiceListDialogFragment.OnItemSelectedListener");
         }

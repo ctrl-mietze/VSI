@@ -12,6 +12,7 @@
         <item>"Sans Root (recommandé)"</item>
         <item>"Rooté (nécessite root)"</item>
         <item>"Shizuku (nécessite Shizuku 3.x)"</item>
+        <item>"Xposed / Vector (Xposed required)"</item>
     </string-array>
     <string-array name="size_units">
         <item>O</item>

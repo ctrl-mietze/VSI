@@ -2,41 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_rounded_popup"
-    android:orientation="vertical">
+    android:background="@drawable/vsi_bg_card"
+    android:orientation="vertical"
+    android:paddingTop="8dp">
 
     <TextView
         android:id="@+id/tv_bottom_sheet_dialog_base_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="20sp" />
+        android:gravity="start|center_vertical"
+        android:paddingStart="22dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="12dp"
+        android:textColor="@color/vsi_text"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <FrameLayout
         android:id="@+id/container_bottom_sheet_dialog_base_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/container_bottom_sheet_dialog_base_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:weightSum="2">
+        android:paddingStart="18dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="18dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_cancel"
             style="@style/SAIMaterialButton.Outlined"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:singleLine="false"
             android:text="@string/cancel" />
@@ -44,12 +48,11 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_ok"
             style="@style/SAIMaterialButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:singleLine="false"
             android:text="@string/ok" />
     </LinearLayout>
-
 </LinearLayout>

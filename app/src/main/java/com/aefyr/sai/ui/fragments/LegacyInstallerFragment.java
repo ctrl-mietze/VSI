@@ -27,12 +27,15 @@ import com.aefyr.sai.ui.dialogs.ThemeSelectionDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.saf.SafUtils;
 import com.aefyr.sai.viewmodels.LegacyInstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LegacyInstallerFragment extends InstallerFragment implements FilePickerDialogFragment.OnFilesSelectedListener, InstallationConfirmationDialogFragment.ConfirmationListener {
@@ -121,7 +124,7 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk", "zip", "apks"};
+        properties.extensions = null; // VSI custom containers may use any final extension
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 
@@ -159,18 +162,18 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
                 return;
 
             if (data.getData() != null) {
-                mViewModel.installPackagesFromContentProviderZip(data.getData());
+                installContentUris(Collections.singletonList(data.getData()));
                 return;
             }
 
             if (data.getClipData() != null) {
                 ClipData clipData = data.getClipData();
-                List<Uri> apkUris = new ArrayList<>(clipData.getItemCount());
+                List<Uri> sourceUris = new ArrayList<>(clipData.getItemCount());
 
                 for (int i = 0; i < clipData.getItemCount(); i++)
-                    apkUris.add(clipData.getItemAt(i).getUri());
+                    sourceUris.add(clipData.getItemAt(i).getUri());
 
-                mViewModel.installPackagesFromContentProviderUris(apkUris);
+                installContentUris(sourceUris);
             }
         }
     }
@@ -191,13 +194,20 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
 
     @Override
     public void onFilesSelected(String tag, List<File> files) {
-        if (files.size() == 1 && (files.get(0).getName().endsWith(".zip") || files.get(0).getName().endsWith(".apks"))) {
-            mViewModel.installPackagesFromZip(files.get(0));
+        if (files.isEmpty())
             return;
+
+        if (files.size() == 1) {
+            String extension = Utils.getExtension(files.get(0).getName());
+            if (extension == null || !"apk".equalsIgnoreCase(extension)) {
+                mViewModel.installPackagesFromZip(files.get(0));
+                return;
+            }
         }
 
-        for (File f : files) {
-            if (!f.getName().endsWith(".apk")) {
+        for (File file : files) {
+            String extension = Utils.getExtension(file.getName());
+            if (extension == null || !"apk".equalsIgnoreCase(extension)) {
                 AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
                 return;
             }
@@ -206,9 +216,34 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
         mViewModel.installPackages(files);
     }
 
+    private void installContentUris(List<Uri> sourceUris) {
+        if (sourceUris.size() == 1) {
+            Uri uri = sourceUris.get(0);
+            String fileName = SafUtils.getFileNameFromContentUri(requireContext(), uri);
+            String extension = fileName == null ? null : Utils.getExtension(fileName);
+            if (extension == null || !"apk".equalsIgnoreCase(extension)) {
+                mViewModel.installPackagesFromContentProviderZip(uri);
+                return;
+            }
+        }
+
+        List<Uri> apkUris = new ArrayList<>();
+        for (Uri uri : sourceUris) {
+            String fileName = SafUtils.getFileNameFromContentUri(requireContext(), uri);
+            String extension = fileName == null ? null : Utils.getExtension(fileName);
+            if (extension == null || !"apk".equalsIgnoreCase(extension)) {
+                AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_mixed_extensions);
+                return;
+            }
+            apkUris.add(uri);
+        }
+
+        mViewModel.installPackagesFromContentProviderUris(apkUris);
+    }
+
     @Override
     public void onConfirmed(Uri apksFileUri) {
-        mViewModel.installPackagesFromContentProviderZip(apksFileUri);
+        installContentUris(Collections.singletonList(apksFileUri));
     }
 
     @Override

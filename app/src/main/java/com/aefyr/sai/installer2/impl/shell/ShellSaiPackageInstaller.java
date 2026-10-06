@@ -106,7 +106,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                 return;
             }
 
-            androidSessionId = createSession();
+            androidSessionId = createAndroidSession(params);
 
             int currentApkFile = 0;
             while (apkSource.nextApk()) {
@@ -129,6 +129,14 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                         .error(shortError, shortError + "\n\n" + installationResult.toString())
                         .build());
 
+                unlockInstallation();
+            } else if (params.targetUserId() >= 0) {
+                // PACKAGE_ADDED is delivered in the target user and may never reach VSI in the
+                // current user. A successful synchronous install-commit is authoritative here.
+                mAwaitingBroadcast.set(false);
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_SUCCEED)
+                        .appTempName(appTempName)
+                        .build());
                 unlockInstallation();
             }
         } catch (Exception e) {
@@ -178,7 +186,7 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | SAI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, MiuiUtils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
     }
 
-    private int createSession() throws RuntimeException {
+    private int createAndroidSession(SaiPiSessionParams params) throws RuntimeException {
         String installLocation = String.valueOf(PreferencesHelper.getInstance(getContext()).getInstallLocation());
         ArrayList<Shell.Command> commandsToAttempt = new ArrayList<>();
 
@@ -189,8 +197,8 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
             commandsToAttempt.add(new Shell.Command(command, args.toArray(new String[0])));
             Logs.d(tag(), "Using custom install-create command: " + customInstallCreateCommand);
         } else {
-            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
-            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+            commandsToAttempt.add(buildInstallCreateCommand(params, installLocation));
+            commandsToAttempt.add(buildInstallCreateCommand(params, null));
         }
 
 
@@ -223,6 +231,33 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         exceptionMessage.append("\n");
 
         throw new IllegalStateException(exceptionMessage.toString());
+    }
+
+    private Shell.Command buildInstallCreateCommand(SaiPiSessionParams params, String installLocation) {
+        ArrayList<String> args = new ArrayList<>();
+        args.add("install-create");
+        args.add("-r");
+
+        if (params.allowDowngrade())
+            args.add("-d");
+
+        if (params.allowTestApks())
+            args.add("-t");
+
+        if (params.targetUserId() >= 0) {
+            args.add("--user");
+            args.add(String.valueOf(params.targetUserId()));
+        }
+
+        if (installLocation != null) {
+            args.add("--install-location");
+            args.add(installLocation);
+        }
+
+        args.add("-i");
+        args.add(getShell().makeLiteral(BuildConfig.APPLICATION_ID));
+
+        return new Shell.Command("pm", args.toArray(new String[0]));
     }
 
     private Integer extractSessionId(String commandResult) {

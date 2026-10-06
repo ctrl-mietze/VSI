@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MainActivity">
+    android:background="@color/vsi_black">
 
     <FrameLayout
         android:id="@+id/container_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomnav_main">
-
-    </FrameLayout>
+        android:layout_above="@id/bottomnav_main"
+        android:layout_marginBottom="8dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomnav_main"
-        style="@style/SAIBottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/vsi_bg_nav"
+        android:elevation="0dp"
+        app:itemBackground="@drawable/vsi_nav_item_background"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="25dp"
+        app:itemIconTint="@color/selector_bottom_navigation"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemTextColor="@color/selector_bottom_navigation"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation" />
 
 </RelativeLayout>

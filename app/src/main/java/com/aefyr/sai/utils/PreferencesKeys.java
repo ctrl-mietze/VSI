@@ -27,6 +27,9 @@ public class PreferencesKeys {
     public static final String INITIAL_INDEXING_RUN = "initial_indexing_run";
     public static final String BACKUP_SETTINGS = "backup_settings";
     public static final String BACKUP_APK_EXPORT = "single_apk_export";
+    public static final String ALLOW_DOWNGRADE = "allow_downgrade";
+    public static final String ALLOW_TEST_APKS = "allow_test_apks";
+    public static final String TARGET_USER_ID = "target_user_id";
+    public static final String DELETE_SOURCE_AFTER_INSTALL = "delete_source_after_install";
     public static final String ENABLE_APK_ACTION_VIEW = "enable_apk_action_view";
-
 }

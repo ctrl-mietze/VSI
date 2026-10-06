@@ -97,6 +97,11 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
                 mIsAwaitingBroadcast.set(false);
                 dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED, getContext().getString(R.string.installer_error_shell, getInstallerName(), getSessionInfo(apkSource) + "\n\n" + installationResult.toString()));
                 installationCompleted();
+            } else if (PreferencesHelper.getInstance(getContext()).getTargetUserId() >= 0) {
+                // An explicit --user install may not deliver PACKAGE_ADDED to VSI's current user.
+                mIsAwaitingBroadcast.set(false);
+                dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_SUCCEED, null);
+                installationCompleted();
             }
         } catch (Exception e) {
             //TODO this catches resources close exception causing a crash, same in rootless installer
@@ -123,7 +128,8 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
     }
 
     private int createSession() throws RuntimeException {
-        String installLocation = String.valueOf(PreferencesHelper.getInstance(getContext()).getInstallLocation());
+        PreferencesHelper preferences = PreferencesHelper.getInstance(getContext());
+        String installLocation = String.valueOf(preferences.getInstallLocation());
         ArrayList<Shell.Command> commandsToAttempt = new ArrayList<>();
 
         String customInstallCreateCommand = DbgPreferencesHelper.getInstance(getContext()).getCustomInstallCreateCommand();
@@ -133,8 +139,8 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
             commandsToAttempt.add(new Shell.Command(command, args.toArray(new String[0])));
             Logs.d(TAG, "Using custom install-create command: " + customInstallCreateCommand);
         } else {
-            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "--install-location", installLocation, "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
-            commandsToAttempt.add(new Shell.Command("pm", "install-create", "-r", "-i", getShell().makeLiteral(BuildConfig.APPLICATION_ID)));
+            commandsToAttempt.add(buildInstallCreateCommand(preferences, installLocation));
+            commandsToAttempt.add(buildInstallCreateCommand(preferences, null));
         }
 
 
@@ -167,6 +173,33 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
         exceptionMessage.append("\n");
 
         throw new IllegalStateException(exceptionMessage.toString());
+    }
+
+    private Shell.Command buildInstallCreateCommand(PreferencesHelper preferences, String installLocation) {
+        ArrayList<String> args = new ArrayList<>();
+        args.add("install-create");
+        args.add("-r");
+
+        if (preferences.shouldAllowDowngrade())
+            args.add("-d");
+
+        if (preferences.shouldAllowTestApks())
+            args.add("-t");
+
+        if (preferences.getTargetUserId() >= 0) {
+            args.add("--user");
+            args.add(String.valueOf(preferences.getTargetUserId()));
+        }
+
+        if (installLocation != null) {
+            args.add("--install-location");
+            args.add(installLocation);
+        }
+
+        args.add("-i");
+        args.add(getShell().makeLiteral(BuildConfig.APPLICATION_ID));
+
+        return new Shell.Command("pm", args.toArray(new String[0]));
     }
 
     private Integer extractSessionId(String commandResult) {

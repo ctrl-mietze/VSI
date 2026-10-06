@@ -31,11 +31,11 @@
     <color name="colorTextPrimaryOmelette">#ffffff</color>
     <color name="colorTextSecondaryOmelette">#ffffff</color>
 
-    <color name="colorAccentPixel">#448aff</color>
-    <color name="colorPrimaryPixel">#ffffff</color>
-    <color name="colorPrimaryLightPixel">#ffffff</color>
-    <color name="colorTextPrimaryPixel">#de000000</color>
-    <color name="colorTextSecondaryPixel">#de000000</color>
+    <color name="colorAccentPixel">#7651B5</color>
+    <color name="colorPrimaryPixel">#FFF7FF</color>
+    <color name="colorPrimaryLightPixel">#F3EAF6</color>
+    <color name="colorTextPrimaryPixel">#201A22</color>
+    <color name="colorTextSecondaryPixel">#6D6571</color>
 
     <color name="colorAccentFDroid">#8bc34a</color>
     <color name="colorPrimaryFDroid">@color/colorPureWhite</color>
@@ -43,11 +43,11 @@
     <color name="colorTextPrimaryFDroid">@color/colorFineGrey</color>
     <color name="colorTextSecondaryFDroid">@color/colorFineGrey</color>
 
-    <color name="colorAccentDark2">#71AAEB</color>
-    <color name="colorPrimaryDark2">#131313</color>
-    <color name="colorPrimaryLightDark2">#1A1A1A</color>
-    <color name="colorTextPrimaryDark2">#ffffff</color>
-    <color name="colorTextSecondaryDark2">#e0e0e0</color>
+    <color name="colorAccentDark2">#C7A6FF</color>
+    <color name="colorPrimaryDark2">#000000</color>
+    <color name="colorPrimaryLightDark2">#111111</color>
+    <color name="colorTextPrimaryDark2">#F8F3FC</color>
+    <color name="colorTextSecondaryDark2">#BEB5C5</color>
 
     <color name="colorAccentGold">#e9b115</color>
     <color name="colorPrimaryGold">#000d26</color>
@@ -77,4 +77,13 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
         @color/textinputlayout_outline_color
     </color>
+    <color name="vsi_black">#000000</color>
+    <color name="vsi_surface">#111111</color>
+    <color name="vsi_surface_2">#181818</color>
+    <color name="vsi_hero">#302140</color>
+    <color name="vsi_accent">#C7A6FF</color>
+    <color name="vsi_text">#F8F3FC</color>
+    <color name="vsi_text_secondary">#BEB5C5</color>
+    <color name="vsi_divider">#2A272C</color>
+    <color name="vsi_warning">#F4C978</color>
 </resources>

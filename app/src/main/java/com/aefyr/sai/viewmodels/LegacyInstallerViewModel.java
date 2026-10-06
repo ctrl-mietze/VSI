@@ -4,6 +4,7 @@ package com.aefyr.sai.viewmodels;
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +20,13 @@ import com.aefyr.sai.utils.Event;
 import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
+    private static final String TAG = "LegacyInstallerVM";
+
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
     public static final String EVENT_INSTALLATION_FAILED = "installation_failed";
 
@@ -29,6 +34,7 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
     private Context mContext;
     private PreferencesHelper mPrefsHelper;
     private long mOngoingSessionId;
+    private List<Uri> mCurrentSourceUris = Collections.emptyList();
 
     public enum InstallerState {
         IDLE, INSTALLING
@@ -60,6 +66,11 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
+        List<Uri> sourceUris = new ArrayList<>(apkFiles.size());
+        for (File apkFile : apkFiles)
+            sourceUris.add(Uri.fromFile(apkFile));
+        mCurrentSourceUris = sourceUris;
+
         mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);
     }
@@ -70,8 +81,11 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
         ApkSource apkSource = new ApkSourceBuilder(mContext)
                 .fromZipFile(zipWithApkFiles)
                 .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
+
+        mCurrentSourceUris = Collections.singletonList(Uri.fromFile(zipWithApkFiles));
 
         mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);
@@ -83,8 +97,11 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
         ApkSource apkSource = new ApkSourceBuilder(mContext)
                 .fromZipContentUri(zipContentUri)
                 .setZipExtractionEnabled(mPrefsHelper.shouldExtractArchives())
+                .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
+
+        mCurrentSourceUris = Collections.singletonList(zipContentUri);
 
         mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);
@@ -97,6 +114,8 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
                 .fromApkContentUris(apkUris)
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
+
+        mCurrentSourceUris = new ArrayList<>(apkUris);
 
         mOngoingSessionId = mInstaller.createInstallationSession(apkSource);
         mInstaller.startInstallationSession(mOngoingSessionId);
@@ -132,12 +151,40 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
                 break;
             case INSTALLATION_SUCCEED:
                 mState.setValue(InstallerState.IDLE);
+                if (mPrefsHelper.shouldDeleteSourceAfterInstall())
+                    deleteCurrentSources();
+                else
+                    clearCurrentSources();
                 mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, packageNameOrErrorDescription}));
                 break;
             case INSTALLATION_FAILED:
                 mState.setValue(InstallerState.IDLE);
+                clearCurrentSources();
                 mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED, packageNameOrErrorDescription}));
                 break;
         }
+    }
+
+    private void deleteCurrentSources() {
+        for (Uri uri : mCurrentSourceUris) {
+            try {
+                if ("file".equalsIgnoreCase(uri.getScheme())) {
+                    String path = uri.getPath();
+                    if (path != null && !new File(path).delete())
+                        Log.w(TAG, "Unable to delete source file " + path);
+                } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                    int deleted = mContext.getContentResolver().delete(uri, null, null);
+                    if (deleted <= 0)
+                        Log.w(TAG, "Content provider did not delete source " + uri);
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to delete installation source " + uri, e);
+            }
+        }
+        clearCurrentSources();
+    }
+
+    private void clearCurrentSources() {
+        mCurrentSourceUris = Collections.emptyList();
     }
 }

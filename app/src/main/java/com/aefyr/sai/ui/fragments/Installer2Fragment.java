@@ -24,7 +24,6 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.adapters.SaiPiSessionsAdapter;
 import com.aefyr.sai.ui.dialogs.AppInstalledDialogFragment;
 import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
-import com.aefyr.sai.ui.dialogs.DonationSuggestionDialogFragment;
 import com.aefyr.sai.ui.dialogs.ErrorLogDialogFragment2;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.InstallationConfirmationDialogFragment;
@@ -97,7 +96,6 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
                 return;
 
             if (event.type().equals(InstallerViewModel.EVENT_PACKAGE_INSTALLED))
-                DonationSuggestionDialogFragment.showIfNeeded(requireContext(), getChildFragmentManager());
 
             if (!mHelper.showInstallerDialogs()) {
                 event.consume();
@@ -220,7 +218,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"apk", "zip", "apks", "xapk", "apkm"};
+        properties.extensions = null; // VSI probes non-APK files as ZIP-compatible containers
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 
@@ -257,20 +255,19 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             if (resultCode != Activity.RESULT_OK || data == null)
                 return;
 
-            //TODO support multiple .apks files here
             if (data.getData() != null) {
-                mViewModel.installPackagesFromContentProviderZip(data.getData());
+                installContentUris(Collections.singletonList(data.getData()));
                 return;
             }
 
             if (data.getClipData() != null) {
                 ClipData clipData = data.getClipData();
-                List<Uri> apkUris = new ArrayList<>(clipData.getItemCount());
+                List<Uri> sourceUris = new ArrayList<>(clipData.getItemCount());
 
                 for (int i = 0; i < clipData.getItemCount(); i++)
-                    apkUris.add(clipData.getItemAt(i).getUri());
+                    sourceUris.add(clipData.getItemAt(i).getUri());
 
-                mViewModel.installPackagesFromContentProviderUris(apkUris);
+                installContentUris(sourceUris);
             }
         }
     }
@@ -281,63 +278,47 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
     @Override
     public void onFilesSelected(String tag, List<File> files) {
-        if (files.size() == 0 || !ensureExtensionsConsistency(files)) {
-            AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_installer2_mixed_extensions_internal);
+        if (files.isEmpty())
             return;
+
+        List<File> apkFiles = new ArrayList<>();
+        List<File> containerFiles = new ArrayList<>();
+
+        for (File file : files) {
+            String extension = Utils.getExtension(file.getName());
+            if (extension != null && "apk".equalsIgnoreCase(extension))
+                apkFiles.add(file);
+            else
+                containerFiles.add(file);
         }
 
-        String extension = Utils.getExtension(files.get(0).getName());
+        if (!apkFiles.isEmpty())
+            mViewModel.installPackages(apkFiles);
 
-        if ("apks".equals(extension) || "zip".equals(extension) || "xapk".equals(extension) || "apkm".equals(extension)) {
-            mViewModel.installPackagesFromZip(files);
-        } else if ("apk".equals(extension)) {
-            mViewModel.installPackages(files);
-        } else {
-            AlertsUtils.showAlert(this, R.string.error, R.string.installer_error_installer2_mixed_extensions_internal);
-        }
+        if (!containerFiles.isEmpty())
+            mViewModel.installPackagesFromZip(containerFiles);
     }
 
-    private boolean ensureExtensionsConsistency(List<File> files) {
-        String firstFileExtension = Utils.getExtension(files.get(0).getName());
-        if (firstFileExtension == null)
-            return false;
+    private void installContentUris(List<Uri> sourceUris) {
+        List<Uri> apkUris = new ArrayList<>();
 
-        for (int i = 1; i < files.size(); i++) {
-            if (!files.get(i).getName().endsWith(firstFileExtension))
-                return false;
+        for (Uri uri : sourceUris) {
+            String fileName = SafUtils.getFileNameFromContentUri(requireContext(), uri);
+            String extension = fileName == null ? null : Utils.getExtension(fileName);
+
+            if (extension != null && "apk".equalsIgnoreCase(extension))
+                apkUris.add(uri);
+            else
+                mViewModel.installPackagesFromContentProviderZip(uri);
         }
 
-        return true;
+        if (!apkUris.isEmpty())
+            mViewModel.installPackagesFromContentProviderUris(apkUris);
     }
 
     @Override
     public void onConfirmed(Uri apksFileUri) {
-        String fileName = SafUtils.getFileNameFromContentUri(requireContext(), apksFileUri);
-        if (fileName == null) {
-            Log.w(TAG, String.format("Unable to get file name from uri %s, assuming it's a .apks file", apksFileUri.toString()));
-            mViewModel.installPackagesFromContentProviderZip(apksFileUri);
-            return;
-        }
-
-        String fileExtension = Utils.getExtension(fileName);
-        if (fileExtension == null) {
-            Log.w(TAG, String.format("Unable to get extension from uri %s, assuming it's a .apks file", apksFileUri.toString()));
-            mViewModel.installPackagesFromContentProviderZip(apksFileUri);
-            return;
-        }
-
-        switch (fileExtension.toLowerCase()) {
-            case "apks":
-                mViewModel.installPackagesFromContentProviderZip(apksFileUri);
-                break;
-            case "apk":
-                mViewModel.installPackagesFromContentProviderUris(Collections.singletonList(apksFileUri));
-                break;
-            default:
-                Log.w(TAG, String.format("Uri %s has unexpected extension - %s, assuming it's a .apks file", apksFileUri.toString(), fileExtension));
-                mViewModel.installPackagesFromContentProviderZip(apksFileUri);
-                break;
-        }
+        installContentUris(Collections.singletonList(apksFileUri));
     }
 
     @Override

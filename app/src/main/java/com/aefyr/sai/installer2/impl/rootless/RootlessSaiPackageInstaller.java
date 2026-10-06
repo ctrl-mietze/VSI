@@ -13,6 +13,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.aefyr.sai.R;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionStatus;
@@ -45,11 +46,13 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
 
     public static RootlessSaiPackageInstaller getInstance(Context c) {
         synchronized (RootlessSaiPackageInstaller.class) {
-            return sInstance != null ? sInstance : new RootlessSaiPackageInstaller(c);
+            if (sInstance == null)
+                sInstance = new RootlessSaiPackageInstaller(c);
+            return sInstance;
         }
     }
 
-    private RootlessSaiPackageInstaller(Context c) {
+    protected RootlessSaiPackageInstaller(Context c) {
         super(c);
         mPackageInstaller = getContext().getPackageManager().getPackageInstaller();
 
@@ -59,8 +62,6 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
         mBroadcastReceiver = new RootlessSaiPiBroadcastReceiver(getContext());
         mBroadcastReceiver.addEventObserver(this);
         getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(RootlessSaiPiBroadcastReceiver.ACTION_DELIVER_PI_EVENT), null, mWorkerHandler);
-
-        sInstance = this;
     }
 
     @Override
@@ -74,6 +75,13 @@ public class RootlessSaiPackageInstaller extends BaseSaiPackageInstaller impleme
         PackageInstaller.Session session = null;
         String appTempName = null;
         try (ApkSource apkSource = params.apkSource()) {
+            if (params.targetUserId() >= 0) {
+                setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED)
+                        .error(getContext().getString(R.string.installer_error_rootless_target_user), null)
+                        .build());
+                return;
+            }
+
             appTempName = apkSource.getAppName();
             if (appTempName != null)
                 mSessionIdToAppTempName.put(sessionId, appTempName);

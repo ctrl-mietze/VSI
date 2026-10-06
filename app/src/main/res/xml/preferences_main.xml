@@ -2,34 +2,46 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Preference
+        android:key="vsi_header"
+        android:selectable="false"
+        android:layout="@layout/preference_vsi_header"
+        app:iconSpaceReserved="false" />
+
     <PreferenceCategory
+        android:layout="@layout/preference_vsi_category"
         android:title="@string/settings_category_main_ui"
         app:iconSpaceReserved="false">
 
         <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_theme"
             android:key="theme"
             android:title="@string/settings_main_ui_theme" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_auto_theme"
             android:key="auto_theme"
             android:title="@string/settings_main_auto_theme"
             android:summary="@string/settings_main_auto_theme_summary" />
 
         <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_auto_theme"
             android:key="auto_theme_picker"
             android:title="@string/settings_main_auto_theme_picker"
             android:summary="@string/settings_main_auto_theme_picker_summary" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_old_installer"
             android:key="use_old_installer"
             android:title="@string/settings_main_use_old_installer"
             android:summary="@string/settings_main_use_old_installer_summary" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_show_dialogs"
             android:key="show_installer_dialogs"
             android:title="@string/settings_main_installer_show_dialogs"
@@ -37,6 +49,7 @@
             android:defaultValue="true" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_feature"
             android:key="show_app_features"
             android:title="@string/settings_main_ui_show_app_features"
@@ -46,10 +59,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_vsi_category"
         android:title="@string/settings_category_main_installer"
         app:iconSpaceReserved="false">
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_pro_mode"
             android:key="use_installerx"
             android:title="@string/settings_main_use_installerx"
@@ -57,12 +72,54 @@
             android:defaultValue="true" />
 
         <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_root"
             android:key="installer"
             android:title="@string/settings_main_installer"
             android:summary="@string/settings_main_installer_summary" />
 
+        <Preference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_pro_mode"
+            android:key="vsi_system_hook_info"
+            android:title="@string/vsi_system_hook_title"
+            android:summary="@string/vsi_system_hook_summary" />
+
+        <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_root"
+            android:key="allow_downgrade"
+            android:title="@string/settings_main_allow_downgrade"
+            android:summary="@string/settings_main_allow_downgrade_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="allow_test_apks"
+            android:title="@string/settings_main_allow_test_apks"
+            android:summary="@string/settings_main_allow_test_apks_summary"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_root"
+            android:key="target_user_id"
+            android:title="@string/settings_main_target_user"
+            android:dialogTitle="@string/settings_main_target_user"
+            android:defaultValue="-1"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_unarchive"
+            android:key="delete_source_after_install"
+            android:title="@string/settings_main_delete_source"
+            android:summary="@string/settings_main_delete_source_summary"
+            android:defaultValue="false" />
+
         <ListPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_install_location"
             android:key="install_location"
             android:title="@string/settings_main_install_location"
@@ -72,30 +129,35 @@
             android:defaultValue="0" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_key"
             android:key="sign_apks"
             android:title="@string/settings_main_sign_apks"
             android:summary="@string/settings_main_sign_apks_summary" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_unarchive"
             android:key="extract_archives"
             android:title="@string/settings_main_extract_archives"
             android:summary="@string/settings_main_extract_archives_summary" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_unarchive"
             android:key="use_zipfile"
             android:title="@string/settings_main_use_zipfile"
             android:summary="@string/settings_main_use_zipfile_summary" />
 
         <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_home"
             android:key="home_directory"
             android:title="@string/settings_main_home_directory"
             android:summary="@string/settings_main_home_directory_summary" />
 
         <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_sort"
             android:key="file_picker_sort"
             android:title="@string/settings_main_file_picker_sort"
@@ -104,10 +166,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_vsi_category"
         android:title="@string/settings_category_main_parser"
         app:iconSpaceReserved="false">
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_unarchive"
             android:key="use_brute_parser"
             android:title="@string/settings_main_use_brute_parser"
@@ -117,10 +181,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_vsi_category"
         android:title="@string/settings_category_main_export"
         app:iconSpaceReserved="false">
 
         <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_backup_settings"
             android:key="backup_settings"
             android:title="@string/settings_main_backup_settings"
@@ -129,10 +195,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:layout="@layout/preference_vsi_category"
         android:title="@string/settings_category_main_other"
         app:iconSpaceReserved="false">
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_enable_apk_action_view"
             android:key="enable_apk_action_view"
             android:title="@string/settings_main_enable_apk_action_view"
@@ -140,6 +208,7 @@
             android:defaultValue="true" />
 
         <SwitchPreference
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_analytics"
             android:key="firebase_enabled"
             android:title="@string/settings_main_enable_analytics"
@@ -147,11 +216,7 @@
             android:defaultValue="true" />
 
         <Preference
-            android:icon="@drawable/ic_pref_donate"
-            android:key="donate"
-            android:title="@string/settings_main_donate" />
-
-        <Preference
+        android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_info"
             android:key="about"
             android:title="@string/settings_main_about" />

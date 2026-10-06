@@ -12,6 +12,7 @@
         <item>"Bez root (zalecany)"</item>
         <item>"Root (wymaga roota)"</item>
         <item>"Shizuku (wymaga Shizuku 3.x)"</item>
+        <item>"Xposed / Vector (Xposed required)"</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>

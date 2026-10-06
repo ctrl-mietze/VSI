@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.aefyr.sai">
+    xmlns:tools="http://schemas.android.com/tools">
+
 
     <uses-sdk tools:overrideLibrary="rikka.shizuku.provider, rikka.shizuku.api, rikka.shizuku.shared, rikka.shizuku.aidl" />
 
@@ -22,18 +22,40 @@
     <application
         android:allowBackup="false"
         android:banner="@drawable/tv_banner"
-        android:icon="@mipmap/icon"
+        android:icon="@drawable/vsi_launcher_icon"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/icon"
-        android:theme="@style/AppTheme.Light"
+        android:roundIcon="@drawable/vsi_launcher_icon"
+        android:theme="@style/AppTheme.Dark2"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- Legacy Xposed metadata is intentionally used for cross-runtime
+             compatibility with both LSPosed and Vector. -->
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="@string/vsi_system_hook_xposed_description" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/xposed_scope" />
+
+        <provider
+            android:name=".xposed.VsiHookConfigProvider"
+            android:authorities="${applicationId}.hookconfig"
+            android:exported="true"
+            android:grantUriPermissions="false" />
+
         <activity android:name=".ui.activities.BackupSettingsActivity" />
         <activity android:name=".ui.activities.BackupManageAppActivity" />
-        <activity android:name=".ui.activities.DonateActivity" />
         <activity android:name=".ui.activities.MiActivity" />
         <activity
             android:name=".ui.activities.MainActivity"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -300,7 +322,6 @@
         <activity android:name=".ui.activities.PreferencesActivity" />
         <activity android:name=".ui.activities.AboutActivity" />
         <activity android:name=".ui.activities.ConfirmationIntentWrapperActivity" />
-        <activity android:name=".ui.activities.LicensesActivity" />
         <activity android:name=".installer2.impl.rootless.ConfirmationIntentWrapperActivity2" />
 
 

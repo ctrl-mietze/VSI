@@ -12,6 +12,7 @@
         <item>"루팅하지 않음 (권장)"</item>
         <item>"루팅됨 (루팅 필요)"</item>
         <item>"Shizuku (Shizuku 3.x 필요)"</item>
+        <item>"Xposed / Vector (Xposed required)"</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>

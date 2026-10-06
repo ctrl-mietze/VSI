@@ -12,6 +12,7 @@
         <item>"Không root (khuyên dùng)"</item>
         <item>"Đã root (yêu cầu root)"</item>
         <item>"Shizuku (yêu cầu Shizuku 3.x)"</item>
+        <item>"Xposed / Vector (Xposed required)"</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>

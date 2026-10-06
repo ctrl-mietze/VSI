@@ -4,41 +4,40 @@
     android:id="@+id/shimmer_item_installer_session"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     app:shimmer_auto_start="false"
-    app:shimmer_duration="1500"
-    app:shimmer_base_alpha="0.5">
+    app:shimmer_base_alpha="0.45"
+    app:shimmer_duration="1300">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/container_item_installer_session"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="?android:attr/windowBackground"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="8dp"
-        app:strokeColor="?attr/colorAccent"
-        app:strokeWidth="1.5dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:cardBackgroundColor="@color/vsi_surface"
+        app:cardCornerRadius="26dp"
+        app:cardElevation="0dp"
+        app:contentPadding="16dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_app_icon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:padding="4dp"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:padding="3dp"
                 android:scaleType="fitCenter" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="14dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -46,32 +45,32 @@
                     android:id="@+id/tv_session_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:text="TextView"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/vsi_text"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_session_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:text="TextView" />
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/vsi_text_secondary"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_installed_app_action"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:clickable="false"
-                android:padding="8dp"
+                android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:tint="?colorAccent"
+                android:tint="@color/vsi_accent"
                 app:srcCompat="@drawable/ic_error" />
-
         </LinearLayout>
-
     </com.google.android.material.card.MaterialCardView>
-
 </com.facebook.shimmer.ShimmerFrameLayout>

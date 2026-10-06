@@ -12,8 +12,8 @@
     <string name="warning">Внимание</string>
     <string name="filepicker_internal">Встроен файлпикер</string>
     <string name="filepicker_saf">Системен файлпикер</string>
-    <string name="permissions_required_storage">SAI се нуждае от разрешение на достъп до файлове</string>
-    <string name="permissions_required_shizuku">SAI се нуждае от разрешение на достъп до Shizuku Server</string>
+    <string name="permissions_required_storage">VSI се нуждае от разрешение на достъп до файлове</string>
+    <string name="permissions_required_shizuku">VSI се нуждае от разрешение на достъп до Shizuku Server</string>
     <string name="main_installer">Инсталиране</string>
     <string name="main_backup">Архивиране</string>
     <string name="main_navigation_disabled">Невъзможно е използване да се отвори по време на инсталация</string>
@@ -21,14 +21,14 @@
     <string name="installer_installation_failed">Приложение не се инсталира</string>
     <string name="installer_installation_in_progress">Инсталиране…</string>
     <string name="installer_install_apks">Инсталирай APK</string>
-    <string name="installer_help"><b>Какво е SAI?</b>\"
-SAI (Split APKs Installer) е инсталатор на приложения, състоящи се от няколко APK. Може да го използвате за инсталатор на приложения, разпространявани като App Bundle, тъй като Android не предоставя вграден начин, освен Google Play.
+    <string name="installer_help"><b>Какво е VSI?</b>\"
+VSI (Virtual Source Installer) е инсталатор на приложения, състоящи се от няколко APK. Може да го използвате за инсталатор на приложения, разпространявани като App Bundle, тъй като Android не предоставя вграден начин, освен Google Play.
 
-\"<b>Как се използва SAI?</b>\"
+\"<b>Как се използва VSI?</b>\"
 Натиснете на бутон \"Инсталирай APK\" и изберете базов APK и допълнителни APK за вашето устройство, или ZIP архив, съдържащ всички необходими APK, и после бутона отдолу \"Избери\" за започване на инсталация.
 
 \"<b>.apks</b>\"
-Може да преименувате .zip архиви, съдържащи .apk файлове, в .apks (Например: somesplitapp.zip -&gt; somesplitapp.apks), за да може да се отвори с помощта на SAI от други приложения.
+Може да преименувате .zip архиви, съдържащи .apk файлове, в .apks (Например: somesplitapp.zip -&gt; somesplitapp.apks), за да може да се отвори с помощта на VSI от други приложения.
 
 \"<b>Инсталиране на приложения от външно хранилище</b>\"
 Може да използвате продължително натискане на бутон инсталиране, за Избор на файлове от системния експлорер, който поддържа външно хранилище.\"</string>
@@ -45,7 +45,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installer_error_incompatible">Инсталираното приложение е несъвместимо с това устройство</string>
     <string name="installer_error_bad_apks">Избрани са некоректни APK файлове</string>
     <string name="installer_error_storage">Недостатъчно място за инсталиране на приложение</string>
-    <string name="installer_error_lidl_rom">Фърмуера на устройството е несъвместимо с rootless-инсталация. Пробвайте да смените инсталатора в настройки SAI</string>
+    <string name="installer_error_lidl_rom">Фърмуера на устройството е несъвместимо с rootless-инсталация. Пробвайте да смените инсталатора в настройки VSI</string>
     <string name="installer_error_shell">Грешка %1$s-инсталатор:
 
 %2$s</string>
@@ -53,7 +53,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
 
 %s</string>
     <string name="installer_error_root_no_root">Не успя да получи root-достъп</string>
-    <string name="installer_error_shizuku_unavailable">Няма достъп до Shizuku Server, убедете се, че е стартиран и SAI има достъп до него</string>
+    <string name="installer_error_shizuku_unavailable">Няма достъп до Shizuku Server, убедете се, че е стартиран и VSI има достъп до него</string>
     <string name="installer_error_while_extracting">Грешка при разопаковане на ZIP: %s</string>
     <string name="installer_error_zip_contains_no_apks">ZIP архива не съдержа .apk файлове</string>
     <string name="installer_error_mixed_extensions">Изберете един .zip/.apks файл, или няколко .apk файла</string>
@@ -63,7 +63,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installer_select_theme">Избери тема</string>
     <string name="installer_device">Устройство</string>
     <string name="installer_miui_warning_title">Изяви се MIUI</string>
-    <string name="installer_miui_warning_message"><b> Моля, прочетете това еднократно предупреждение</b> \n\nСъжалявам, за отнетото ви време, но се отегчих от хора с MIUI, които са прескачали предишната версия на това предупреждение.\n\nИзглежда, как вашето устройство работи с MIUI. MIUI е известен с прекъсване на стандартните функции на Android API и много потребители на SAI съобщават за инсталации, които не са на MIUI без причина с \"Инсталирането е неуспешно\". Обикновено това може да бъде фиксирано чрез деактивиране на MIUI оптимизации в настройките за разработчици, което предлагам да направите.\n\nРазбира се, че може да опитате да използвате SAI без деактивиране на MIUI оптимизация, ако не работи, опитайте да го деактивирате, преди да съобшите за неуспешни инсталации. Ако вашата MIUI версия не се превключва или не помага, няма решение.\n\nПроблема трябва да бъде решен на MIUI 20.2.20 и нагоре (xiaomi.eu и основани на eu ROMs).</string>
+    <string name="installer_miui_warning_message"><b> Моля, прочетете това еднократно предупреждение</b> \n\nСъжалявам, за отнетото ви време, но се отегчих от хора с MIUI, които са прескачали предишната версия на това предупреждение.\n\nИзглежда, как вашето устройство работи с MIUI. MIUI е известен с прекъсване на стандартните функции на Android API и много потребители на VSI съобщават за инсталации, които не са на MIUI без причина с \"Инсталирането е неуспешно\". Обикновено това може да бъде фиксирано чрез деактивиране на MIUI оптимизации в настройките за разработчици, което предлагам да направите.\n\nРазбира се, че може да опитате да използвате VSI без деактивиране на MIUI оптимизация, ако не работи, опитайте да го деактивирате, преди да съобшите за неуспешни инсталации. Ако вашата MIUI версия не се превключва или не помага, няма решение.\n\nПроблема трябва да бъде решен на MIUI 20.2.20 и нагоре (xiaomi.eu и основани на eu ROMs).</string>
     <string name="installer_miui_warning_open_dev_settings">Отвори настройки за разработчици</string>
     <string name="installer_miui_warning_oof">Не може да отворите настройки за разработчици. Може да опитате да ги отворите ръчно, Google казва как.</string>
     <string name="installer_unknown_app">Неизвестно приложение</string>
@@ -142,7 +142,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="backup_search_hint">Търсене на приложения</string>
     <string name="backup_search_splits_only">Само split APK</string>
     <string name="backup_search_show_system_apps">Покажи системни</string>
-    <string name="backup_warning"><b>Управление архиви е в бета версия, моля докладвайте проблеми в GitHub repo на SAI (можете да намерите връзката за екрана)</b>\n\n<b>Бекъп файлове формат</b>\nSAI backups приложения като .apks файлове (които са само ZIP архиви с .apk файлове) с някоя мета информация, добавена към архива (като име на приложение и икона). Архивирани .apk файлове все още могат да бъдат инсталирани като нормални .apk файлове (защото те са нормални .apk файлове, с изключение на някои допълнителни файлове в архива, които се игнорират от инсталатора)\n\n<b>Какво е резервното копие</b>\nВ случай архивиране SAI архивира само APK файловете (няма данни/obb/etc)\n\n<b>Външните промени в директорията за архивиране</b>\nSAI не автоматично следи външните промени, направени в директорията за архивиране. Така че, ако сте ги променили извън SAI, използвайте опцията reindex в менюто с 3 точки в горния десен ъгъл на екрана за архивиране, за да сканирате повторно директорията за архивиране.\n\n<b> Винаги можете да отворите тази помощ от менюто с 3 точки в горния десен ъгъл на екрана за архивиране</b></string>
+    <string name="backup_warning"><b>Управление архиви е в бета версия, моля докладвайте проблеми в GitHub repo на VSI (можете да намерите връзката за екрана)</b>\n\n<b>Бекъп файлове формат</b>\nVSI backups приложения като .apks файлове (които са само ZIP архиви с .apk файлове) с някоя мета информация, добавена към архива (като име на приложение и икона). Архивирани .apk файлове все още могат да бъдат инсталирани като нормални .apk файлове (защото те са нормални .apk файлове, с изключение на някои допълнителни файлове в архива, които се игнорират от инсталатора)\n\n<b>Какво е резервното копие</b>\nВ случай архивиране VSI архивира само APK файловете (няма данни/obb/etc)\n\n<b>Външните промени в директорията за архивиране</b>\nVSI не автоматично следи външните промени, направени в директорията за архивиране. Така че, ако сте ги променили извън VSI, използвайте опцията reindex в менюто с 3 точки в горния десен ъгъл на екрана за архивиране, за да сканирате повторно директорията за архивиране.\n\n<b> Винаги можете да отворите тази помощ от менюто с 3 точки в горния десен ъгъл на екрана за архивиране</b></string>
     <string name="backup_export_all_splits">Архивиране на всички разделени APK файлове</string>
     <string name="backup_export_all_splits_prompt">Искате ли да архивирате всички разделени APK файлове?</string>
     <string name="backup_export_selected_apps_prompt">Искате ли да експортирате %d избрани приложения?</string>
@@ -189,14 +189,14 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="backup_component_apk_files">Файлове на APK</string>
     <string name="backup_component_unknown">Неизвестен компонент от тип \"%s\"</string>
     <string name="backup_lbs_provider_name">Локално съхранение</string>
-    <string name="backup_lbs_warning_no_dir">Изберете директория, в която да се съхраняват архивите. .apks файлове, изнесени с SAI 3.10+ в избраната директория ще бъдат индексирани като резервни копия. Директория по подразбиране за резервни копия преди SAI 4.0 е била вътрешна памет &gt; SAI</string>
+    <string name="backup_lbs_warning_no_dir">Изберете директория, в която да се съхраняват архивите. .apks файлове, изнесени с VSI 3.10+ в избраната директория ще бъдат индексирани като резервни копия. Директория по подразбиране за резервни копия преди VSI 4.0 е била вътрешна памет &gt; VSI</string>
     <string name="backup_lbs_select_dir">Избор на директория</string>
-    <string name="backup_lbs_current_dir">Текуща директория за архивиране: %s\n\nБележка: SAI ще показва само архиви от текущо избраната директория.</string>
+    <string name="backup_lbs_current_dir">Текуща директория за архивиране: %s\n\nБележка: VSI ще показва само архиви от текущо избраната директория.</string>
     <string name="backup_settings">Настройки за архивиране</string>
     <string name="backup_open_app_in_system_settings">Отваряне в системните настройки</string>
     <string name="backup_open_app_in_system_settings_error">Приложението не може да бъде отворено в системните настройки</string>
     <string name="backup_export_apk">Експорт като .apk файл</string>
-    <string name="backup_export_apk_desc">Експорт на една избрана част като .apk файл. Експортираните .apk файлове не са резервни копия и няма да се управляват от SAI</string>
+    <string name="backup_export_apk_desc">Експорт на една избрана част като .apk файл. Експортираните .apk файлове не са резервни копия и няма да се управляват от VSI</string>
     <string name="settings_title">Настройки</string>
     <string name="settings_main_home_directory">Папка подразб.</string>
     <string name="settings_main_home_directory_summary">Начална папка в избора на APK
@@ -207,32 +207,32 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_pick_dir">Изберете папка</string>
     <string name="settings_main_about">За приложението</string>
     <string name="settings_main_use_root">Използвай root</string>
-    <string name="settings_main_use_root_summary">Пробвай да използва root-инсталатор. При отсъствие на root-достъп SAI, пак се използва rootless-инсталатор</string>
+    <string name="settings_main_use_root_summary">Пробвай да използва root-инсталатор. При отсъствие на root-достъп VSI, пак се използва rootless-инсталатор</string>
     <string name="settings_main_use_root_error">Не успя да получи root-достъп</string>
     <string name="settings_main_sign_apks">Подписвай APK</string>
     <string name="settings_main_sign_apks_summary">Подписвай APK преди инсталиране</string>
     <string name="settings_main_extract_archives">Разархивирай APK файлове</string>
-    <string name="settings_main_extract_archives_summary">Разархивирай APK от .zip/.apks архиви във временни файлове преди инсталиране. Ако е изключено, SAI ще инсталира APK направо от архива без създаване на временни файлове. Не се препоръчва включване</string>
+    <string name="settings_main_extract_archives_summary">Разархивирай APK от .zip/.apks архиви във временни файлове преди инсталиране. Ако е изключено, VSI ще инсталира APK направо от архива без създаване на временни файлове. Не се препоръчва включване</string>
     <string name="settings_main_use_zipfile">Използвай ZipFile API</string>
     <string name="settings_main_use_zipfile_summary">Използвайте ZipFile API, за да четете ZIP архиви (включително .apks файлове), решава проблеми със съвместимостта с някои архиви. Не се препоръчва да се разреши, освен ако няма съобщение за грешка на инсталатора, защото добавя ненужни процеси</string>
     <string name="settings_main_use_brute_parser">Връщане към анализиране APK</string>
-    <string name="settings_main_use_brute_parser_summary">В режим Pro, когато SAI не може да намери мета информация (като икона и заглавие) за приложението в източника (като файл .apks или ZIP архив), ще копира базата APK в temp файл и анализира директно, за да получи мета информация. SAI няма да копира и анализира APK файлове, по-големи от 100 МБ</string>
+    <string name="settings_main_use_brute_parser_summary">В режим Pro, когато VSI не може да намери мета информация (като икона и заглавие) за приложението в източника (като файл .apks или ZIP архив), ще копира базата APK в temp файл и анализира директно, за да получи мета информация. VSI няма да копира и анализира APK файлове, по-големи от 100 МБ</string>
     <string name="settings_main_reset_one_time_warnings">Ресет единични предупреждения</string>
     <string name="settings_main_installer">Инсталатор</string>
     <string name="settings_main_installer_summary">Тип инсталатор, използван за APK.
 Сега: %s</string>
     <string name="settings_main_installer_error_no_shizuku">Нямате инсталиран Shizuku, моля сложете го през Google Play и го настройте</string>
-    <string name="settings_main_installer_error_shizuku_pre_m">SAI не поддържа Shizuku на версии Android под 6.0</string>
+    <string name="settings_main_installer_error_shizuku_pre_m">VSI не поддържа Shizuku на версии Android под 6.0</string>
     <string name="settings_main_backup_file_name_format">Име на архивния файл</string>
     <string name="settings_main_backup_file_name_format_summary">Формат на името на архивния файл.\nКато време: %s</string>
     <string name="settings_main_backup_backup_dir">Директория за архивиране на файлове</string>
-    <string name="settings_main_backup_backup_dir_summary">Директория, в която ще се съхраняват архивите. SAI автоматично ще индексира всички валидни архиви в избраната директория, ако я промените.\nЗакуство: %s</string>
+    <string name="settings_main_backup_backup_dir_summary">Директория, в която ще се съхраняват архивите. VSI автоматично ще индексира всички валидни архиви в избраната директория, ако я промените.\nЗакуство: %s</string>
     <string name="settings_main_backup_backup_dir_dialog">Избери папка от</string>
     <string name="settings_main_install_location">Място на инсталиране</string>
     <string name="settings_main_install_location_summary">Къде да се инсталира приложението.
 Сега: %s</string>
     <string name="settings_main_use_old_installer">Стар инсталатор</string>
-    <string name="settings_main_use_old_installer_summary">Използване на наследено внедряване на инсталиращата програма. SAI ще бъдат рестартирани да приложите тази настройка (не превключвайте, ако има текущи инсталации или архиви, те могат да бъдат повредени)</string>
+    <string name="settings_main_use_old_installer_summary">Използване на наследено внедряване на инсталиращата програма. VSI ще бъдат рестартирани да приложите тази настройка (не превключвайте, ако има текущи инсталации или архиви, те могат да бъдат повредени)</string>
     <string name="settings_main_installer_show_dialogs">Показвай диалог инсталиране</string>
     <string name="settings_main_installer_show_dialogs_summary">Показвай диалог с резултата от завършена инсталация. Винаги можете да отворите диалога, кликвайки на сесията. Действа само на новия инсталатор</string>
     <string name="settings_category_main_installer">Инсталиране</string>
@@ -243,7 +243,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_ui_show_app_features">Покажи функции на приложението</string>
     <string name="settings_main_ui_show_app_features_summary">Показвй контекстно приложението в екрана за експортиране</string>
     <string name="settings_main_ui_theme">Тема</string>
-    <string name="settings_main_donate">Поддръжка SAI</string>
+    <string name="settings_main_donate">Поддръжка VSI</string>
     <string name="settings_main_auto_theme">Автоматична тема</string>
     <string name="settings_main_auto_theme_summary">Автоматично превключване между избрани светла и тъмна теми в зависимост от тема на системата</string>
     <string name="settings_main_auto_theme_picker">Изберете теми</string>
@@ -252,34 +252,34 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="settings_main_use_installerx">Pro режим</string>
     <string name="settings_main_use_installerx_summary">Активирайте инсталационния Pro режим, който ви позволява да изберете части, които да инсталирате от .apks файл (или други архиви с множество APK файлове). Моля, обърнете внимание, че Pro режимът е експериментален и може да не работи правилно, обратната връзка е очаквана</string>
     <string name="settings_main_enable_analytics">Анализ</string>
-    <string name="settings_main_enable_analytics_summary">Позволете на SAI да събира данни за анализ, като например данни за използването на приложения и грешки. Можете да научите повече за данните, които се събират в Политиката за поверителност, която можете да намерите на екрана. Промяната на тази настройка може да не я приложи напълно, докато не рестартирате SAI</string>
+    <string name="settings_main_enable_analytics_summary">Позволете на VSI да събира данни за анализ, като например данни за използването на приложения и грешки. Можете да научите повече за данните, които се събират в Политиката за поверителност, която можете да намерите на екрана. Промяната на тази настройка може да не я приложи напълно, докато не рестартирате VSI</string>
     <string name="settings_main_backup_settings">Настройки за архивиране</string>
     <string name="settings_main_backup_settings_summary">Натиснете, за да отворите настройките за архивиране</string>
-    <string name="settings_main_enable_apk_action_view">Активирай отваряне на .apk файлове чрез SAI</string>
-    <string name="settings_main_enable_apk_action_view_summary">Поддържа отваряне на .apk файлове чрез SAI от други приложения. Може да се деактивира, тъй като на някои ROM с включена опция, не позволява отваряне на .apk файлове</string>
+    <string name="settings_main_enable_apk_action_view">Активирай отваряне на .apk файлове чрез VSI</string>
+    <string name="settings_main_enable_apk_action_view_summary">Поддържа отваряне на .apk файлове чрез VSI от други приложения. Може да се деактивира, тъй като на някои ROM с включена опция, не позволява отваряне на .apk файлове</string>
     <string name="name_format_builder_title">Изберете части, които да бъдат включени в името на архивния файл</string>
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Изберете поне една част</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
     <string name="sss">Супер секретни настройки</string>
     <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
-    <string name="sss_warning_summary"><b>Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят SAI или даже системата ви</b></string>
+    <string name="sss_warning_summary"><b>Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят VSI или даже системата ви</b></string>
     <string name="sss_dont_replace_dots_title">Не замествай точки със запетаи</string>
     <string name="sss_dont_replace_dots_summary">Име на архивния файл</string>
     <string name="sss_custom_install_create_title">Потребителска команда за инсталиране</string>
     <string name="sss_custom_install_create_summary">Персонализирана команда за създаване на инсталационен файл, която ще се използва за създаване на Pm сесия, използвана в rooted и Shizuku инсталатори, командата не трябва да съдържа никакви интервали освен тези, които разделят аргументите (\"пространства в кавички\" ще бъдат разделени на аргументи, както добре). Въведете \"null\", за да забраните</string>
     <string name="sss_fake_backup_timestamp">Фалшиво време за архивиране</string>
-    <string name="sss_fake_backup_timestamp_summary">Добавете постоянно времещамп (1 януари 2000 г., 00:00) за архивиране. Прави хешове на архивните файлове, като на APK файловете. SAI няма да разбере кой архив е последен</string>
+    <string name="sss_fake_backup_timestamp_summary">Добавете постоянно времещамп (1 януари 2000 г., 00:00) за архивиране. Прави хешове на архивните файлове, като на APK файловете. VSI няма да разбере кой архив е последен</string>
     <string name="sss_test_crash">Срив на приложението</string>
     <string name="mi_continue_countdown">Може да продължите в %d s.</string>
     <string name="mi_continue">Продължи</string>
     <string name="mi_miui_version">MIUI версия - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">В зависимост от вашата MIUI версия, изключване на MIUI оптимизацията няма да направи нищо, нулиране на разрешения за приложения или да има други неочаквани последици</string>
-    <string name="donate_message_not_donated">Здравейте. Както знаете, SAI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, подкрепете SAI чрез дарение. Ще получите легендарната <b>SAI Gold</b> тема!</string>
-    <string name="donate_message_donated">Огромни благодарности за подкрепата на SAI!\nНе забравяйте да проверите новата <b>SAI Gold</b> тема</string>
-    <string name="donate_message_floss">Здравейте. Използвате FLOSS версия на SAI. Както знаете, SAI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, обмислете подкрепата му, като направите дарение.\n\nIn FLOSS версия, <b>FLOSS Gold</b> темата е достъпна по подразбиране.</string>
+    <string name="donate_message_not_donated">Здравейте. Както знаете, VSI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, подкрепете VSI чрез дарение. Ще получите легендарната <b>VSI Gold</b> тема!</string>
+    <string name="donate_message_donated">Огромни благодарности за подкрепата на VSI!\nНе забравяйте да проверите новата <b>VSI Gold</b> тема</string>
+    <string name="donate_message_floss">Здравейте. Използвате FLOSS версия на VSI. Както знаете, VSI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, обмислете подкрепата му, като направите дарение.\n\nIn FLOSS версия, <b>FLOSS Gold</b> темата е достъпна по подразбиране.</string>
     <string name="donate_message_unknown_or_error">Не може да се получи статус на дарение. Моля, уверете се, че сте инсталирали услугите на Google Play и опитайте да рестартирате устройството си.</string>
-    <string name="donate_message_pending">Дарението не е регистриано. Ако не се прилага автоматично, след като завършите, моля, рестартирайте SAI.</string>
+    <string name="donate_message_pending">Дарението не е регистриано. Ако не се прилага автоматично, след като завършите, моля, рестартирайте VSI.</string>
     <string name="donate_non_iap_yandex_title">Yandex.Money</string>
     <string name="donate_non_iap_yandex_desc">Basically CIS PayPal lol</string>
     <string name="donate_billing_not_available">Не може да се свърже с Google Play. Моля, уверете се, че сте инсталирали услугите на Google Play и опитайте да рестартирате устройството си.</string>
@@ -291,12 +291,12 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installerx_dialog_choose_filepicker">Как ще изберете файлове за инсталиране?</string>
     <string name="installerx_dialog_loading">Анализиране на APK файлове…</string>
     <string name="installerx_dialog_install">Инсталирай</string>
-    <string name="installerx_dialog_error">SAI се натъкна на грешка при опит да анализира избрания файл(ове)</string>
-    <string name="installerx_dialog_resolution_error_non_critical">Анализаторът се натъкна на следната грешка:\n\n%s\n\nИскате ли да опитате да инсталирате избраните файлове въпреки това? Даже ако SAI не успя да ги анализира, Android все още може да ги инсталира успешно</string>
+    <string name="installerx_dialog_error">VSI се натъкна на грешка при опит да анализира избрания файл(ове)</string>
+    <string name="installerx_dialog_resolution_error_non_critical">Анализаторът се натъкна на следната грешка:\n\n%s\n\nИскате ли да опитате да инсталирате избраните файлове въпреки това? Даже ако VSI не успя да ги анализира, Android все още може да ги инсталира успешно</string>
     <string name="installerx_dialog_resolution_error_critical">Анализаторът се натъкна на критична грешка:\n\n%s</string>
     <string name="installerx_dialog_warn_multiple_files">За потребителска инсталация, трябва да изберете един файл. Искате ли да инсталирате всички избрани файлове без персонализиране?</string>
     <string name="installerx_dialog_warn_no_files">Не получи резултат от анализатора</string>
-    <string name="installerx_dialog_warn_parsing_fail">SAI не успя да анализира избрания файл. Искате ли да опитате да го инсталирате въпреки това, без персонализиране?</string>
+    <string name="installerx_dialog_warn_parsing_fail">VSI не успя да анализира избрания файл. Искате ли да опитате да го инсталирате въпреки това, без персонализиране?</string>
     <string name="installerx_select_splits_hint">Можете да изберете кои части на APK файловете да се инсталират, като най-добрите части са избрани автоматично</string>
     <string name="installerx_category_base_apk">Базов APK</string>
     <string name="installerx_category_dynamic_features">Динамични функции</string>
@@ -324,21 +324,21 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="installerx_dsas_meta_resolver_error_multiple_base_apks">Има множество базови APK файлове</string>
     <string name="installerx_dsas_meta_resolver_error_no_apks">Източникът не съдържа APK файлове</string>
     <string name="installerx_dsas_meta_resolver_error_no_base_apk">Източникът не съдържа базов APK файл</string>
-    <string name="installerx_notice_xapk">SAI не поддържа извличане на obb от XAPK, ще трябва да го направите ръчно</string>
+    <string name="installerx_notice_xapk">VSI не поддържа извличане на obb от XAPK, ще трябва да го направите ръчно</string>
     <string name="installerx_notice_no_code_for_base">Има разделени части за конфигурация на архитектурата за базовия APK, но нито една от тях не се поддържа от вашето устройство</string>
     <string name="installerx_notice_no_code_for_feature">Има някои архитектурни конфигурации в разделените части за функция \"%s\", но никой от тях не се поддържа от вашето устройство</string>
     <string name="installerx_notice_no_locale_for_base">Нито една от езиковите настройки не е разделена на части за базов APK файл, съответстващ на езиците Ви</string>
     <string name="installerx_notice_no_locale_for_feature">Никоя от регионалните конфигурации не е разделена на части за функция \"%s\" с вашите езици</string>
     <string name="installerx_notice_huge_app">This app is huge (&gt;150MB). With huge apps there\'s a chance (the bigger the app size, the higher) that installation will hang but app will still take up storage space that you won\'t be able to reclaim without using root or doing factory reset</string>
     <string name="installerx_android_uri_host_file_too_big">Файлът е твърде голям за копиране и вашата система не поддържа четене на SAF файлове без копиране</string>
-    <string name="installerx_thank_you_scoped_storage_very_cool">На Android 11 и по-нови, SAI изисква разрешение за съхранение за директно четени файлове, избрани чрез системния файлпикер. Може да откажете разрешение за съхранение, но тогава SAI ще трябва да анализира фйловете за копиране, SAI няма да копира и анализира големи файлове.</string>
-    <string name="theme_sai">SAI</string>
+    <string name="installerx_thank_you_scoped_storage_very_cool">На Android 11 и по-нови, VSI изисква разрешение за съхранение за директно четени файлове, избрани чрез системния файлпикер. Може да откажете разрешение за съхранение, но тогава VSI ще трябва да анализира фйловете за копиране, VSI няма да копира и анализира големи файлове.</string>
+    <string name="theme_sai">VSI</string>
     <string name="theme_ruby">Ruby</string>
     <string name="theme_rena">Rena</string>
     <string name="theme_ukrrooter">Ukrrooter</string>
     <string name="theme_amoled">Омлет (Amoled)</string>
     <string name="theme_pixel">Pixel</string>
-    <string name="theme_sai_fdroid">SAI (F-Droid)</string>
+    <string name="theme_sai_fdroid">VSI (F-Droid)</string>
     <string name="theme_dark">Тъмна</string>
     <string name="theme_gold">Злато</string>
     <string name="theme_rena_light">Рена Светлина</string>
@@ -352,7 +352,7 @@ SAI (Split APKs Installer) е инсталатор на приложения, с
     <string name="about_source">GitHub</string>
     <string name="about_donate">Помогни</string>
     <string name="about_licenses">Лицензи</string>
-    <string name="about_translate">Помогнете с превода на SAI</string>
+    <string name="about_translate">Помогнете с превода на VSI</string>
     <string name="about_privacy">Политика за поверителност</string>
     <string name="about_eula">Лицензионно споразумение с краен потребител</string>
 </resources>

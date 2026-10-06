@@ -18,6 +18,8 @@ import com.aefyr.sai.utils.Event2;
 import com.aefyr.sai.utils.PreferencesHelper;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class InstallerViewModel extends AndroidViewModel implements SaiPiSessionObserver {
@@ -32,7 +34,6 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
     private PreferencesHelper mPrefsHelper;
 
     private MutableLiveData<List<SaiPiSessionState>> mSessions = new MutableLiveData<>();
-
     private MutableLiveData<Event2> mEvents = new MutableLiveData<>();
 
     public InstallerViewModel(@NonNull Application application) {
@@ -57,7 +58,11 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
-        install(apkSource);
+        List<Uri> sourceUris = new ArrayList<>(apkFiles.size());
+        for (File apkFile : apkFiles)
+            sourceUris.add(Uri.fromFile(apkFile));
+
+        install(apkSource, sourceUris);
     }
 
     public void installPackagesFromZip(List<File> zipWithApkFiles) {
@@ -69,7 +74,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                     .setSigningEnabled(mPrefsHelper.shouldSignApks())
                     .build();
 
-            install(apkSource);
+            install(apkSource, Collections.singletonList(Uri.fromFile(zipFile)));
         }
     }
 
@@ -81,7 +86,7 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
-        install(apkSource);
+        install(apkSource, Collections.singletonList(zipContentUri));
     }
 
     public void installPackagesFromContentProviderUris(List<Uri> apkUris) {
@@ -90,11 +95,18 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
                 .setSigningEnabled(mPrefsHelper.shouldSignApks())
                 .build();
 
-        install(apkSource);
+        install(apkSource, apkUris);
     }
 
-    private void install(ApkSource apkSource) {
-        mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource)));
+    private void install(ApkSource apkSource, List<Uri> sourceUris) {
+        SaiPiSessionParams params = new SaiPiSessionParams(apkSource)
+                .setAllowDowngrade(mPrefsHelper.shouldAllowDowngrade())
+                .setAllowTestApks(mPrefsHelper.shouldAllowTestApks())
+                .setTargetUserId(mPrefsHelper.getTargetUserId())
+                .setDeleteSourceAfterSuccess(mPrefsHelper.shouldDeleteSourceAfterInstall())
+                .setSourceUris(sourceUris);
+
+        mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), params));
     }
 
     @Override

@@ -156,7 +156,7 @@
         <item name="colorPrimary">?attr/colorAccent</item>
         <item name="colorOnPrimary">?attr/colorPrimaryDark</item>
         <item name="android:theme">@style/SAIMaterialButton</item>
-        <item name="cornerRadius">20dp</item>
+        <item name="cornerRadius">24dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="iconPadding">3dp</item>
         <item name="iconSize">22dp</item>
@@ -169,7 +169,7 @@
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="cornerRadius">16dp</item>
+        <item name="cornerRadius">22dp</item>
         <item name="iconPadding">1dp</item>
         <item name="iconSize">18dp</item>
     </style>
@@ -187,7 +187,7 @@
         <item name="android:singleLine">true</item>
         <item name="colorPrimary">?attr/colorAccent</item>
         <item name="android:theme">@style/SAIMaterialButton.Outlined</item>
-        <item name="cornerRadius">20dp</item>
+        <item name="cornerRadius">24dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="strokeWidth">2dp</item>
         <item name="strokeColor">@color/selector_outlined_button_outline_color</item>
@@ -202,7 +202,7 @@
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="cornerRadius">16dp</item>
+        <item name="cornerRadius">22dp</item>
         <item name="iconPadding">1dp</item>
         <item name="iconSize">18dp</item>
     </style>

@@ -7,10 +7,13 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.InputType;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -24,7 +27,6 @@ import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.activities.ApkActionViewProxyActivity;
 import com.aefyr.sai.ui.activities.BackupSettingsActivity;
-import com.aefyr.sai.ui.activities.DonateActivity;
 import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
@@ -38,6 +40,7 @@ import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.PreferencesValues;
 import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.xposed.VsiXposedRuntimeProbe;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 
@@ -126,19 +129,44 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             return true;
         });
 
-        Preference donatePref = Objects.requireNonNull(findPreference("donate"));
-        donatePref.setOnPreferenceClickListener(p -> {
-            startActivity(new Intent(requireContext(), DonateActivity.class));
-            return true;
-        });
-        donatePref.setVisible(!BuildConfig.HIDE_DONATE_BUTTON);
-
         mInstallerPref = findPreference("installer");
         updateInstallerSummary();
         mInstallerPref.setOnPreferenceClickListener((p -> {
             SingleChoiceListDialogFragment.newInstance(getText(R.string.settings_main_installer), R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), "installer");
             return true;
         }));
+
+        Preference systemHookInfoPref = findPreference("vsi_system_hook_info");
+        Objects.requireNonNull(systemHookInfoPref).setOnPreferenceClickListener(preference -> {
+            SimpleAlertDialogFragment.newInstance(requireContext(),
+                    R.string.vsi_system_hook_title,
+                    R.string.vsi_system_hook_details)
+                    .show(getChildFragmentManager(), "vsi_system_hook_info");
+            return true;
+        });
+
+        EditTextPreference targetUserPref = Objects.requireNonNull(findPreference(PreferencesKeys.TARGET_USER_ID));
+        targetUserPref.setOnBindEditTextListener(editText -> {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            editText.setSelectAllOnFocus(true);
+        });
+        targetUserPref.setSummaryProvider(preference -> {
+            String value = ((EditTextPreference) preference).getText();
+            if (value == null || value.trim().isEmpty() || "-1".equals(value.trim()))
+                return getString(R.string.settings_main_target_user_current_summary);
+            return getString(R.string.settings_main_target_user_specific_summary, value.trim());
+        });
+        targetUserPref.setOnPreferenceChangeListener((preference, newValue) -> {
+            try {
+                int userId = Integer.parseInt(String.valueOf(newValue).trim());
+                if (userId < -1)
+                    throw new NumberFormatException();
+                return true;
+            } catch (NumberFormatException e) {
+                Toast.makeText(requireContext(), R.string.settings_main_target_user_invalid, Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
 
         findPreference(PreferencesKeys.BACKUP_SETTINGS).setOnPreferenceClickListener(p -> {
             startActivity(new Intent(requireContext(), BackupSettingsActivity.class));
@@ -284,7 +312,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     @Override
-    public void onItemSelected(String dialogTag, int selectedItemIndex) {
+    public boolean onItemSelected(String dialogTag, int selectedItemIndex) {
         switch (dialogTag) {
             case "sort":
                 mHelper.setFilePickerRawSort(selectedItemIndex);
@@ -315,49 +343,78 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                         break;
                 }
                 updateFilePickerSortSummary();
-                break;
+                return true;
+
             case "installer":
-                boolean installerSet = false;
+                final int previousInstaller = mHelper.getInstaller();
+
                 switch (selectedItemIndex) {
                     case PreferencesValues.INSTALLER_ROOTLESS:
-                        installerSet = true;
-                        break;
+                        mHelper.setInstaller(selectedItemIndex);
+                        updateInstallerSummary();
+                        return true;
+
                     case PreferencesValues.INSTALLER_ROOTED:
                         if (!SuShell.getInstance().requestRoot()) {
+                            restoreInstallerSelection(previousInstaller);
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_use_root_error);
-                            return;
+                            return false;
                         }
-                        installerSet = true;
-                        break;
+
+                        mHelper.setInstaller(selectedItemIndex);
+                        updateInstallerSummary();
+                        return true;
+
                     case PreferencesValues.INSTALLER_SHIZUKU:
                         if (!Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
+                            restoreInstallerSelection(previousInstaller);
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_shizuku_pre_m);
-                            return;
+                            return false;
                         }
 
                         if (!Shizuku.pingBinder()) {
+                            restoreInstallerSelection(previousInstaller);
                             AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_shizuku);
-                            return;
+                            return false;
                         }
 
                         if (!Shizuku.isPreV11() && Shizuku.getVersion() >= 11) {
                             if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-                                installerSet = true;
+                                mHelper.setInstaller(selectedItemIndex);
+                                updateInstallerSummary();
                             } else {
                                 Shizuku.requestPermission(PermissionsUtils.REQUEST_CODE_SHIZUKU);
                             }
-                        } else {
-                            installerSet = PermissionsUtils.checkAndRequestShizukuPermissions(this);
+                        } else if (PermissionsUtils.checkAndRequestShizukuPermissions(this)) {
+                            mHelper.setInstaller(selectedItemIndex);
+                            updateInstallerSummary();
                         }
 
-                        break;
+                        // Permission requests are asynchronous; keep the old value until granted.
+                        return true;
+
+                    case PreferencesValues.INSTALLER_XPOSED:
+                        if (!VsiXposedRuntimeProbe.isActive()) {
+                            restoreInstallerSelection(previousInstaller);
+                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_xposed);
+                            return false;
+                        }
+
+                        mHelper.setInstaller(selectedItemIndex);
+                        updateInstallerSummary();
+                        return true;
                 }
-                if (installerSet) {
-                    mHelper.setInstaller(selectedItemIndex);
-                    updateInstallerSummary();
-                }
-                break;
+
+                restoreInstallerSelection(previousInstaller);
+                return false;
         }
+
+        return true;
+    }
+
+    private void restoreInstallerSelection(int previousInstaller) {
+        mHelper.setInstaller(previousInstaller);
+        updateInstallerSummary();
     }
 
     @Override

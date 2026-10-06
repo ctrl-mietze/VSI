@@ -193,7 +193,7 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = Environment.getExternalStorageDirectory();
         properties.offset = new File(mHelper.getHomeDirectory());
-        properties.extensions = new String[]{"zip", "apks", "xapk", "apk", "apkm"};
+        properties.extensions = null; // show custom VSI containers regardless of final extension
         properties.sortBy = mHelper.getFilePickerSortBy();
         properties.sortOrder = mHelper.getFilePickerSortOrder();
 

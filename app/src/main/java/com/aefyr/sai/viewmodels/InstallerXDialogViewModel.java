@@ -140,7 +140,7 @@ public class InstallerXDialogViewModel extends ViewModel {
                         .setReadZipViaZipFileEnabled(mPrefsHelper.shouldUseZipFileApi())
                         .setSigningEnabled(mPrefsHelper.shouldSignApks());
 
-                install(apkSourceBuilder.build());
+                install(apkSourceBuilder.build(), resolutionResult.uris());
             }
         }
     }
@@ -165,13 +165,20 @@ public class InstallerXDialogViewModel extends ViewModel {
             if (result.isSuccessful())
                 apkSourceBuilder.filterApksByLocalPath(new HashSet<>(mPartsSelection.getSelectedKeys()), false);
 
-            install(apkSourceBuilder.build());
+            install(apkSourceBuilder.build(), result.uris());
         }
 
     }
 
-    private void install(ApkSource apkSource) {
-        mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), new SaiPiSessionParams(apkSource)));
+    private void install(ApkSource apkSource, List<Uri> sourceUris) {
+        SaiPiSessionParams params = new SaiPiSessionParams(apkSource)
+                .setAllowDowngrade(mPrefsHelper.shouldAllowDowngrade())
+                .setAllowTestApks(mPrefsHelper.shouldAllowTestApks())
+                .setTargetUserId(mPrefsHelper.getTargetUserId())
+                .setDeleteSourceAfterSuccess(mPrefsHelper.shouldDeleteSourceAfterInstall())
+                .setSourceUris(sourceUris);
+
+        mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), params));
     }
 
     public enum State {

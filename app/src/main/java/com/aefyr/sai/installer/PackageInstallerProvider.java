@@ -18,6 +18,10 @@ public class PackageInstallerProvider {
                 return RootedSAIPackageInstaller.getInstance(c);
             case PreferencesValues.INSTALLER_SHIZUKU:
                 return ShizukuSAIPackageInstaller.getInstance(c);
+            case PreferencesValues.INSTALLER_XPOSED:
+                // Legacy installer keeps using Android's regular PackageInstaller
+                // transport; Xposed/Vector only provides the system-entry hook.
+                return RootlessSAIPackageInstaller.getInstance(c);
         }
 
         return RootlessSAIPackageInstaller.getInstance(c);

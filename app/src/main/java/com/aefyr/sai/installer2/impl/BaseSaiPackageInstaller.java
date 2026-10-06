@@ -2,6 +2,9 @@ package com.aefyr.sai.installer2.impl;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
+
+import java.io.File;
 
 import com.aefyr.sai.installer2.base.SaiPackageInstaller;
 import com.aefyr.sai.installer2.base.SaiPiSessionObserver;
@@ -25,6 +28,7 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
     private long mLastSessionId = 0;
 
     private ConcurrentHashMap<String, SaiPiSessionParams> mCreatedSessions = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, SaiPiSessionParams> mActiveSessions = new ConcurrentHashMap<>();
 
     private ConcurrentSkipListMap<String, SaiPiSessionState> mSessionStates = new ConcurrentSkipListMap<>();
 
@@ -60,14 +64,43 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
     protected void setSessionState(String sessionId, SaiPiSessionState state) {
         Logs.d(tag(), String.format("%s->setSessionState(%s, %s)", getClass().getSimpleName(), sessionId, state));
         mSessionStates.put(sessionId, state);
+
+        if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED || state.status() == SaiPiSessionStatus.INSTALLATION_FAILED) {
+            SaiPiSessionParams params = mActiveSessions.remove(sessionId);
+            if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED && params != null && params.deleteSourceAfterSuccess()) {
+                deleteSourceUris(params.sourceUris());
+            }
+        }
+
         Utils.onMainThread(() -> {
             for (SaiPiSessionObserver observer : mObservers)
                 observer.onSessionStateChanged(state);
         });
     }
 
+    private void deleteSourceUris(List<Uri> sourceUris) {
+        for (Uri uri : sourceUris) {
+            try {
+                if ("file".equalsIgnoreCase(uri.getScheme())) {
+                    String path = uri.getPath();
+                    if (path != null && !new File(path).delete())
+                        Logs.w(tag(), "Unable to delete source file " + path);
+                } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                    int deleted = getContext().getContentResolver().delete(uri, null, null);
+                    if (deleted <= 0)
+                        Logs.w(tag(), "Content provider did not delete source " + uri);
+                }
+            } catch (Exception e) {
+                Logs.w(tag(), "Unable to delete installation source " + uri, e);
+            }
+        }
+    }
+
     protected SaiPiSessionParams takeCreatedSession(String sessionId) {
-        return mCreatedSessions.remove(sessionId);
+        SaiPiSessionParams params = mCreatedSessions.remove(sessionId);
+        if (params != null)
+            mActiveSessions.put(sessionId, params);
+        return params;
     }
 
     @SuppressLint("DefaultLocale")

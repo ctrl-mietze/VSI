@@ -73,6 +73,13 @@ public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
     protected void installApkFiles(ApkSource aApkSource) {
         cleanOldSessions();
 
+        if (PreferencesHelper.getInstance(getContext()).getTargetUserId() >= 0) {
+            dispatchCurrentSessionUpdate(InstallationStatus.INSTALLATION_FAILED,
+                    getContext().getString(R.string.installer_error_rootless_target_user));
+            installationCompleted();
+            return;
+        }
+
         PackageInstaller.Session session = null;
         try (ApkSource apkSource = aApkSource) {
             PackageInstaller.SessionParams sessionParams = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
