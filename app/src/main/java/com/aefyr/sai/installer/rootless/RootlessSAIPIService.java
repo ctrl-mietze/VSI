@@ -17,7 +17,7 @@ import com.aefyr.sai.utils.Utils;
  * Handles installation events from the package manager
  */
 public class RootlessSAIPIService extends Service {
-    private static final String TAG = "RootlessSAIPIService";
+    private static final String TAG = "RootlessVSIPIService";
 
     public static final String ACTION_INSTALLATION_STATUS_NOTIFICATION = BuildConfig.APPLICATION_ID + ".action.INSTALLATION_STATUS_NOTIFICATION";
     public static final String EXTRA_INSTALLATION_STATUS = BuildConfig.APPLICATION_ID + ".extra.INSTALLATION_STATUS";

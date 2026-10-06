@@ -16,6 +16,7 @@ import com.aefyr.sai.installer2.impl.FlexSaiPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Event2;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.VsiInstallPolicy;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -99,12 +100,10 @@ public class InstallerViewModel extends AndroidViewModel implements SaiPiSession
     }
 
     private void install(ApkSource apkSource, List<Uri> sourceUris) {
-        SaiPiSessionParams params = new SaiPiSessionParams(apkSource)
-                .setAllowDowngrade(mPrefsHelper.shouldAllowDowngrade())
-                .setAllowTestApks(mPrefsHelper.shouldAllowTestApks())
-                .setTargetUserId(mPrefsHelper.getTargetUserId())
-                .setDeleteSourceAfterSuccess(mPrefsHelper.shouldDeleteSourceAfterInstall())
-                .setSourceUris(sourceUris);
+        SaiPiSessionParams params = VsiInstallPolicy.apply(
+                getApplication(),
+                new SaiPiSessionParams(apkSource).setSourceUris(sourceUris)
+        );
 
         mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), params));
     }

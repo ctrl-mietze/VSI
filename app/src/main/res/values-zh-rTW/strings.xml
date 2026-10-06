@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Show app features</string>
     <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on backup screen</string>
     <string name="settings_main_ui_theme">主題</string>
-    <string name="settings_main_donate">支持VSI</string>
     <string name="settings_main_auto_theme">Auto theme</string>
     <string name="settings_main_auto_theme_summary">Automatically switch between selected light and dark themes depending on system theme</string>
     <string name="settings_main_auto_theme_picker">選擇主題</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">預覽: %s</string>
     <string name="name_format_builder_preview_empty">至少選擇一部分</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Super Secret Settings</string>
-    <string name="sss_warning_title"><b>警告</b></string>
-    <string name="sss_warning_summary"><b>請勿擅自觸動此處選項！Don\'t touch anything here unless you know what you\'re doing. Some options here can break VSI or even damage your system</b></string>
-    <string name="sss_dont_replace_dots_title">Don\'t replace dots with commas</string>
-    <string name="sss_dont_replace_dots_summary">In backup file name</string>
-    <string name="sss_custom_install_create_title">Custom install-create command</string>
-    <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
-    <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
-    <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. VSI will have no idea what backup is the latest one though</string>
-    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">You can continue in %d s.</string>
     <string name="mi_continue">繼續</string>
     <string name="mi_miui_version">MIUI 版本 - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
-    <string name="donate_message_not_donated">您好，眾所周知，VSI是個永久開源免費的工具。您若喜歡，請考慮捐贈以支持。你還能獲得<b>VSI 金色</b> 主題</string>
-    <string name="donate_message_donated">Huge thanks for supporting VSI!\nDon\'t forget to check out your new <b>VSI Gold</b> theme</string>
-    <string name="donate_message_floss">Hello. You\'re using FLOSS version of VSI. As you know, VSI is a completely free open-source app and it will always stay that way. If you like it, please consider supporting VSI by making a donation.\n\nIn FLOSS version, the <b>FLOSS Gold</b> theme is available by default.</string>
-    <string name="donate_message_unknown_or_error">Unable to get donation status. Please make sure you have Google Play Services installed and try restarting your device.</string>
-    <string name="donate_message_pending">Your donation is pending. If it isn\'t applied automatically after you complete it, please restart VSI.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Basically CIS PayPal lol</string>
-    <string name="donate_billing_not_available">Unable to connect to Google Play. Please make sure you have Google Play Services installed and try restarting your device.</string>
-    <string name="donate_donate_only_theme">Donation required</string>
-    <string name="donate_dialog_close">不再顯示</string>
-    <string name="donate_dialog_go_to_donate_page">Go to donate screen</string>
-    <string name="donate_dialog_title">捐贈</string>
     <string name="installerx_dialog_title">Customize installation</string>
     <string name="installerx_dialog_choose_filepicker">How do you want to select files to install?</string>
     <string name="installerx_dialog_loading">Parsing APKs…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">輕敲以選擇</string>
     <string name="about_author">由polychromaticfox開發</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">捐贈</string>
-    <string name="about_licenses">許可證</string>
-    <string name="about_translate">Help to translate VSI</string>
     <string name="about_privacy">Privacy Policy</string>
-    <string name="about_eula">End User License Agreement</string>
 </resources>

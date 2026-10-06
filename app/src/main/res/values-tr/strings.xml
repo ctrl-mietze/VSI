@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Uygulama özelliklerini göster</string>
     <string name="settings_main_ui_show_app_features_summary">İçeriğe dayalı uygulama özelliği etiketlerini yedekleme ekranında gösterir</string>
     <string name="settings_main_ui_theme">Tema</string>
-    <string name="settings_main_donate">VSI\'yi destekle</string>
     <string name="settings_main_auto_theme">Otomatik tema</string>
     <string name="settings_main_auto_theme_summary">Sistem temasına bağlı olarak seçilen açık ve koyu temalar arasında otomatik olarak geçiş yapma</string>
     <string name="settings_main_auto_theme_picker">Tema seç</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Ön izleme: %s</string>
     <string name="name_format_builder_preview_empty">Lütfen en az bir parça seçin</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Süper Gizli Ayarlar</string>
-    <string name="sss_warning_title"><b>UYARI</b></string>
-    <string name="sss_warning_summary"><b>Ne yaptığınızı bilmiyorsanız burada hiçbir şeye dokunmayın. Buradaki bazı seçenekler VSI\' yi bozabilir ve hatta sisteminize zarar verebilir</b></string>
-    <string name="sss_dont_replace_dots_title">Noktaları virgülle değiştirme</string>
-    <string name="sss_dont_replace_dots_summary">Yedek dosya adında</string>
-    <string name="sss_custom_install_create_title">Özel yükleme-oluşturma komutu</string>
-    <string name="sss_custom_install_create_summary">Rootlu ve Shizuku yükleyicilerinde kullanılan pm oturumu oluşturmak için kullanılacak özel install-create komutu, komut, bağımsız değişkenleri ayıranlar (\'tırnak içindeki boşluklar\' da bağımsız değişkenlere bölünecektir) dışında boşluk içermemelidir. Devre dışı bırakmak için \"null\" girin</string>
-    <string name="sss_fake_backup_timestamp">Sahte yedek zaman damgası</string>
-    <string name="sss_fake_backup_timestamp_summary">Yedeklere sabit zaman damgası (1 Ocak 2000, 00:00) ekler. Aynı APK dosyalarının yedek dosyalarının karmasını aynı yapar. VSI\'nin son yedeklemenin ne olduğu hakkında hiçbir fikri olmaz</string>
-    <string name="sss_test_crash">Çökme uygulaması</string>
     <string name="mi_continue_countdown">%d s içinde devam edebilirsiniz.</string>
     <string name="mi_continue">Devam et</string>
     <string name="mi_miui_version">MIUI Sürüm - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">MIUI sürümünüze bağlı olarak, MIUI optimizasyonunu kapatmak hiçbir şey yapamaz, uygulama izinlerini sıfırlayabilir veya beklenmedik başka sonuçlar doğurabilir</string>
-    <string name="donate_message_not_donated">Merhaba. Bildiğiniz gibi, VSI tamamen ücretsiz bir açık kaynaklı uygulama ve her zaman bu şekilde kalacak. Eğer beğendiyseniz, lütfen bağış yaparak VSI\'yi desteklemeyi düşünün. Efsanevi <b>VSI Gold</b> temasını da alacaksınız!</string>
-    <string name="donate_message_donated">VSI\'yi desteklediğiniz için çok teşekkürler!\nYeni <b>VSI Gold</b> temanıza göz atmayı unutmayın</string>
-    <string name="donate_message_floss">Merhaba. VSI\'nın FLOSS sürümünü kullanıyorsunuz. Bildiğiniz gibi, VSI tamamen ücretsiz bir açık kaynaklı uygulama ve her zaman bu şekilde kalacak. Eğer beğendiyseniz, lütfen bağış yaparak VSI\'yi desteklemeyi düşünün.\n\nFLOSS sürümünde, <b>FLOSS Gold</b> teması varsayılan olarak kullanılabilir.</string>
-    <string name="donate_message_unknown_or_error">Bağış durumu alınamıyor. Lütfen Google Play Hizmetleri\'nin yüklü olduğundan emin olun ve cihazınızı yeniden başlatmayı deneyin.</string>
-    <string name="donate_message_pending">Bağışınız beklemede. Tamamladıktan sonra otomatik olarak uygulanmazsa, lütfen VSI\'yi yeniden başlatın.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">PayPal\'in bir değişiği</string>
-    <string name="donate_billing_not_available">Google Play\'e bağlanılamıyor. Lütfen Google Play Hizmetleri\'nin yüklü olduğundan emin olun ve cihazınızı yeniden başlatmayı deneyin.</string>
-    <string name="donate_donate_only_theme">Bağış gerekli</string>
-    <string name="donate_dialog_close">Bir daha gösterme</string>
-    <string name="donate_dialog_go_to_donate_page">Bağış ekranına git</string>
-    <string name="donate_dialog_title">Bağış</string>
     <string name="installerx_dialog_title">Kurulumu özelleştir</string>
     <string name="installerx_dialog_choose_filepicker">Yüklenecek dosyaları nasıl seçmek istersiniz?</string>
     <string name="installerx_dialog_loading">APK\'lar Ayrıştırılıyor…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Değiştirmek için dokun</string>
     <string name="about_author">polychromaticfox tarafından yazıldı</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Bağış yap</string>
-    <string name="about_licenses">Lisanslar</string>
-    <string name="about_translate">VSI\'yi çevirmeye yardım et</string>
     <string name="about_privacy">Gizlilik Politikası</string>
-    <string name="about_eula">Son Kullanıcı Lisans Anlaşması</string>
 </resources>

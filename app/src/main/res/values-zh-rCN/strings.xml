@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">显示应用特性</string>
     <string name="settings_main_ui_show_app_features_summary">在备份屏幕上显示上下文应用程序功能徽章</string>
     <string name="settings_main_ui_theme">主题</string>
-    <string name="settings_main_donate">支持 VSI</string>
     <string name="settings_main_auto_theme">自动主题</string>
     <string name="settings_main_auto_theme_summary">根据系统主题，在选定的浅色和深色主题之间自动切换</string>
     <string name="settings_main_auto_theme_picker">选择主题</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">预览: %s</string>
     <string name="name_format_builder_preview_empty">请至少选一个部分。</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">隐藏设置</string>
-    <string name="sss_warning_title"><b>危险!!!</b></string>
-    <string name="sss_warning_summary"><b>警告！请不要修改这里的任何选项（除非你知道你非常了解这些选项）。\n部分选项可能引起VSI甚至ROM损坏！！！\n部分选项可能引起VSI甚至ROM损坏！！！\n部分选项可能引起VSI甚至ROM损坏！！！</b></string>
-    <string name="sss_dont_replace_dots_title">不要用逗号替换点</string>
-    <string name="sss_dont_replace_dots_summary">备份文件名称中</string>
-    <string name="sss_custom_install_create_title">定制安装创建命令</string>
-    <string name="sss_custom_install_create_summary">自定义的安装创建命令将用于在Rooted和Shizuku安装程序中创建pm会话，除了分隔参数的命令外，该命令不得包含任何空格（“引号中的空格”也将拆分为参数）。 输入“ null”以禁用</string>
-    <string name="sss_fake_backup_timestamp">伪造备份时间戳</string>
-    <string name="sss_fake_backup_timestamp_summary">为备份添加恒定时间戳(Jan 1 2000, 00:00)。使相同APK文件的备份文件的校验和相同。VSI将不知道哪个备份是最新的</string>
-    <string name="sss_test_crash">使应用崩溃</string>
     <string name="mi_continue_countdown">您可以在 %d 秒后继续。</string>
     <string name="mi_continue">继续</string>
     <string name="mi_miui_version">MIUI 版本 - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">根据您的MIUI版本，关闭MIUI优化可能不起作用，重置应用程序权限或产生其他意外后果</string>
-    <string name="donate_message_not_donated">如您所知，VSI是一个完全免费的开源应用，它将始终保持这种状态。 如果您愿意，请考虑通过捐款支持VSI。 您还将获得传奇的<b> VSI 金色</b>主题！</string>
-    <string name="donate_message_donated">非常感谢您支持VSI！\n不要忘记查看您新的 <b>VSI 金色</b> 主题</string>
-    <string name="donate_message_floss">你好。您正在使用 FLOSS 版本的 VSI 。如您所知，VSI 是一个完全免费的开源的应用，它将永远保持这种状态。 如果您喜欢，请考虑通过捐款来支持VSI。\n\n在 FLOSS 版本中， <b>FLOSS 金色</b> 主题默认可用。</string>
-    <string name="donate_message_unknown_or_error">无法获得捐赠状态。 请确保您已安装Google Play服务，然后尝试重新启动设备。</string>
-    <string name="donate_message_pending">您的捐款尚未完成。 如果完成后没有自动应用，请重新启动VSI。</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">基本上是独联体国家的PayPal</string>
-    <string name="donate_billing_not_available">无法连接到Google Play。 请确保您已安装Google Play服务，然后尝试重新启动设备。</string>
-    <string name="donate_donate_only_theme">需要捐赠</string>
-    <string name="donate_dialog_close">不再显示</string>
-    <string name="donate_dialog_go_to_donate_page">转至捐赠屏幕</string>
-    <string name="donate_dialog_title">捐赠</string>
     <string name="installerx_dialog_title">自定义安装</string>
     <string name="installerx_dialog_choose_filepicker">您想要如何选择要安装的文件？</string>
     <string name="installerx_dialog_loading">正分析APKs…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">点击以更改</string>
     <string name="about_author">由polychromaticfox开发</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">捐赠</string>
-    <string name="about_licenses">许可证</string>
-    <string name="about_translate">帮助翻译VSI</string>
     <string name="about_privacy">隐私政策</string>
-    <string name="about_eula">最终用户许可协议</string>
 </resources>

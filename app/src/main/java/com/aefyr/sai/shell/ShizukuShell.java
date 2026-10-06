@@ -94,7 +94,7 @@ public class ShizukuShell implements Shell {
         } catch (Exception e) {
             Log.w(TAG, "Unable execute command: ");
             Log.w(TAG, e);
-            return new Result(command, -1, stdOutSb.toString().trim(), stdErrSb.toString() + "\n\n<!> SAI ShizukuShell Java exception: " + Utils.throwableToString(e));
+            return new Result(command, -1, stdOutSb.toString().trim(), stdErrSb.toString() + "\n\n<!> VSI ShizukuShell Java exception: " + Utils.throwableToString(e));
         }
     }
 }

@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Показувати особливості додатків</string>
     <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on backup screen</string>
     <string name="settings_main_ui_theme">Тема</string>
-    <string name="settings_main_donate">Підтримати VSI</string>
     <string name="settings_main_auto_theme">Автоматична тема</string>
     <string name="settings_main_auto_theme_summary">Автоматично перемикатися між виділеними світлими та темними темами, залежно від системної теми</string>
     <string name="settings_main_auto_theme_picker">Вибрати теми</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Приклад: %s</string>
     <string name="name_format_builder_preview_empty">Оберіть хоча б одну частину</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Супер секретні налаштування</string>
-    <string name="sss_warning_title"><b>ПОПЕРЕДЖЕННЯ</b></string>
-    <string name="sss_warning_summary"><b>Не чіпайте ці налаштування, якщо ви не знаєте, що робите. Деякі опції тут можуть зламати VSI або навіть пошкодити вашу систему</b></string>
-    <string name="sss_dont_replace_dots_title">Не замінювати крапки комами</string>
-    <string name="sss_dont_replace_dots_summary">In backup file name</string>
-    <string name="sss_custom_install_create_title">Спеціальна команда install-create</string>
-    <string name="sss_custom_install_create_summary">Спеціальна команда install-create, яка буде використовуватися для створення сеансу вечора, що використовується у встановлених програмах Rooted та Shizuku, команда не повинна містити пробілів, крім тих, що розділяють аргументи (\'пробіли в лапках\' також будуть розділені на аргументи). Введіть null для відключення</string>
-    <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
-    <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. VSI will have no idea what backup is the latest one though</string>
-    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Ви зможете продовжити через %d сек.</string>
     <string name="mi_continue">Продовжити</string>
     <string name="mi_miui_version">Версія MIUI - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">Залежно від вашої версії MIUI для вимкнення оптимізації MIUI може нічого не зробити, скинути дозволи програм або ж інші несподівані наслідки</string>
-    <string name="donate_message_not_donated">Привіт. Як відомо, VSI - це абсолютно безкоштовний додаток з відкритим кодом, і він завжди залишатиметься таким. Якщо вам це подобається, будь ласка, подумайте про підтримку VSI, зробивши пожертву. Ви також отримаєте легендарну тему <b>VSI Gold</b>!</string>
-    <string name="donate_message_donated">Величезна подяка за підтримку VSI!\nНе забудьте перевірити свою нову <b>VSI Gold</b> тему</string>
-    <string name="donate_message_floss">Вітаємо. Ви використовуєте FLOSS версію VSI. Як ви знаєте, VSI є повністю безкоштовним додатком з відкритим вихідним кодом, і це завжди залишатиметься таким. Якщо вам подобається додаток, будь ласка, підтримайте VSI, зробивши пожертву.\n\nУ версії FLOSS, тема <b>FLOSS Gold</b> доступна за замовчуванням.</string>
-    <string name="donate_message_unknown_or_error">Не вдалося отримати статус пожертвування. Будь ласка, переконайтеся, що у вас встановлені сервіси Google Play і спробуйте перезавантажити пристрій.</string>
-    <string name="donate_message_pending">Ваша пожертва очікує підтвердження. Якщо внески не застосовуються автоматично після її завершення, будь ласка, перезапустіть VSI.</string>
-    <string name="donate_non_iap_yandex_title">Яндекс.Гроші</string>
-    <string name="donate_non_iap_yandex_desc">Закинути пожертвування мені на Яндекс.Гроші</string>
-    <string name="donate_billing_not_available">Не вдалося підключитися до Google Play. Будь ласка, переконайтеся, що у вас встановлені сервіси Google Play і спробуйте перезавантажити пристрій.</string>
-    <string name="donate_donate_only_theme">Необхідно пожертвувати</string>
-    <string name="donate_dialog_close">Більше не показувати</string>
-    <string name="donate_dialog_go_to_donate_page">Перейти на екран пожертвування</string>
-    <string name="donate_dialog_title">Пожертва</string>
     <string name="installerx_dialog_title">Кастомізація установника</string>
     <string name="installerx_dialog_choose_filepicker">Які ви хочете вибрати файли для встановлення?</string>
     <string name="installerx_dialog_loading">Аналіз APKs…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Торкніться, щоб змінити</string>
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Підтримати</string>
-    <string name="about_licenses">Ліцензії</string>
-    <string name="about_translate">Допомога в локалізіції VSI</string>
     <string name="about_privacy">Політика конфіденційності</string>
-    <string name="about_eula">End User License Agreement</string>
 </resources>

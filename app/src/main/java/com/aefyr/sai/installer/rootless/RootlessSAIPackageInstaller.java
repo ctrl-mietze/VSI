@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class RootlessSAIPackageInstaller extends SAIPackageInstaller {
-    private static final String TAG = "RootlessSAIPI";
+    private static final String TAG = "RootlessVSIPI";
 
     @SuppressLint("StaticFieldLeak")//This is application context, lul
     private static RootlessSAIPackageInstaller sInstance;

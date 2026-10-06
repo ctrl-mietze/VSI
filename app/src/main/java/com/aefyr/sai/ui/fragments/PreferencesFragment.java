@@ -27,6 +27,7 @@ import com.aefyr.sai.shell.SuShell;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.activities.ApkActionViewProxyActivity;
 import com.aefyr.sai.ui.activities.BackupSettingsActivity;
+import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.dialogs.DarkLightThemeSelectionDialogFragment;
 import com.aefyr.sai.ui.dialogs.FilePickerDialogFragment;
 import com.aefyr.sai.ui.dialogs.SimpleAlertDialogFragment;
@@ -128,6 +129,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             startActivity(new Intent(getContext(), AboutActivity.class));
             return true;
         });
+
+        Preference vsiTools = findPreference("vsi_tools");
+        if (vsiTools != null) {
+            vsiTools.setOnPreferenceClickListener(p -> {
+                PreferencesActivity.open(
+                        requireContext(),
+                        VsiToolsFragment.class,
+                        getString(R.string.vsi_tools_title)
+                );
+                return true;
+            });
+        }
+
+        Preference developerOptions = findPreference("vsi_developer_options");
+        if (developerOptions != null) {
+            developerOptions.setOnPreferenceClickListener(p -> {
+                PreferencesActivity.open(
+                        requireContext(),
+                        VsiDeveloperOptionsFragment.class,
+                        getString(R.string.vsi_developer_options)
+                );
+                return true;
+            });
+        }
 
         mInstallerPref = findPreference("installer");
         updateInstallerSummary();

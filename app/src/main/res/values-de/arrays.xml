@@ -40,7 +40,7 @@
         <item>Zeitstempel</item>
     </string-array>
     <string-array name="backup_dir_selection_methods">
-        <item>Intern (SAI)</item>
+        <item>Intern (VSI)</item>
         <item>System (Android)</item>
     </string-array>
 </resources>

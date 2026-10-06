@@ -150,7 +150,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
             ToolTip tooltip = new ToolTip.Builder(requireContext(), installButtton, ((ViewGroup) view), getText(R.string.installer_saf_tip), ToolTip.POSITION_ABOVE)
                     .setBackgroundColor(Utils.getThemeColor(requireContext(), R.attr.colorAccent))
-                    .setTextAppearance(R.style.SAITooltipTextAppearance)
+                    .setTextAppearance(R.style.VSITooltipTextAppearance)
                     .setGravity(ToolTip.GRAVITY_CENTER)
                     .build();
 
@@ -334,7 +334,7 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             Objects.requireNonNull(appLaunchIntent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(appLaunchIntent);
         } catch (Exception e) {
-            Log.w("SAI", e);
+            Log.w("VSI", e);
             Toast.makeText(requireContext(), R.string.installer_unable_to_launch_app, Toast.LENGTH_SHORT).show();
         }
     }

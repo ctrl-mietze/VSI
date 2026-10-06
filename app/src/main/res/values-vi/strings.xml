@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Hiển thị tính năng ứng dụng</string>
     <string name="settings_main_ui_show_app_features_summary">Hiển thị huy hiệu tính năng ứng dụng theo ngữ cảnh trên màn hình sao lưu</string>
     <string name="settings_main_ui_theme">Giao diện</string>
-    <string name="settings_main_donate">Hỗ trợ VSI</string>
     <string name="settings_main_auto_theme">Giao diện tự động</string>
     <string name="settings_main_auto_theme_summary">Tự động chuyển đổi giữa các giao diện sáng và tối tùy thuộc vào giao diện hệ thống</string>
     <string name="settings_main_auto_theme_picker">Chọn giao diện</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Xem trước: %s</string>
     <string name="name_format_builder_preview_empty">Vui lòng chọn ít nhất một phần</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Cài đặt Siêu bí mật</string>
-    <string name="sss_warning_title"><b>CẢNH BÁO</b></string>
-    <string name="sss_warning_summary"><b>Đừng chạm vào bất cứ thứ gì ở đây trừ khi bạn biết bạn đang làm gì. Một số tùy chọn ở đây có thể phá hỏng VSI hoặc thậm chí làm hỏng hệ thống của bạn</b></string>
-    <string name="sss_dont_replace_dots_title">Đừng thay thế dấu chấm bằng dấu phẩy</string>
-    <string name="sss_dont_replace_dots_summary">Trong tên tập tin sao lưu</string>
-    <string name="sss_custom_install_create_title">Lệnh cài đặt-tạo tùy chỉnh</string>
-    <string name="sss_custom_install_create_summary">Lệnh cài đặt tạo tùy chỉnh sẽ được sử dụng để tạo phiên pm được sử dụng trong trình cài đặt đã root và Shizuku, lệnh không được chứa bất kỳ khoảng trắng nào ngoại trừ các khoảng cách tách biệt các đối số (\'dấu cách trong dấu ngoặc kép\' cũng sẽ được chia thành các đối số). Nhập \"null\" để tắt</string>
-    <string name="sss_fake_backup_timestamp">Giả lập dấu thời gian sao lưu</string>
-    <string name="sss_fake_backup_timestamp_summary">Thêm dấu thời gian không đổi (ngày 1 tháng 1 năm 2000, 00:00) vào bản sao lưu. Làm nhỏ các tệp sao lưu của cùng một tệp APK giống nhau. VSI sẽ không biết sao lưu là cái mới nhất</string>
-    <string name="sss_test_crash">Sự cố ứng dụng</string>
     <string name="mi_continue_countdown">Bạn có thể tiếp tục trong %d giây.</string>
     <string name="mi_continue">Tiếp tục</string>
     <string name="mi_miui_version">Phiên bản MIUI - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">Tùy thuộc vào phiên bản MIUI của bạn, tắt tối ưu hóa MIUI có thể không có tác dụng gì, đặt lại quyền ứng dụng hoặc có các kết quả đột xuất khác</string>
-    <string name="donate_message_not_donated">Xin chào. Như bạn biết đó, VSI là một ứng dụng mã nguồn mở hoàn toàn miễn phí và nó sẽ luôn giữ nguyên như vậy. Nếu bạn thích nó, vui lòng xem xét hỗ trợ VSI bằng cách ủng hộ. Bạn cũng sẽ có được đặc quyền giao diện <b>VSI Vàng</b>!</string>
-    <string name="donate_message_donated">Chân thành cảm ơn bạn đã ủng hộ VSI!\nĐừng quên trải nghiệm giao diện <b>VSI Vàng</b> mới nhé</string>
-    <string name="donate_message_floss">Xin chào. Bạn đang dùng phiên bản FLOSS của VSI. Như bạn đã biết, VSI là một ứng dụng mã nguồn mở hoàn toàn miễn phí và nó sẽ luôn giữ nguyên như vậy. Nếu bạn thích nó, vui lòng xem xét hỗ trợ VSI bằng cách ủng hộ.\n\nTrong phiên bản FLOSS, giao diện <b>FLOSS Vàng</b> sẽ mặc định có hiệu lực.</string>
-    <string name="donate_message_unknown_or_error">Chưa thể nhận được sự ủng hộ. Vui lòng đảm bảo bạn đã cài đặt Dịch vụ Google Play và thử khởi động lại thiết bị của mình.</string>
-    <string name="donate_message_pending">Sự ủng hộ của bạn đang chờ xử lý. Nếu nó không được áp dụng tự động sau khi bạn hoàn thành nó, vui lòng khởi động lại VSI.</string>
-    <string name="donate_non_iap_yandex_title">Tiền.Yandex</string>
-    <string name="donate_non_iap_yandex_desc">Paypal CIS Cơ bản lol</string>
-    <string name="donate_billing_not_available">Không thể kết nối với Google Play. Vui lòng đảm bảo bạn đã cài đặt Dịch vụ Google Play và thử khởi động lại thiết bị của mình.</string>
-    <string name="donate_donate_only_theme">Ủng hộ đã được yêu cầu</string>
-    <string name="donate_dialog_close">Đừng hiện lại nữa</string>
-    <string name="donate_dialog_go_to_donate_page">Đến màn hình ủng hộ</string>
-    <string name="donate_dialog_title">Ủng hộ</string>
     <string name="installerx_dialog_title">Tùy chỉnh cài đặt</string>
     <string name="installerx_dialog_choose_filepicker">Làm thế nào nếu bạn muốn chọn tập tin cài đặt?</string>
     <string name="installerx_dialog_loading">Đang phân tích APKs…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Nhấn để thay đổi</string>
     <string name="about_author">bởi polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Ủng hộ</string>
-    <string name="about_licenses">Giấy phép</string>
-    <string name="about_translate">Giúp đỡ dịch VSI</string>
     <string name="about_privacy">Chính sách bảo mật</string>
-    <string name="about_eula">Thỏa thuận cấp phép người dùng cuối</string>
 </resources>

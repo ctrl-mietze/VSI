@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Tətbiq xüsusiyyətlərini göstər</string>
     <string name="settings_main_ui_show_app_features_summary">Nüsxə ekranında əlaqəli tətbiq xüsusiyyəti beclərini göstər</string>
     <string name="settings_main_ui_theme">Mövzu</string>
-    <string name="settings_main_donate">VSI\'yə dəstək ol</string>
     <string name="settings_main_auto_theme">Avto Mövzu</string>
     <string name="settings_main_auto_theme_summary">Sistem mövzusundan asılı olaraq işıqlı və qaranlıq mövzular arasında avtomatik keçiş et</string>
     <string name="settings_main_auto_theme_picker">Mövzuları seç</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Önbaxış: %s</string>
     <string name="name_format_builder_preview_empty">Xahiş olunur azı 1 hissə seçin</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Super Gizli Tənzimləmələr</string>
-    <string name="sss_warning_title"><b>XƏBƏRDARLIQ</b></string>
-    <string name="sss_warning_summary"><b>Nə etdiyinizi bilmədiyiniz təqdirdə burda heçnəyə toxunmayın. Burdakı bəzi seçimlər VSI\'ni xarab edə və ya sisteminizə zərər vura bilər</b></string>
-    <string name="sss_dont_replace_dots_title">Nöqtələri vergüllərlə əvəz etmə</string>
-    <string name="sss_dont_replace_dots_summary">Nüsxə içi fayl adı</string>
-    <string name="sss_custom_install_create_title">Özəl qur-yarat əmri</string>
-    <string name="sss_custom_install_create_summary">Root\'lu və Shizuku qurucularda pm əməliyyatı yaratmaqda istifadə olunacaq özəl qur-yarat əmrlərində arqumentləri ayıran boşluqlardan başqa heçbir boşluq olmamalıdır (\'istinadlardakı boşluqlar\'da arqumentlərə ayrılacaq). Söndürmək üçün \"null\" daxil edin</string>
-    <string name="sss_fake_backup_timestamp">Saxta nüsxə zaman damğası</string>
-    <string name="sss_fake_backup_timestamp_summary">Nüsxələrə sabit zaman damğası (Yan 1 2000, 00:00) əlavə edin. Eyni APK fayllarının nüsxə fayllarının kvadrat işarələrini eyniləşdirir. Amma VSI hansı nüsxənin ən son olduğunu aydınlaşdıra bilməyəcək</string>
-    <string name="sss_test_crash">Çökmə tətbiqi</string>
     <string name="mi_continue_countdown">%d s sonra davam edə bilərsiniz.</string>
     <string name="mi_continue">Davam et</string>
     <string name="mi_miui_version">MIUI versiyası - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">MIUI versiyanızdan asılı olaraq, MIUI optimizasiyasını söndürmək heçbir fərq yaratmaya bilər, tətbiqlərin icazələrini sıfırlayın yoxsa digər gözlənilməz nəticələrlə üzləşə bilərsiniz</string>
-    <string name="donate_message_not_donated">Salam. Bildiyiniz kimi, VSI tamamilə pulsuz açıq-mənbə tətbiqdir və belə də qalacaq. Əgər sevdinizsə, xahiş edirik VSI\'yə iaşə etməyi diqqətə alın. Bununla da əfsanəvi <b>VSI Qızıl</b> mövzusunu əldə edin!</string>
-    <string name="donate_message_donated">VSI\'ni dəstəklədiyiniz üçün çox təşəkkür edirik!\nYeni <b>VSI Qızıl</b> mövzunuza baxmaq yadınızdan çıxmasın</string>
-    <string name="donate_message_floss">Salam. Siz VSI\'nin FLOSS versiyasını işlədirsiniz. Bildiyiniz kimi, VSI tamamilə pulsuz açıq-mənbə tətbiqdir və belə də qalacaq. Əgər sevdinizsə, xahiş edirik VSI\'yə iaşə etməyi diqqətə alın.\n\n<b>FLOSS Qızıl</b> mövzusu FLOSS versiyasında standart şəkildə var.</string>
-    <string name="donate_message_unknown_or_error">İaşənin vəziyyətinə baxmaq olmur. Xahiş olunur Google Play Xidmətlərinin yüklü olduğundan əmin olun və cihazınızı yenidən başladın.</string>
-    <string name="donate_message_pending">İaşəniz gözləyir, əgər qurtardıqdan sonra avtomatik yerinə yetirilməsə, xahiş olunur VSI\'ni yenidən başladın.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Qısaca PayPal</string>
-    <string name="donate_billing_not_available">Google Play\'ə qoşulmaq olmur. Xahiş olunur Google Play Xidmətlərinin yüklü olduğundan əmin olun və cihazınızı yenidən başladın.</string>
-    <string name="donate_donate_only_theme">İaşə tələb olunur</string>
-    <string name="donate_dialog_close">Birdə göstərmə</string>
-    <string name="donate_dialog_go_to_donate_page">İaşə ekranına gedin</string>
-    <string name="donate_dialog_title">İaşə</string>
     <string name="installerx_dialog_title">Qurmanı özəlləşdir</string>
     <string name="installerx_dialog_choose_filepicker">Faylları qurarkən necə seçmək istəyirsiniz?</string>
     <string name="installerx_dialog_loading">APKlar bölünür…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Dəyişmək üçün toxun</string>
     <string name="about_author">polychromaticfox\'dən</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">İaşə et</string>
-    <string name="about_licenses">Lisenziyalar</string>
-    <string name="about_translate">VSI\'nin tərcüməsinə dəstək ol</string>
     <string name="about_privacy">Məxfilik Siyasəti</string>
-    <string name="about_eula">İstifadəçi Lisenziya Razılaşması</string>
 </resources>

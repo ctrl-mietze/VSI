@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Mostrar características de la aplicación</string>
     <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on backup screen</string>
     <string name="settings_main_ui_theme">Tema</string>
-    <string name="settings_main_donate">Soporte VSI</string>
     <string name="settings_main_auto_theme">Tema automático</string>
     <string name="settings_main_auto_theme_summary">Cambia automáticamente entre temas claros y oscuros seleccionados dependiendo del tema del sistema</string>
     <string name="settings_main_auto_theme_picker">Elegir temas</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Previsualizar: %s</string>
     <string name="name_format_builder_preview_empty">Por favor, seleccione al menos una parte</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Ajustes super secretos</string>
-    <string name="sss_warning_title"><b>ADVERTENCIA</b></string>
-    <string name="sss_warning_summary"><b>No toque nada aquí a menos que sepa lo que está haciendo. Algunas opciones aquí pueden romper VSI o incluso dañar su sistema</b></string>
-    <string name="sss_dont_replace_dots_title">No reemplazar puntos con comas</string>
-    <string name="sss_dont_replace_dots_summary">En el nombre del archivo de respaldo</string>
-    <string name="sss_custom_install_create_title">Comando personalizado de instalación</string>
-    <string name="sss_custom_install_create_summary">Comando de instalación personalizado que se utilizará para crear la sesión pm usada en los instaladores Rooteado y Shizuku, el comando no debe contener ningún espacio, excepto aquellos que separan argumentos (\'espacios en comillas\' también se dividirán en argumentos). Escriba \"null\" para desactivar</string>
-    <string name="sss_fake_backup_timestamp">Timestamp de copia de seguridad falso</string>
-    <string name="sss_fake_backup_timestamp_summary">Añadir marca de tiempo constante (Jan 1 2000, 00:00) a las copias de seguridad. Hace hash de archivos de copia de seguridad de los mismos archivos APK iguales. VSI no tendrá idea de qué copia de seguridad es la más reciente</string>
-    <string name="sss_test_crash">App fallida</string>
     <string name="mi_continue_countdown">Puede continuar en %d s.</string>
     <string name="mi_continue">Continuar</string>
     <string name="mi_miui_version">Versión MIUI - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">Dependiendo de tu versión MIUI, desactivar la optimización MIUI puede no hacer nada, restablecer los permisos de aplicaciones o tener otras consecuencias inesperadas</string>
-    <string name="donate_message_not_donated">Hola. Como ya sabe, VSI es una aplicación de código abierto completamente gratuita y siempre será así. Si le gusta, por favor considere apoyar a VSI haciendo una donación. ¡También obtendrá el legendario tema <b>Oro VSI</b>!</string>
-    <string name="donate_message_donated">¡Muchas gracias por apoyar a VSI!\nNo se olvide de echar un vistazo a su nuevo tema <b>Oro VSI</b></string>
-    <string name="donate_message_floss">Hola. Está usando la versión FLOSS de VSI. Como sabe, VSI es una aplicación de código abierto completamente gratuita y siempre será así. Si le gusta, por favor considere apoyar VSI haciendo una donación.\n\nEn la versión FLOSS, el tema <b>Oro FLOSS</b> está disponible por defecto.</string>
-    <string name="donate_message_unknown_or_error">No se puede obtener el estado de la donación. Por favor, asegúrese de que tiene instalado Google Play Services e intente reiniciar su dispositivo.</string>
-    <string name="donate_message_pending">Su donación está pendiente. Si no se aplica automáticamente después de completarla, reinicie VSI.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Básicamente CIS PayPal</string>
-    <string name="donate_billing_not_available">No se puede conectar a Google Play. Por favor, asegúrese de que tiene instalado Google Play Services e intente reiniciar el dispositivo.</string>
-    <string name="donate_donate_only_theme">Donación requerida</string>
-    <string name="donate_dialog_close">No mostrar de nuevo</string>
-    <string name="donate_dialog_go_to_donate_page">Ir a la pantalla de donación</string>
-    <string name="donate_dialog_title">Donación</string>
     <string name="installerx_dialog_title">Personalizar instalación</string>
     <string name="installerx_dialog_choose_filepicker">¿Cómo desea seleccionar los archivos a instalar?</string>
     <string name="installerx_dialog_loading">Analizando APKs…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Toque para cambiar</string>
     <string name="about_author">por polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Donar</string>
-    <string name="about_licenses">Licencias</string>
-    <string name="about_translate">Ayude a traducir VSI</string>
     <string name="about_privacy">Política de privacidad</string>
-    <string name="about_eula">Acuerdo de Licencia de Usuario Final</string>
 </resources>

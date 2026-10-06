@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 
 @SuppressLint("DefaultLocale")
 public abstract class SAIPackageInstaller {
-    private static final String TAG = "SAIPI";
+    private static final String TAG = "VSIPI";
 
     public enum InstallationStatus {
         QUEUED, INSTALLING, INSTALLATION_SUCCEED, INSTALLATION_FAILED

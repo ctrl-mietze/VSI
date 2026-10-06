@@ -15,12 +15,23 @@ import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionError;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolutionResult;
 import com.aefyr.sai.installerx.resolver.urimess.UriMessResolver;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class DefaultUriMessResolver implements UriMessResolver {
     private static final String TAG = "DefaultMessResolver";
@@ -48,6 +59,20 @@ public class DefaultUriMessResolver implements UriMessResolver {
             }
 
             boolean knownArchive = extension != null && isKnownArchiveExtension(extension);
+
+            if (!knownArchive && !VsiDeveloperOptions.getInstance(mContext).probeUnknownContainers()) {
+                String extensionForError = extension == null ? "?" : extension;
+                results.add(UriMessResolutionResult.failure(
+                        SourceType.UNKNOWN,
+                        Collections.singletonList(uri),
+                        new UriMessResolutionError(
+                                mContext.getString(R.string.installerx_default_mess_resolver_error_unknown_extension, extensionForError),
+                                false
+                        )
+                ));
+                continue;
+            }
+
             UriMessResolutionResult archiveResult = resolveArchive(uri, uriHost, fileName, knownArchive);
 
             if (archiveResult != null) {
@@ -107,25 +132,37 @@ public class DefaultUriMessResolver implements UriMessResolver {
      */
     private UriMessResolutionResult resolveArchive(Uri uri, UriHost uriHost, String fileName, boolean knownArchive) {
         try (UriHost.UriAsFile uriAsFile = uriHost.openUriAsFile(uri)) {
-            ApkSourceMetaResolutionResult resolutionResult =
-                    mMetaResolver.resolveFor(new ZipFileApkSourceFile(uriAsFile.file(), fileName));
-
-            if (resolutionResult.isSuccessful()) {
-                return UriMessResolutionResult.success(
-                        SourceType.ZIP,
-                        Collections.singletonList(uri),
-                        resolutionResult.meta()
+            try {
+                return resolutionResultToUriResult(
+                        uri,
+                        mMetaResolver.resolveFor(
+                                new ZipFileApkSourceFile(uriAsFile.file(), fileName)
+                        )
                 );
-            }
+            } catch (Exception firstError) {
+                if (!VsiDeveloperOptions.getInstance(mContext).autoRepairContainers())
+                    throw firstError;
 
-            return UriMessResolutionResult.failure(
-                    SourceType.ZIP,
-                    Collections.singletonList(uri),
-                    new UriMessResolutionError(
-                            resolutionResult.error().message(),
-                            resolutionResult.error().doesTryingToInstallNonethelessMakeSense()
-                    )
-            );
+                Log.w(TAG, "VSI auto-repair fallback for " + uri, firstError);
+
+                File repaired = rebuildApkOnlyArchive(uriAsFile.file());
+                ApkSourceMetaResolutionResult repairedResolution =
+                        mMetaResolver.resolveFor(
+                                new ZipFileApkSourceFile(repaired, fileName)
+                        );
+
+                if (!repairedResolution.isSuccessful()) {
+                    if (!repaired.delete())
+                        Log.d(TAG, "Unable to delete failed VSI repaired cache archive " + repaired);
+
+                    return resolutionResultToUriResult(uri, repairedResolution);
+                }
+
+                // Keep the repaired file in app cache for the installation session.
+                // Android may remove it later as normal cache data. Installing the
+                // original source here would defeat the purpose of auto-repair.
+                return resolutionResultToUriResult(Uri.fromFile(repaired), repairedResolution);
+            }
         } catch (Exception e) {
             if (!knownArchive) {
                 Log.d(TAG, "Unknown extension is not a ZIP-compatible VSI container: " + uri);
@@ -139,6 +176,76 @@ public class DefaultUriMessResolver implements UriMessResolver {
                     new UriMessResolutionError(e.getLocalizedMessage(), true)
             );
         }
+    }
+
+    private UriMessResolutionResult resolutionResultToUriResult(
+            Uri originalUri,
+            ApkSourceMetaResolutionResult resolutionResult
+    ) {
+        if (resolutionResult.isSuccessful()) {
+            return UriMessResolutionResult.success(
+                    SourceType.ZIP,
+                    Collections.singletonList(originalUri),
+                    resolutionResult.meta()
+            );
+        }
+
+        return UriMessResolutionResult.failure(
+                SourceType.ZIP,
+                Collections.singletonList(originalUri),
+                new UriMessResolutionError(
+                        resolutionResult.error().message(),
+                        resolutionResult.error().doesTryingToInstallNonethelessMakeSense()
+                )
+        );
+    }
+
+    private File rebuildApkOnlyArchive(File source) throws Exception {
+        File output = File.createTempFile("vsi-repaired-", ".zip", mContext.getCacheDir());
+        Set<String> names = new HashSet<>();
+        int written = 0;
+
+        try (ZipInputStream in = new ZipInputStream(
+                new BufferedInputStream(new FileInputStream(source)));
+             ZipOutputStream out = new ZipOutputStream(
+                     new BufferedOutputStream(new FileOutputStream(output)))) {
+
+            ZipEntry entry;
+            byte[] buffer = new byte[64 * 1024];
+
+            while ((entry = in.getNextEntry()) != null) {
+                if (entry.isDirectory()) {
+                    in.closeEntry();
+                    continue;
+                }
+
+                String name = entry.getName();
+                if (name == null
+                        || !name.toLowerCase().endsWith(".apk")
+                        || !names.add(name)
+                        || entry.getSize() == 0) {
+                    in.closeEntry();
+                    continue;
+                }
+
+                out.putNextEntry(new ZipEntry(name));
+
+                int read;
+                while ((read = in.read(buffer)) != -1)
+                    out.write(buffer, 0, read);
+
+                out.closeEntry();
+                in.closeEntry();
+                written++;
+            }
+        }
+
+        if (written == 0) {
+            output.delete();
+            throw new IllegalArgumentException("Auto-repair found no usable APK entries");
+        }
+
+        return output;
     }
 
     private boolean isKnownArchiveExtension(String extension) {

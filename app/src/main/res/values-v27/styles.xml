@@ -13,14 +13,14 @@
         <item name="android:textColorSecondary">@color/colorFineGrey</item>
         <item name="android:statusBarColor">@color/colorPureWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
-        <item name="android:textViewStyle">@style/SAITextViewStyle</item>
-        <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
-        <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:textViewStyle">@style/VSITextViewStyle</item>
+        <item name="filePickerDialogSelectButtonStyle">@style/VSIMaterialButton</item>
+        <item name="filePickerDialogCancelButtonStyle">@style/VSIMaterialButton.Outlined</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:navigationBarColor">@color/colorPureWhite</item>
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="popupMenuStyle">@style/SAIPopupMenu.Light</item>
+        <item name="popupMenuStyle">@style/VSIPopupMenu.Light</item>
         <item name="popupMenuBackgroundTint">?colorPrimaryLight</item>
     </style>
 
@@ -36,14 +36,14 @@
         <item name="android:textColorPrimary">@color/colorAlmostWhite</item>
         <item name="android:textColorSecondary">@color/colorAlmostWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
-        <item name="android:textViewStyle">@style/SAITextViewStyle</item>
-        <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
-        <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:textViewStyle">@style/VSITextViewStyle</item>
+        <item name="filePickerDialogSelectButtonStyle">@style/VSIMaterialButton</item>
+        <item name="filePickerDialogCancelButtonStyle">@style/VSIMaterialButton.Outlined</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:navigationBarColor">@color/colorGreaterGrey</item>
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="popupMenuStyle">@style/SAIPopupMenu.Dark</item>
+        <item name="popupMenuStyle">@style/VSIPopupMenu.Dark</item>
         <item name="popupMenuBackgroundTint">?colorPrimaryLight</item>
     </style>
 

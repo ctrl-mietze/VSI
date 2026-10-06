@@ -13,6 +13,8 @@ import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionStatus;
 import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiSessionHistoryStore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +60,18 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
 
     @Override
     public List<SaiPiSessionState> getSessions() {
-        return Collections.unmodifiableList(new ArrayList<>(mSessionStates.values()));
+        VsiDeveloperOptions dev = VsiDeveloperOptions.getInstance(getContext());
+        ArrayList<SaiPiSessionState> visible = new ArrayList<>();
+
+        for (SaiPiSessionState state : mSessionStates.values()) {
+            if (state.status() == SaiPiSessionStatus.INSTALLATION_FAILED && !dev.keepFailedSessions())
+                continue;
+            if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED && !dev.keepSuccessSessions())
+                continue;
+            visible.add(state);
+        }
+
+        return Collections.unmodifiableList(visible);
     }
 
     protected void setSessionState(String sessionId, SaiPiSessionState state) {
@@ -67,7 +80,12 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
 
         if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED || state.status() == SaiPiSessionStatus.INSTALLATION_FAILED) {
             SaiPiSessionParams params = mActiveSessions.remove(sessionId);
-            if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED && params != null && params.deleteSourceAfterSuccess()) {
+
+            VsiSessionHistoryStore.getInstance(getContext()).record(state, params);
+
+            if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED
+                    && params != null
+                    && params.deleteSourceAfterSuccess()) {
                 deleteSourceUris(params.sourceUris());
             }
         }

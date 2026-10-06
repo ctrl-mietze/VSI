@@ -25,6 +25,7 @@ import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.MiuiUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +101,13 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         Integer androidSessionId = null;
         try (ApkSource apkSource = params.apkSource()) {
 
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs()) {
+                Logs.d(tag(), "VSI privileged install start: downgrade=" + params.allowDowngrade()
+                        + ", testOnly=" + params.allowTestApks()
+                        + ", user=" + params.targetUserId()
+                        + ", sourceCount=" + params.sourceUris().size());
+            }
+
             if (!getShell().isAvailable()) {
                 setSessionState(sessionId, new SaiPiSessionState.Builder(sessionId, SaiPiSessionStatus.INSTALLATION_FAILED).error(getContext().getString(R.string.installer_error_shell, getInstallerName(), getShellUnavailableMessage()), null).build());
                 unlockInstallation();
@@ -108,6 +116,15 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
 
             androidSessionId = createAndroidSession(params);
 
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs()) {
+                Logs.d(tag(), "VSI privileged session created: androidSessionId="
+                        + androidSessionId
+                        + ", targetUser=" + params.targetUserId()
+                        + ", allowDowngrade=" + params.allowDowngrade()
+                        + ", allowTest=" + params.allowTestApks()
+                        + ", sources=" + params.sourceUris());
+            }
+
             int currentApkFile = 0;
             while (apkSource.nextApk()) {
                 if (apkSource.getApkLength() == -1) {
@@ -115,11 +132,26 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
                     unlockInstallation();
                     return;
                 }
-                ensureCommandSucceeded(getShell().exec(new Shell.Command("pm", "install-write", "-S", String.valueOf(apkSource.getApkLength()), String.valueOf(androidSessionId), String.format("%d.apk", currentApkFile++)), apkSource.openApkInputStream()));
+                Shell.Command writeCommand = new Shell.Command(
+                        "pm",
+                        "install-write",
+                        "-S",
+                        String.valueOf(apkSource.getApkLength()),
+                        String.valueOf(androidSessionId),
+                        String.format("%d.apk", currentApkFile++)
+                );
+                if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                    Logs.d(tag(), "Executing: " + writeCommand);
+                ensureCommandSucceeded(getShell().exec(writeCommand, apkSource.openApkInputStream()));
             }
 
             mAwaitingBroadcast.set(true);
-            Shell.Result installationResult = getShell().exec(new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId)));
+            Shell.Command commitCommand = new Shell.Command("pm", "install-commit", String.valueOf(androidSessionId));
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                Logs.d(tag(), "Executing: " + commitCommand);
+            Shell.Result installationResult = getShell().exec(commitCommand);
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                Logs.d(tag(), "install-commit result: " + installationResult);
             if (!installationResult.isSuccessful()) {
                 mAwaitingBroadcast.set(false);
 
@@ -181,9 +213,9 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         try {
             saiVersion = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.wtf(tag(), "Unable to get SAI version", e);
+            Log.wtf(tag(), "Unable to get VSI version", e);
         }
-        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | SAI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, MiuiUtils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
+        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | VSI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, MiuiUtils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
     }
 
     private int createAndroidSession(SaiPiSessionParams params) throws RuntimeException {
@@ -205,7 +237,13 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         List<Pair<Shell.Command, String>> attemptedCommands = new ArrayList<>();
 
         for (Shell.Command commandToAttempt : commandsToAttempt) {
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                Logs.d(tag(), "Executing: " + commandToAttempt);
+
             Shell.Result result = getShell().exec(commandToAttempt);
+
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                Logs.d(tag(), "install-create result: " + result);
             attemptedCommands.add(new Pair<>(commandToAttempt, result.toString()));
 
             if (!result.isSuccessful()) {
@@ -257,7 +295,10 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         args.add("-i");
         args.add(getShell().makeLiteral(BuildConfig.APPLICATION_ID));
 
-        return new Shell.Command("pm", args.toArray(new String[0]));
+        Shell.Command command = new Shell.Command("pm", args.toArray(new String[0]));
+        if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+            Logs.d(tag(), "VSI install-create: " + command);
+        return command;
     }
 
     private Integer extractSessionId(String commandResult) {

@@ -33,6 +33,9 @@ import com.aefyr.sai.installerx.resolver.urimess.impl.DefaultUriMessResolver;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiInstallPolicy;
+import com.aefyr.sai.utils.VsiPackageValidator;
 import com.aefyr.sai.utils.SimpleAsyncTask;
 
 import java.io.File;
@@ -171,12 +174,10 @@ public class InstallerXDialogViewModel extends ViewModel {
     }
 
     private void install(ApkSource apkSource, List<Uri> sourceUris) {
-        SaiPiSessionParams params = new SaiPiSessionParams(apkSource)
-                .setAllowDowngrade(mPrefsHelper.shouldAllowDowngrade())
-                .setAllowTestApks(mPrefsHelper.shouldAllowTestApks())
-                .setTargetUserId(mPrefsHelper.getTargetUserId())
-                .setDeleteSourceAfterSuccess(mPrefsHelper.shouldDeleteSourceAfterInstall())
-                .setSourceUris(sourceUris);
+        SaiPiSessionParams params = VsiInstallPolicy.apply(
+                mContext,
+                new SaiPiSessionParams(apkSource).setSourceUris(sourceUris)
+        );
 
         mInstaller.enqueueSession(mInstaller.createSessionOnInstaller(mPrefsHelper.getInstaller(), params));
     }
@@ -234,11 +235,32 @@ public class InstallerXDialogViewModel extends ViewModel {
             UriMessResolutionResult resolutionResult = resolutionResults.get(0);
             if (resolutionResult.isSuccessful()) {
                 SplitApkSourceMeta meta = resolutionResult.meta();
+                VsiDeveloperOptions dev = VsiDeveloperOptions.getInstance(mContext);
+
+                if (dev.strictValidation()) {
+                    VsiPackageValidator.Result validation = VsiPackageValidator.validate(meta);
+                    if (!validation.isValid()) {
+                        ArrayList<UriMessResolutionResult> failed = new ArrayList<>();
+                        failed.add(UriMessResolutionResult.failure(
+                                resolutionResult.sourceType(),
+                                resolutionResult.uris(),
+                                new UriMessResolutionError(
+                                        "VSI validation failed:\n" + validation.describe(),
+                                        false
+                                )
+                        ));
+                        return new LoadMetaTaskResult(null, null, failed);
+                    }
+                }
+
                 HashSet<String> splitsToSelect = new HashSet<>();
 
                 for (SplitPart part : meta.flatSplits()) {
-                    if (part.isRecommended())
+                    if (dev.allowIncompatibleSplits()) {
                         splitsToSelect.add(part.localPath());
+                    } else if (dev.autoSelectRecommended() && part.isRecommended()) {
+                        splitsToSelect.add(part.localPath());
+                    }
                 }
 
                 return new LoadMetaTaskResult(meta, splitsToSelect, resolutionResults);

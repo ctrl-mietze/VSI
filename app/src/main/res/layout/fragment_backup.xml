@@ -134,7 +134,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_backup_action"
-        style="@style/SAIMaterialButton.ExtendedFab"
+        style="@style/VSIMaterialButton.ExtendedFab"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_gravity="bottom|center_horizontal"

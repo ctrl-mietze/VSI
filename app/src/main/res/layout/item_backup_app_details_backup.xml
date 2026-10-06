@@ -92,7 +92,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_backup_restore_backup"
-                style="@style/SAIMaterialButton.Slim"
+                style="@style/VSIMaterialButton.Slim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -103,7 +103,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_backup_delete_backup"
-                style="@style/SAIMaterialButton.Outlined.Slim"
+                style="@style/VSIMaterialButton.Outlined.Slim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

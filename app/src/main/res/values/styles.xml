@@ -10,12 +10,12 @@
         <item name="android:textColorPrimary">@color/colorFineGrey</item>
         <item name="android:textColorSecondary">@color/colorFineGrey</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Light</item>
-        <item name="android:textViewStyle">@style/SAITextViewStyle</item>
-        <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
-        <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:textViewStyle">@style/VSITextViewStyle</item>
+        <item name="filePickerDialogSelectButtonStyle">@style/VSIMaterialButton</item>
+        <item name="filePickerDialogCancelButtonStyle">@style/VSIMaterialButton.Outlined</item>
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="popupMenuStyle">@style/SAIPopupMenu.Light</item>
+        <item name="popupMenuStyle">@style/VSIPopupMenu.Light</item>
         <item name="popupMenuBackgroundTint">?colorPrimaryLight</item>
     </style>
 
@@ -29,12 +29,12 @@
         <item name="android:textColorPrimary">@color/colorFineGrey</item>
         <item name="android:textColorSecondary">@color/colorAlmostWhite</item>
         <item name="alertDialogTheme">@style/AlertDialog.AppTheme.Dark</item>
-        <item name="android:textViewStyle">@style/SAITextViewStyle</item>
-        <item name="filePickerDialogSelectButtonStyle">@style/SAIMaterialButton</item>
-        <item name="filePickerDialogCancelButtonStyle">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:textViewStyle">@style/VSITextViewStyle</item>
+        <item name="filePickerDialogSelectButtonStyle">@style/VSIMaterialButton</item>
+        <item name="filePickerDialogCancelButtonStyle">@style/VSIMaterialButton.Outlined</item>
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="android:colorControlActivated">?attr/colorAccent</item>
-        <item name="popupMenuStyle">@style/SAIPopupMenu.Dark</item>
+        <item name="popupMenuStyle">@style/VSIPopupMenu.Dark</item>
         <item name="popupMenuBackgroundTint">?colorPrimaryLight</item>
     </style>
 
@@ -143,7 +143,7 @@
     </style>
 
 
-    <style name="SAIMaterialButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="VSIMaterialButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">24dp</item>
@@ -155,7 +155,7 @@
         <item name="android:singleLine">true</item>
         <item name="colorPrimary">?attr/colorAccent</item>
         <item name="colorOnPrimary">?attr/colorPrimaryDark</item>
-        <item name="android:theme">@style/SAIMaterialButton</item>
+        <item name="android:theme">@style/VSIMaterialButton</item>
         <item name="cornerRadius">24dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="iconPadding">3dp</item>
@@ -163,7 +163,7 @@
         <item name="iconGravity">textStart</item>
     </style>
 
-    <style name="SAIMaterialButton.Slim" parent="SAIMaterialButton">
+    <style name="VSIMaterialButton.Slim" parent="VSIMaterialButton">
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:paddingTop">6dp</item>
@@ -174,7 +174,7 @@
         <item name="iconSize">18dp</item>
     </style>
 
-    <style name="SAIMaterialButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="VSIMaterialButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">24dp</item>
@@ -186,7 +186,7 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:singleLine">true</item>
         <item name="colorPrimary">?attr/colorAccent</item>
-        <item name="android:theme">@style/SAIMaterialButton.Outlined</item>
+        <item name="android:theme">@style/VSIMaterialButton.Outlined</item>
         <item name="cornerRadius">24dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="strokeWidth">2dp</item>
@@ -196,7 +196,7 @@
         <item name="iconGravity">textStart</item>
     </style>
 
-    <style name="SAIMaterialButton.Outlined.Slim" parent="SAIMaterialButton.Outlined">
+    <style name="VSIMaterialButton.Outlined.Slim" parent="VSIMaterialButton.Outlined">
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:paddingTop">6dp</item>
@@ -207,7 +207,7 @@
         <item name="iconSize">18dp</item>
     </style>
 
-    <style name="SAIMaterialButton.ExtendedFab" parent="Widget.MaterialComponents.Button">
+    <style name="VSIMaterialButton.ExtendedFab" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:paddingLeft">24dp</item>
@@ -219,12 +219,12 @@
         <item name="android:singleLine">true</item>
         <item name="colorPrimary">?attr/colorAccent</item>
         <item name="colorOnPrimary">?attr/colorPrimaryDark</item>
-        <item name="android:theme">@style/SAIMaterialButton</item>
+        <item name="android:theme">@style/VSIMaterialButton</item>
         <item name="cornerRadius">24dp</item>
         <item name="android:letterSpacing">0</item>
     </style>
 
-    <style name="SAICoolbarImageButton" parent="Widget.AppCompat.ImageButton">
+    <style name="VSICoolbarImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">12dp</item>
@@ -233,11 +233,11 @@
         <item name="android:layout_height">56dp</item>
     </style>
 
-    <style name="SAITextViewStyle" parent="Base.Widget.AppCompat.TextView">
+    <style name="VSITextViewStyle" parent="Base.Widget.AppCompat.TextView">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
-    <style name="SAIBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="VSIBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">?android:attr/windowBackground</item>
@@ -269,22 +269,22 @@
         <item name="android:textColorSecondary">?attr/simpleThemeTextPrimaryColor</item>
     </style>
 
-    <style name="SAIPopupMenu.Light" parent="Widget.AppCompat.Light.PopupMenu">
+    <style name="VSIPopupMenu.Light" parent="Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@drawable/bg_rounded_popup</item>
     </style>
 
-    <style name="SAIPopupMenu.Dark" parent="Widget.AppCompat.Light.PopupMenu">
+    <style name="VSIPopupMenu.Dark" parent="Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@drawable/bg_rounded_popup</item>
     </style>
 
-    <style name="SAIChip.Filter" parent="Widget.MaterialComponents.Chip.Action">
+    <style name="VSIChip.Filter" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:checkable">true</item>
         <item name="chipBackgroundColor">@color/selector_chip_background_color_filter</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="checkedIcon">@drawable/ic_chip_checked</item>
     </style>
 
-    <style name="SAIChip.Selection" parent="Widget.MaterialComponents.Chip.Choice">
+    <style name="VSIChip.Selection" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="android:checkable">true</item>
         <item name="chipBackgroundColor">@color/selector_chip_background_color_selection</item>
         <item name="chipSurfaceColor">?colorPrimary</item>
@@ -292,7 +292,7 @@
         <item name="checkedIconVisible">false</item>
     </style>
 
-    <style name="SAITextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="VSITextInputLayout.OutlinedBox.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxCornerRadiusBottomEnd">@dimen/textinputlayout_box_corners_radius</item>
         <item name="boxCornerRadiusBottomStart">@dimen/textinputlayout_box_corners_radius</item>
         <item name="boxCornerRadiusTopEnd">@dimen/textinputlayout_box_corners_radius</item>
@@ -302,15 +302,15 @@
         <item name="hintTextColor">?attr/colorAccent</item>
     </style>
 
-    <style name="SAIBottomSheetDialog.Backup" parent="Theme.Design.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/SAIBottomSheetDialogStyle.Backup</item>
+    <style name="VSIBottomSheetDialog.Backup" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/VSIBottomSheetDialogStyle.Backup</item>
     </style>
 
-    <style name="SAIBottomSheetDialog.Backup.Light" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/SAIBottomSheetDialogStyle.Backup</item>
+    <style name="VSIBottomSheetDialog.Backup.Light" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/VSIBottomSheetDialogStyle.Backup</item>
     </style>
 
-    <style name="SAIBottomSheetDialogStyle.Backup" parent="Widget.Design.BottomSheet.Modal">
+    <style name="VSIBottomSheetDialogStyle.Backup" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">8dp</item>
     </style>
@@ -320,7 +320,7 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="SAITooltipTextAppearance" parent="TextAppearance.AppCompat.Small">
+    <style name="VSITooltipTextAppearance" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 

@@ -216,6 +216,20 @@
             android:defaultValue="true" />
 
         <Preference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_tools"
+            android:title="@string/vsi_tools_title"
+            android:summary="@string/vsi_tools_summary" />
+
+        <Preference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_developer_options"
+            android:title="@string/vsi_developer_options"
+            android:summary="@string/vsi_developer_options_summary" />
+
+        <Preference
         android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_info"
             android:key="about"

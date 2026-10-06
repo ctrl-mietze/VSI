@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:selectable="false"
+        android:title="@string/vsi_dev_warning_title"
+        android:summary="@string/vsi_dev_warning_summary"
+        app:iconSpaceReserved="false" />
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_install"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_expert_command_preview"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_expert_command_preview"
+            android:summary="@string/vsi_dev_expert_command_preview_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_verbose_install_logs"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_verbose_install_logs"
+            android:summary="@string/vsi_dev_verbose_install_logs_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_root_system_installer_bridge"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_root_system_installer_bridge"
+            android:summary="@string/vsi_dev_root_system_installer_bridge_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_force_downgrade"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_force_downgrade"
+            android:summary="@string/vsi_dev_force_downgrade_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_force_test_only"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_force_test_only"
+            android:summary="@string/vsi_dev_force_test_only_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_signature_guard"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_signature_guard"
+            android:summary="@string/vsi_dev_signature_guard_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_allow_signature_replacement"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_allow_signature_replacement"
+            android:summary="@string/vsi_dev_allow_signature_replacement_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_quick_install_sheet"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_quick_install_sheet"
+            android:summary="@string/vsi_dev_quick_install_sheet_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_update_compare"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_update_compare"
+            android:summary="@string/vsi_dev_update_compare_summary"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:key="vsi_dev_custom_install_create"
+            android:defaultValue=""
+            android:title="@string/vsi_dev_custom_install_create"
+            android:summary="@string/vsi_dev_custom_install_create_summary"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_sessions"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_session_history"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_session_history"
+            android:summary="@string/vsi_dev_session_history_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_install_queue"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_install_queue"
+            android:summary="@string/vsi_dev_install_queue_summary"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:key="vsi_dev_queue_parallelism"
+            android:defaultValue="1"
+            android:title="@string/vsi_dev_queue_parallelism"
+            android:summary="@string/vsi_dev_queue_parallelism_summary"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_keep_failed_sessions"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_keep_failed_sessions"
+            android:summary="@string/vsi_dev_keep_failed_sessions_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_keep_success_sessions"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_keep_success_sessions"
+            android:summary="@string/vsi_dev_keep_success_sessions_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_show_source_identity"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_show_source_identity"
+            android:summary="@string/vsi_dev_show_source_identity_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_package"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_split_intelligence"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_split_intelligence"
+            android:summary="@string/vsi_dev_split_intelligence_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_auto_select_recommended"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_auto_select_recommended"
+            android:summary="@string/vsi_dev_auto_select_recommended_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_allow_incompatible_splits"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_allow_incompatible_splits"
+            android:summary="@string/vsi_dev_allow_incompatible_splits_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_strict_validation"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_strict_validation"
+            android:summary="@string/vsi_dev_strict_validation_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_auto_repair_containers"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_auto_repair_containers"
+            android:summary="@string/vsi_dev_auto_repair_containers_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_probe_unknown_containers"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_probe_unknown_containers"
+            android:summary="@string/vsi_dev_probe_unknown_containers_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_never_delete_source"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_never_delete_source"
+            android:summary="@string/vsi_dev_never_delete_source_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_xposed"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_xposed_verbose"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_xposed_verbose"
+            android:summary="@string/vsi_dev_xposed_verbose_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_xposed_stock_fallback"
+            android:defaultValue="true"
+            android:title="@string/vsi_dev_xposed_stock_fallback"
+            android:summary="@string/vsi_dev_xposed_stock_fallback_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

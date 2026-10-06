@@ -16,14 +16,14 @@
 
         <ImageButton
             android:id="@+id/ib_toggle_theme"
-            style="@style/SAICoolbarImageButton"
+            style="@style/VSICoolbarImageButton"
             android:contentDescription="@string/installer_select_theme"
             android:rotation="30"
             app:srcCompat="@drawable/ic_dark_theme" />
 
         <ImageButton
             android:id="@+id/ib_settings"
-            style="@style/SAICoolbarImageButton"
+            style="@style/VSICoolbarImageButton"
             android:contentDescription="@string/settings_title"
             app:coolbar_gravity="start"
             app:srcCompat="@drawable/ic_settings"
@@ -40,13 +40,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_install"
-            style="@style/SAIMaterialButton"
+            style="@style/VSIMaterialButton"
             android:layout_margin="8dp"
             android:text="@string/installer_install_apks" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_help"
-            style="@style/SAIMaterialButton.Outlined"
+            style="@style/VSIMaterialButton.Outlined"
             android:layout_margin="8dp"
             android:text="@string/help" />
     </LinearLayout>

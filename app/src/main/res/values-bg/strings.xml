@@ -243,7 +243,6 @@ VSI (Virtual Source Installer) е инсталатор на приложения
     <string name="settings_main_ui_show_app_features">Покажи функции на приложението</string>
     <string name="settings_main_ui_show_app_features_summary">Показвй контекстно приложението в екрана за експортиране</string>
     <string name="settings_main_ui_theme">Тема</string>
-    <string name="settings_main_donate">Поддръжка VSI</string>
     <string name="settings_main_auto_theme">Автоматична тема</string>
     <string name="settings_main_auto_theme_summary">Автоматично превключване между избрани светла и тъмна теми в зависимост от тема на системата</string>
     <string name="settings_main_auto_theme_picker">Изберете теми</string>
@@ -261,32 +260,10 @@ VSI (Virtual Source Installer) е инсталатор на приложения
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Изберете поне една част</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Супер секретни настройки</string>
-    <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
-    <string name="sss_warning_summary"><b>Не променяйте тези настройки, ако не знаете за какво са. Някои опции тук може да повредят VSI или даже системата ви</b></string>
-    <string name="sss_dont_replace_dots_title">Не замествай точки със запетаи</string>
-    <string name="sss_dont_replace_dots_summary">Име на архивния файл</string>
-    <string name="sss_custom_install_create_title">Потребителска команда за инсталиране</string>
-    <string name="sss_custom_install_create_summary">Персонализирана команда за създаване на инсталационен файл, която ще се използва за създаване на Pm сесия, използвана в rooted и Shizuku инсталатори, командата не трябва да съдържа никакви интервали освен тези, които разделят аргументите (\"пространства в кавички\" ще бъдат разделени на аргументи, както добре). Въведете \"null\", за да забраните</string>
-    <string name="sss_fake_backup_timestamp">Фалшиво време за архивиране</string>
-    <string name="sss_fake_backup_timestamp_summary">Добавете постоянно времещамп (1 януари 2000 г., 00:00) за архивиране. Прави хешове на архивните файлове, като на APK файловете. VSI няма да разбере кой архив е последен</string>
-    <string name="sss_test_crash">Срив на приложението</string>
     <string name="mi_continue_countdown">Може да продължите в %d s.</string>
     <string name="mi_continue">Продължи</string>
     <string name="mi_miui_version">MIUI версия - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">В зависимост от вашата MIUI версия, изключване на MIUI оптимизацията няма да направи нищо, нулиране на разрешения за приложения или да има други неочаквани последици</string>
-    <string name="donate_message_not_donated">Здравейте. Както знаете, VSI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, подкрепете VSI чрез дарение. Ще получите легендарната <b>VSI Gold</b> тема!</string>
-    <string name="donate_message_donated">Огромни благодарности за подкрепата на VSI!\nНе забравяйте да проверите новата <b>VSI Gold</b> тема</string>
-    <string name="donate_message_floss">Здравейте. Използвате FLOSS версия на VSI. Както знаете, VSI е напълно безплатно приложение с отворен код и винаги ще остане. Ако ви харесва, моля, обмислете подкрепата му, като направите дарение.\n\nIn FLOSS версия, <b>FLOSS Gold</b> темата е достъпна по подразбиране.</string>
-    <string name="donate_message_unknown_or_error">Не може да се получи статус на дарение. Моля, уверете се, че сте инсталирали услугите на Google Play и опитайте да рестартирате устройството си.</string>
-    <string name="donate_message_pending">Дарението не е регистриано. Ако не се прилага автоматично, след като завършите, моля, рестартирайте VSI.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Basically CIS PayPal lol</string>
-    <string name="donate_billing_not_available">Не може да се свърже с Google Play. Моля, уверете се, че сте инсталирали услугите на Google Play и опитайте да рестартирате устройството си.</string>
-    <string name="donate_donate_only_theme">Необходимо е дарение</string>
-    <string name="donate_dialog_close">Повече не показвай</string>
-    <string name="donate_dialog_go_to_donate_page">Отиди на екран дарение</string>
-    <string name="donate_dialog_title">Дарение</string>
     <string name="installerx_dialog_title">Потребителска инсталация</string>
     <string name="installerx_dialog_choose_filepicker">Как ще изберете файлове за инсталиране?</string>
     <string name="installerx_dialog_loading">Анализиране на APK файлове…</string>
@@ -350,9 +327,5 @@ VSI (Virtual Source Installer) е инсталатор на приложения
     <string name="auto_theme_selection_hint">Докоснете за промяна</string>
     <string name="about_author">от polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Помогни</string>
-    <string name="about_licenses">Лицензи</string>
-    <string name="about_translate">Помогнете с превода на VSI</string>
     <string name="about_privacy">Политика за поверителност</string>
-    <string name="about_eula">Лицензионно споразумение с краен потребител</string>
 </resources>

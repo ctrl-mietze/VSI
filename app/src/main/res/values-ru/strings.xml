@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Показывать особенности приложений</string>
     <string name="settings_main_ui_show_app_features_summary">Показывать контекстные бейджи особенностей у приложений на экране бэкапа</string>
     <string name="settings_main_ui_theme">Тема</string>
-    <string name="settings_main_donate">Поддержать VSI</string>
     <string name="settings_main_auto_theme">Автоматическая тема</string>
     <string name="settings_main_auto_theme_summary">Автоматически переключаться между выбранными светлой и тёмной темой в зависимости от системной темы</string>
     <string name="settings_main_auto_theme_picker">Выбрать темы</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Пример: %s</string>
     <string name="name_format_builder_preview_empty">Выберите хотя бы одну часть</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Супер Секретные Настройки</string>
-    <string name="sss_warning_title"><b>ПРЕДУПРЕЖДЕНИЕ</b></string>
-    <string name="sss_warning_summary"><b>Не трогайте эти настройки, если вы не знаете, что делаете. Некоторые опции тут могут сломать VSI или даже повредить вашу систему</b></string>
-    <string name="sss_dont_replace_dots_title">Не заменять точки запятыми</string>
-    <string name="sss_dont_replace_dots_summary">В имени файла бэкапа</string>
-    <string name="sss_custom_install_create_title">Кастомная команда install-create</string>
-    <string name="sss_custom_install_create_summary">Кастомная команда install-create, которая будет использована для создания сессии pm в Rooted и Shizuku установщиках. Команда не должна содержать пробелов помимо тех, которые разделяют аргументы (\'пробелы в скобках\' так же будут считаться отдельными аргументами). Введите \"null\" для отключения</string>
-    <string name="sss_fake_backup_timestamp">Фейковое время бэкапа</string>
-    <string name="sss_fake_backup_timestamp_summary">Ставить константное время бэкапа (1 января 2000, 00:00). Делает одинаковыми хэши бэкапов одних и тех же APK файлов. Но VSI не сможет узнать, какой из бэкапов последний</string>
-    <string name="sss_test_crash">Крашнуть приложение</string>
     <string name="mi_continue_countdown">Вы сможете продолжить через %d сек.</string>
     <string name="mi_continue">Продолжить</string>
     <string name="mi_miui_version">Версия MIUI - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">В зависимости от вашей версии MIUI, отключение оптимизации MIUI может ничего не сделать, сбросить разрешения приложений или иметь другие непредвиденные последствия</string>
-    <string name="donate_message_not_donated">Привет. Как вы знаете, VSI это полностью бесплатное приложение с открытым исходным кодом, и всегда будет таковым. Если оно вам нравится, пожалуйста, поддержите VSI путем пожертвования. Вы также получите легендарную тему <b>VSI Gold</b>!</string>
-    <string name="donate_message_donated">Огромное спасибо за поддержку VSI!\nНе забудьте про вашу новую тему <b>VSI Gold</b></string>
-    <string name="donate_message_floss">Привет. Вы используете FLOSS версию VSI. Как вы знаете, VSI это полностью бесплатное приложение с открытым исходным кодом, и всегда будет таковым. Если оно вам нравится, пожалуйста, поддержите VSI путем пожертвования.\n\nВ FLOSS версии VSI, тема <b>FLOSS Gold</b> доступна по умолчанию.</string>
-    <string name="donate_message_unknown_or_error">Не удается получить статус пожертвования. Пожалуйста убедитесь, что у вас установлены сервисы Google Play и попробуйте перезагрузить устройство.</string>
-    <string name="donate_message_pending">Ваше пожертвование в ожидании оплаты. Если оно не применится автоматически после завершения покупки, пожалуйста, перезапустите VSI.</string>
-    <string name="donate_non_iap_yandex_title">Яндекс.Деньги</string>
-    <string name="donate_non_iap_yandex_desc">Закинуть пожертвование мне на Яндекс.Деньги</string>
-    <string name="donate_billing_not_available">Не удается подключиться к Google Play. Пожалуйста, убедитесь, что у вас установлены сервисы Google Play и попробуйте перезагрузить устройство.</string>
-    <string name="donate_donate_only_theme">Только для поддержавших</string>
-    <string name="donate_dialog_close">Больше не показывать</string>
-    <string name="donate_dialog_go_to_donate_page">На экран доната</string>
-    <string name="donate_dialog_title">Пожертвование</string>
     <string name="installerx_dialog_title">Настроить установку</string>
     <string name="installerx_dialog_choose_filepicker">Как вы хотите выбрать файлы для установки?</string>
     <string name="installerx_dialog_loading">Обработка APK…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Нажмите для изменения</string>
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Поддержать</string>
-    <string name="about_licenses">Лицензии</string>
-    <string name="about_translate">Помочь перевести VSI</string>
     <string name="about_privacy">Политика конфиденциальности</string>
-    <string name="about_eula">Лицензионное соглашение</string>
 </resources>

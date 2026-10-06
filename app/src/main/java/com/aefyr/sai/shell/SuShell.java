@@ -93,7 +93,7 @@ public class SuShell implements Shell {
         } catch (Exception e) {
             Log.w(TAG, "Unable execute command: ");
             Log.w(TAG, e);
-            return new Result(command, -1, stdOutSb.toString().trim(), stdErrSb.toString() + "\n\n<!> SAI SuShell Java exception: " + Utils.throwableToString(e));
+            return new Result(command, -1, stdOutSb.toString().trim(), stdErrSb.toString() + "\n\n<!> VSI SuShell Java exception: " + Utils.throwableToString(e));
         }
     }
 }

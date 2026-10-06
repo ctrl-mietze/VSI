@@ -24,6 +24,10 @@ public class DbgPreferencesHelper {
     }
 
     public String getCustomInstallCreateCommand() {
+        String vsiCommand = mPrefs.getString(VsiDeveloperKeys.CUSTOM_INSTALL_CREATE, "");
+        if (vsiCommand != null && !vsiCommand.trim().isEmpty())
+            return vsiCommand.trim();
+
         String command = mPrefs.getString(DbgPreferencesKeys.CUSTOM_INSTALL_CREATE, "null");
         if ("null".equalsIgnoreCase(command))
             return null;

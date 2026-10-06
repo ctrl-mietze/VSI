@@ -42,7 +42,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 
 public class Utils {
-    private static final String TAG = "SAIUtils";
+    private static final String TAG = "VSIUtils";
 
     @Nullable
     public static String getAppLabel(Context c, String packageName) {
@@ -73,7 +73,7 @@ public class Utils {
                     .getDeclaredMethod("get", String.class)
                     .invoke(null, key);
         } catch (Exception e) {
-            Log.w("SAIUtils", "Unable to use SystemProperties.get", e);
+            Log.w("VSIUtils", "Unable to use SystemProperties.get", e);
             return null;
         }
     }

@@ -18,6 +18,8 @@ import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Event;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiSessionHistoryStore;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -151,14 +153,36 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
                 break;
             case INSTALLATION_SUCCEED:
                 mState.setValue(InstallerState.IDLE);
-                if (mPrefsHelper.shouldDeleteSourceAfterInstall())
+
+                VsiSessionHistoryStore.getInstance(mContext).recordLegacy(
+                        installationID,
+                        true,
+                        packageNameOrErrorDescription,
+                        mPrefsHelper.getInstaller(),
+                        mCurrentSourceUris
+                );
+
+                if (mPrefsHelper.shouldDeleteSourceAfterInstall()
+                        && !VsiDeveloperOptions.getInstance(mContext).neverDeleteSource()) {
                     deleteCurrentSources();
-                else
+                } else {
                     clearCurrentSources();
+                }
+
                 mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, packageNameOrErrorDescription}));
                 break;
+
             case INSTALLATION_FAILED:
                 mState.setValue(InstallerState.IDLE);
+
+                VsiSessionHistoryStore.getInstance(mContext).recordLegacy(
+                        installationID,
+                        false,
+                        packageNameOrErrorDescription,
+                        mPrefsHelper.getInstaller(),
+                        mCurrentSourceUris
+                );
+
                 clearCurrentSources();
                 mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED, packageNameOrErrorDescription}));
                 break;

@@ -37,7 +37,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_cancel"
-            style="@style/SAIMaterialButton.Outlined"
+            style="@style/VSIMaterialButton.Outlined"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginEnd="5dp"
@@ -47,7 +47,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_bottom_sheet_dialog_base_ok"
-            style="@style/SAIMaterialButton"
+            style="@style/VSIMaterialButton"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginStart="5dp"

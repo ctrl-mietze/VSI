@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Pokaż funkcje aplikacji</string>
     <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on backup screen</string>
     <string name="settings_main_ui_theme">Motyw</string>
-    <string name="settings_main_donate">Wesprzyj VSI</string>
     <string name="settings_main_auto_theme">Automatyczny motyw</string>
     <string name="settings_main_auto_theme_summary">Automatycznie przełączaj pomiędzy wybranymi jasnymi i ciemnymi motywami w zależności od motywu systemu.</string>
     <string name="settings_main_auto_theme_picker">Wybierz motywy</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Podgląd: %s</string>
     <string name="name_format_builder_preview_empty">Wybierz co najmniej jedną część</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Super tajne ustawienia</string>
-    <string name="sss_warning_title"><b>OSTRZEŻENIE</b></string>
-    <string name="sss_warning_summary"><b>Niczego nie dotykaj, chyba że wiesz co robisz. Niektóre opcje mogą zepsuć VSI lub nawet uszkodzić twój system.</b></string>
-    <string name="sss_dont_replace_dots_title">Nie zastępuj kropek przecinkami</string>
-    <string name="sss_dont_replace_dots_summary">In backup file name</string>
-    <string name="sss_custom_install_create_title">Własne polecenie tworzenia instalacji</string>
-    <string name="sss_custom_install_create_summary">Własne polecenie tworzenia instalacji, które będzie używane do tworzenia sesji pm w instalatorach Root i Shizuku, polecenie nie może zawierać żadnych spacji, z wyjątkiem tych, które oddzielają argumenty (spacje w cudzysłowach również zostaną podzielone na argumenty). Wprowadź \"null\", aby wyłączyć.</string>
-    <string name="sss_fake_backup_timestamp">Fake backup timestamp</string>
-    <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. VSI will have no idea what backup is the latest one though</string>
-    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Możesz kontynuować za %d s.</string>
     <string name="mi_continue">Kontynuuj</string>
     <string name="mi_miui_version">Wersja MIUI - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">W zależności od Twojej wersji MIUI, wyłączenie optymalizacji MIUI może nic nie robić, zresetować uprawnienia aplikacji lub mieć inne nieoczekiwane konsekwencje.</string>
-    <string name="donate_message_not_donated">Witaj. Jak wiesz, VSI jest całkowicie darmową aplikacją open-source i zawsze nią pozostanie. Jeśli podoba Ci się to rozważ wsparcie VSI poprzez przekazanie darowizny. Otrzymasz również motyw <b>Złoty VSI</b>!</string>
-    <string name="donate_message_donated">Ogromne podziękowania za wsparcie VSI!\nNie zapomnij sprawdzić swojego nowego motywu <b>Złoty VSI</b></string>
-    <string name="donate_message_floss">Witaj. Używasz wersji FLOSS VSI. Jak wiesz, VSI jest całkowicie darmową aplikacją open-source i zawsze nią pozostanie. Jeśli Ci się to podoba proszę rozważ wsparcie VSI poprzez dokonanie darowizny.\n\nW wersji FLOSS motyw <b>FLOSS Gold</b> jest domyślnie dostępny.</string>
-    <string name="donate_message_unknown_or_error">Nie można uzyskać statusu darowizny. Upewnij się, że masz zainstalowane usługi Google Play i spróbuj ponownie uruchomić urządzenie.</string>
-    <string name="donate_message_pending">Twoja darowizna jest w toku. Jeśli nie zostanie zastosowana automatycznie po jej zakończeniu, uruchom ponownie VSI.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Zasadniczo PayPal CIS lol</string>
-    <string name="donate_billing_not_available">Nie można połączyć się z Google Play. Upewnij się, że masz zainstalowane usługi Google Play i spróbuj ponownie uruchomić urządzenie.</string>
-    <string name="donate_donate_only_theme">Wymagana dotacja</string>
-    <string name="donate_dialog_close">Nie wyświetlaj ponownie</string>
-    <string name="donate_dialog_go_to_donate_page">Przejdź do ekranu dotacji</string>
-    <string name="donate_dialog_title">Darowizna</string>
     <string name="installerx_dialog_title">Dostosuj instalację</string>
     <string name="installerx_dialog_choose_filepicker">Czy chcesz wybrać pliki do instalacji?</string>
     <string name="installerx_dialog_loading">Przetwarzanie plików APK…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Dotknij, aby zmienić</string>
     <string name="about_author">Autor: polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Dotacja</string>
-    <string name="about_licenses">Licencje</string>
-    <string name="about_translate">Pomóż przetłumaczyć VSI</string>
     <string name="about_privacy">Polityka Prywatności</string>
-    <string name="about_eula">End User License Agreement</string>
 </resources>

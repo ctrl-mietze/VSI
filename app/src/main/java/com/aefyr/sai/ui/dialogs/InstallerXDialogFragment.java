@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +28,10 @@ import com.aefyr.sai.ui.dialogs.base.BaseBottomSheetDialogFragment;
 import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
+import com.aefyr.sai.utils.PreferencesValues;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiInstallPolicy;
 import com.aefyr.sai.view.ViewSwitcherLayout;
 import com.aefyr.sai.viewmodels.InstallerXDialogViewModel;
 import com.aefyr.sai.viewmodels.factory.InstallerXDialogViewModelFactory;
@@ -130,6 +134,27 @@ public class InstallerXDialogFragment extends BaseBottomSheetDialogFragment impl
 
         getNegativeButton().setOnClickListener(v -> dismiss());
         getPositiveButton().setOnClickListener(v -> {
+            int installer = mHelper.getInstaller();
+            boolean privilegedShell = installer == PreferencesValues.INSTALLER_ROOTED
+                    || installer == PreferencesValues.INSTALLER_SHIZUKU;
+
+            if (privilegedShell
+                    && VsiDeveloperOptions.getInstance(requireContext()).expertCommandPreview()) {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.vsi_dev_expert_command_preview)
+                        .setMessage(VsiInstallPolicy.buildCommandPreview(requireContext()))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(
+                                R.string.installerx_dialog_install,
+                                (dialog, which) -> {
+                                    mViewModel.enqueueInstallation();
+                                    dismiss();
+                                }
+                        )
+                        .show();
+                return;
+            }
+
             mViewModel.enqueueInstallation();
             dismiss();
         });

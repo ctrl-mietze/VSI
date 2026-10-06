@@ -225,7 +225,6 @@
     <string name="settings_main_ui_show_app_features">Visa appfunktioner</string>
     <string name="settings_main_ui_show_app_features_summary">Show contextual app feature badges on backup screen</string>
     <string name="settings_main_ui_theme">Tema</string>
-    <string name="settings_main_donate">Stöd VSI</string>
     <string name="settings_main_auto_theme">Automatisk tema</string>
     <string name="settings_main_auto_theme_summary">Automatically switch between selected light and dark themes depending on system theme</string>
     <string name="settings_main_auto_theme_picker">Välj teman</string>
@@ -243,32 +242,10 @@
     <string name="name_format_builder_preview">Förhandsgranska: %s</string>
     <string name="name_format_builder_preview_empty">Välj minst en del</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">Superhemliga inställningar</string>
-    <string name="sss_warning_title"><b>VARNING</b></string>
-    <string name="sss_warning_summary"><b>Don\'t touch anything here unless you know what you\'re doing. Some options here can break VSI or even damage your system</b></string>
-    <string name="sss_dont_replace_dots_title">Ersätt inte punkter med kommatecken</string>
-    <string name="sss_dont_replace_dots_summary">In backup file name</string>
-    <string name="sss_custom_install_create_title">Custom install-create command</string>
-    <string name="sss_custom_install_create_summary">Custom install-create command that will be used to create pm session used in Rooted and Shizuku installers, the command must not contain any spaces except for the ones that separate arguments (\'spaces in quotes\' will be split into arguments as well). Enter \"null\" to disable</string>
-    <string name="sss_fake_backup_timestamp">Falska tidsstämplar på säkehetskopior</string>
-    <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. VSI will have no idea what backup is the latest one though</string>
-    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">Du kan fortsätta om %d s.</string>
     <string name="mi_continue">Fortsätt</string>
     <string name="mi_miui_version">MIUI-version - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">Depending on your MIUI version, turning off MIUI optimization may do nothing, reset apps permissions or have other unexpected consequences</string>
-    <string name="donate_message_not_donated">Hej. Som du vet är VSI en app som är gratis med öppen källkod och så kommer den alltid att förbli. Om du gillar appen får du gärna stöda VSI genom att göra en donation. Du kommer då att få det legendariska <b>VSI Guldtemat</b>!</string>
-    <string name="donate_message_donated">Stort tack för att du stöder VSI!\nGlöm inte att kolla in ditt nya <b>VSI Guldtema</b></string>
-    <string name="donate_message_floss">Hej. Du använder dig av FLOSS-versionen av VSI. Som du vet är VSI gratis med öppen källkod och så kommer den alltid att förbli. Om du gillar appen får du gärna stöda VSI genom att göra en donation.\n\nI FLOSS-version är <b>FLOSS Guldtemat</b> tillgängligt som standard.</string>
-    <string name="donate_message_unknown_or_error">Unable to get donation status. Please make sure you have Google Play Services installed and try restarting your device.</string>
-    <string name="donate_message_pending">Your donation is pending. If it isn\'t applied automatically after you complete it, please restart VSI.</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">Yandex.Money är Rysslands största elektroniska betalningstjänst</string>
-    <string name="donate_billing_not_available">Kunde inte ansluta till Google Play. Kontrollera att du har Google Play-tjänsten installerat och försök starta om enheten.</string>
-    <string name="donate_donate_only_theme">Donation krävs</string>
-    <string name="donate_dialog_close">Visa inte igen</string>
-    <string name="donate_dialog_go_to_donate_page">Gå till donationsskärmen</string>
-    <string name="donate_dialog_title">Donation</string>
     <string name="installerx_dialog_title">Anpassa installationen</string>
     <string name="installerx_dialog_choose_filepicker">How do you want to select files to install?</string>
     <string name="installerx_dialog_loading">Parsrar APKs…</string>
@@ -332,9 +309,5 @@
     <string name="auto_theme_selection_hint">Tryck för att ändra</string>
     <string name="about_author">av polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">Donera</string>
-    <string name="about_licenses">Licenser</string>
-    <string name="about_translate">Hjälp till att översätta VSI</string>
     <string name="about_privacy">Integritetspolicy</string>
-    <string name="about_eula">End User License Agreement</string>
 </resources>

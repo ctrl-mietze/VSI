@@ -19,6 +19,7 @@ import com.aefyr.sai.utils.Logs;
 import com.aefyr.sai.utils.MiuiUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,7 @@ import java.util.regex.Pattern;
  * Please note, that it's unsafe to use multiple ShellPackageInstaller instances at the same time because installation completion is determined by the ACTION_PACKAGE_ADDED broadcast
  */
 public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
-    private static final String TAG = "ShellSAIPI";
+    private static final String TAG = "ShellVSIPI";
 
     private AtomicBoolean mIsAwaitingBroadcast = new AtomicBoolean(false);
 
@@ -122,9 +123,9 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
         try {
             saiVersion = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.wtf(TAG, "Unable to get SAI version", e);
+            Log.wtf(TAG, "Unable to get VSI version", e);
         }
-        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | SAI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, MiuiUtils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
+        return String.format("%s: %s %s | %s | Android %s | Using %s ApkSource implementation | VSI %s", getContext().getString(R.string.installer_device), Build.BRAND, Build.MODEL, MiuiUtils.isMiui() ? "MIUI" : "Not MIUI", Build.VERSION.RELEASE, apkSource.getClass().getSimpleName(), saiVersion);
     }
 
     private int createSession() throws RuntimeException {
@@ -147,7 +148,14 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
         List<Pair<Shell.Command, String>> attemptedCommands = new ArrayList<>();
 
         for (Shell.Command commandToAttempt : commandsToAttempt) {
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                Logs.d(TAG, "Executing: " + commandToAttempt);
+
             Shell.Result result = getShell().exec(commandToAttempt);
+
+            if (VsiDeveloperOptions.getInstance(getContext()).verboseInstallLogs())
+                Logs.d(TAG, "install-create result: " + result);
+
             attemptedCommands.add(new Pair<>(commandToAttempt, result.toString()));
 
             if (!result.isSuccessful()) {
@@ -180,10 +188,12 @@ public abstract class ShellSAIPackageInstaller extends SAIPackageInstaller {
         args.add("install-create");
         args.add("-r");
 
-        if (preferences.shouldAllowDowngrade())
+        VsiDeveloperOptions dev = VsiDeveloperOptions.getInstance(getContext());
+
+        if (preferences.shouldAllowDowngrade() || dev.forceDowngrade())
             args.add("-d");
 
-        if (preferences.shouldAllowTestApks())
+        if (preferences.shouldAllowTestApks() || dev.forceTestOnly())
             args.add("-t");
 
         if (preferences.getTargetUserId() >= 0) {

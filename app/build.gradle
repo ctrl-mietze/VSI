@@ -30,14 +30,12 @@ android {
             applicationIdSuffix ".play"
             buildConfigField "int", "DEFAULT_THEME", "7"
             buildConfigField "int", "DEFAULT_DARK_THEME", "7"
-            buildConfigField "boolean", "HIDE_DONATE_BUTTON", "false"
         }
 
         fdroid {
             dimension "version"
             buildConfigField "int", "DEFAULT_THEME", "7"
             buildConfigField "int", "DEFAULT_DARK_THEME", "7"
-            buildConfigField "boolean", "HIDE_DONATE_BUTTON", "false"
         }
     }
 
@@ -71,7 +69,6 @@ dependencies {
 
     normalImplementation 'com.google.firebase:firebase-analytics:18.0.2'
     normalImplementation 'com.google.firebase:firebase-crashlytics:17.3.1'
-    normalImplementation 'com.android.billingclient:billing:3.0.2'
 
     def shizuku_version = '12.2.0'
     implementation "dev.rikka.shizuku:api:$shizuku_version"

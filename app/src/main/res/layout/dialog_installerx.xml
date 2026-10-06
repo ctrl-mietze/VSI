@@ -28,7 +28,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_installerx_fp_internal"
-            style="@style/SAIMaterialButton"
+            style="@style/VSIMaterialButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="@string/filepicker_internal"
@@ -36,7 +36,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_installerx_fp_saf"
-            style="@style/SAIMaterialButton.Outlined"
+            style="@style/VSIMaterialButton.Outlined"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="8dp"

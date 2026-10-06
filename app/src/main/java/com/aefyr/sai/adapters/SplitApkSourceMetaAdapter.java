@@ -20,6 +20,8 @@ import com.aefyr.sai.installerx.common.SplitCategory;
 import com.aefyr.sai.installerx.common.SplitPart;
 import com.aefyr.sai.installerx.resolver.appmeta.AppMeta;
 import com.aefyr.sai.installerx.resolver.meta.Notice;
+import com.aefyr.sai.model.common.PackageMeta;
+import com.aefyr.sai.utils.VsiDeveloperOptions;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -195,8 +197,42 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
 
             mAppTitle.setText(appMeta.appName != null ? appMeta.appName : appMeta.packageName);
 
-            mAppVersion.setVisibility(appMeta.versionName != null ? View.VISIBLE : View.GONE);
-            mAppVersion.setText(appMeta.versionName);
+            mAppVersion.setVisibility(View.VISIBLE);
+
+            if (VsiDeveloperOptions.getInstance(mContext).updateCompare()) {
+                PackageMeta installed = PackageMeta.forPackage(mContext, appMeta.packageName);
+
+                if (installed != null) {
+                    String operation;
+                    if (appMeta.versionCode > installed.versionCode)
+                        operation = mContext.getString(R.string.vsi_quick_update);
+                    else if (appMeta.versionCode < installed.versionCode)
+                        operation = mContext.getString(R.string.vsi_quick_downgrade);
+                    else
+                        operation = mContext.getString(R.string.vsi_quick_reinstall);
+
+                    String installedVersion = installed.versionName != null
+                            ? installed.versionName
+                            : String.valueOf(installed.versionCode);
+                    String incomingVersion = appMeta.versionName != null
+                            ? appMeta.versionName
+                            : String.valueOf(appMeta.versionCode);
+
+                    mAppVersion.setText(
+                            installedVersion + " → " + incomingVersion + " · " + operation
+                    );
+                } else {
+                    String incomingVersion = appMeta.versionName != null
+                            ? appMeta.versionName
+                            : String.valueOf(appMeta.versionCode);
+                    mAppVersion.setText(
+                            incomingVersion + " · " + mContext.getString(R.string.vsi_quick_new_install)
+                    );
+                }
+            } else {
+                mAppVersion.setText(appMeta.versionName);
+                mAppVersion.setVisibility(appMeta.versionName != null ? View.VISIBLE : View.GONE);
+            }
         }
 
         @Override
@@ -286,13 +322,37 @@ public class SplitApkSourceMetaAdapter extends SelectableAdapter<String, SplitAp
         void bindTo(SplitPart part) {
             mName.setText(part.name());
 
-            if (part.description() != null) {
-                mDescription.setText(part.description());
+            String description = part.description();
+
+            if (VsiDeveloperOptions.getInstance(mContext).splitIntelligence()) {
+                StringBuilder intelligence = new StringBuilder();
+
+                if (part.isRequired())
+                    intelligence.append(mContext.getString(R.string.vsi_split_required));
+                else if (part.isRecommended())
+                    intelligence.append(mContext.getString(R.string.vsi_split_recommended));
+                else
+                    intelligence.append(mContext.getString(R.string.vsi_split_optional));
+
+                if (part.size() > 0)
+                    intelligence.append(" · ").append(android.text.format.Formatter.formatFileSize(mContext, part.size()));
+
+                if (part.localPath() != null)
+                    intelligence.append("\n").append(part.localPath());
+
+                if (description == null || description.trim().isEmpty())
+                    description = intelligence.toString();
+                else
+                    description = description + "\n" + intelligence;
+            }
+
+            if (description != null && !description.trim().isEmpty()) {
+                mDescription.setVisibility(View.VISIBLE);
+                mDescription.setText(description);
             } else {
                 mDescription.setText(null);
                 mDescription.setVisibility(View.GONE);
             }
-
 
             mCheck.setChecked(part.isRequired() || isSelected(part.localPath()));
 

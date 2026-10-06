@@ -226,7 +226,6 @@
     <string name="settings_main_ui_show_app_features">アプリのタイプを表示する</string>
     <string name="settings_main_ui_show_app_features_summary">バックアップ画面でアプリのタイプ(システムアプリ, Split APK) を表示します</string>
     <string name="settings_main_ui_theme">テーマ</string>
-    <string name="settings_main_donate">VSIを支援する</string>
     <string name="settings_main_auto_theme">オートテーマ</string>
     <string name="settings_main_auto_theme_summary">端末のテーマ設定によって、選択されたライトテーマとダークテーマを自動的に切り替えます</string>
     <string name="settings_main_auto_theme_picker">テーマを選択してください</string>
@@ -244,32 +243,10 @@
     <string name="name_format_builder_preview">プレビュー: %s</string>
     <string name="name_format_builder_preview_empty">一つ以上のパートを選択してください</string>
     <!-- These strings that start with "sss_" don't really have to be translated except for the warning maybe -->
-    <string name="sss">超・隠し設定</string>
-    <string name="sss_warning_title"><b>警告</b></string>
-    <string name="sss_warning_summary"><b>自分のしている操作の意味がわからないなら、ここにあるものには 絶 対 に 触れないこと。一部の設定はVSIに(場合によってはシステムの制御系にも) 壊滅的なダメージを与える恐れがあります。</b></string>
-    <string name="sss_dont_replace_dots_title">ドット.をコンマ,で置き換えないこと</string>
-    <string name="sss_dont_replace_dots_summary">In backup file name</string>
-    <string name="sss_custom_install_create_title">カスタムインストールコマンド</string>
-    <string name="sss_custom_install_create_summary">RootedとShizuku installerのpm(パッケージマネージャー)セッションの作成に使うカスタムインストールコマンド。コマンドには、引数を区切る用途以外のスペースを含めてはいけません(\"括弧内 の スペース\"も引数を区切るものだと見做されます)。無効にするには「null」と入力してください。</string>
-    <string name="sss_fake_backup_timestamp">バックアップのタイムスタンプを偽装する</string>
-    <string name="sss_fake_backup_timestamp_summary">Add constant timestamp (Jan 1 2000, 00:00) to backups. Makes hashes of backup files of the same APK files same. VSI will have no idea what backup is the latest one though</string>
-    <string name="sss_test_crash">Crash app</string>
     <string name="mi_continue_countdown">%d 秒後に続行できます。</string>
     <string name="mi_continue">続行</string>
     <string name="mi_miui_version">MIUI version - %1$s (%2$d (%3$s))</string>
     <string name="mi_consequences">MIUIのバージョンによっては、MIUIの最適化をオフにしても何も起こらなかったり、アプリの権限がリセットされたり、何らかの想定外の結果が生じる場合があります。</string>
-    <string name="donate_message_not_donated">こんにちは。ご存知のように、VSIは完全にフリーかつオープンソースのアプリで、今後もその方針を貫きます。このアプリを気に入っていただけたなら、VSIに寄付して開発をサポートしていただけると嬉しいです。寄付へのお礼として、伝説の<b>VSI Gold</b>テーマを開放いたします！</string>
-    <string name="donate_message_donated">VSIをご支援いただき本当にありがとうございます！\n心ばかりのお礼ですが、お使いのVSIに<b>VSI Gold</b>テーマを追加いたしました。</string>
-    <string name="donate_message_floss">こんにちは。あなたは今FLOSSバージョンのVSIをお使いになっています。ご存知のように、VSIは完全にフリーかつオープンソースのアプリで、今後もその方針を貫きます。このアプリを気に入っていただけたなら、VSIに寄付して開発をサポートしていただけると嬉しいです。\n\nFLOSSバージョンでは、<b>FLOSS Gold</b>テーマがデフォルトで利用可能になります。</string>
-    <string name="donate_message_unknown_or_error">寄付ステータスを取得できませんでした。Google Play開発者サービスがインストールされていることを確認してください。また、端末を再起動してみてください。</string>
-    <string name="donate_message_pending">寄付はまだ途中です。完了後に自動的に適用されない場合は、VSIを再起動してください。</string>
-    <string name="donate_non_iap_yandex_title">Yandex.Money</string>
-    <string name="donate_non_iap_yandex_desc">CIS諸国で人気のPayPal的なやつ</string>
-    <string name="donate_billing_not_available">Google Playに接続できませんでした。Google Play開発者サービスがインストールされていることを確認してください。また、端末を再起動してみてください。</string>
-    <string name="donate_donate_only_theme">このテーマは寄付の特典です</string>
-    <string name="donate_dialog_close">今後は表示しない</string>
-    <string name="donate_dialog_go_to_donate_page">寄付画面に移動</string>
-    <string name="donate_dialog_title">寄付</string>
     <string name="installerx_dialog_title">カスタムインストール</string>
     <string name="installerx_dialog_choose_filepicker">どの方法でインストールするファイルを選択しますか？</string>
     <string name="installerx_dialog_loading">APKを解析しています…</string>
@@ -333,9 +310,5 @@
     <string name="auto_theme_selection_hint">変更するにはタップしてください</string>
     <string name="about_author">by polychromaticfox</string>
     <string name="about_source">GitHub</string>
-    <string name="about_donate">寄付</string>
-    <string name="about_licenses">ライセンス</string>
-    <string name="about_translate">VSIの多言語化やりませんか？</string>
     <string name="about_privacy">プライバシーポリシー</string>
-    <string name="about_eula">End User License Agreement</string>
 </resources>
