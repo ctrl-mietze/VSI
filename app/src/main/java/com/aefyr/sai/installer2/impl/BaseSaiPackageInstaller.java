@@ -12,8 +12,10 @@ import com.aefyr.sai.installer2.base.model.SaiPiSessionParams;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionState;
 import com.aefyr.sai.installer2.base.model.SaiPiSessionStatus;
 import com.aefyr.sai.utils.Logs;
+import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiInstallerFeedback;
 import com.aefyr.sai.utils.VsiSessionHistoryStore;
 
 import java.util.ArrayList;
@@ -82,6 +84,11 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
             SaiPiSessionParams params = mActiveSessions.remove(sessionId);
 
             VsiSessionHistoryStore.getInstance(getContext()).record(state, params);
+
+            if (VsiInstallerFeedback.MODE_NOTIFICATION.equals(
+                    PreferencesHelper.getInstance(getContext()).getInstallerFeedbackMode())) {
+                VsiInstallerFeedback.showInstallResultNotification(getContext(), state);
+            }
 
             if (state.status() == SaiPiSessionStatus.INSTALLATION_SUCCEED
                     && params != null

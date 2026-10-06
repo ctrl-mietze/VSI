@@ -69,6 +69,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mHelper = PreferencesHelper.getInstance(requireContext());
+        // Migrate the former boolean installer-dialog setting into the new
+        // four-way feedback selector before preferences are inflated.
+        mHelper.getInstallerFeedbackMode();
+
         mAnalyticsProvider = DefaultAnalyticsProvider.getInstance(requireContext());
         mPm = requireContext().getPackageManager();
 
@@ -465,7 +469,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (key.equals(PreferencesKeys.USE_OLD_INSTALLER)) {
-            prefs.edit().putBoolean(PreferencesKeys.USE_OLD_INSTALLER, prefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false)).commit();
+            prefs.edit().putBoolean(
+                    PreferencesKeys.USE_OLD_INSTALLER,
+                    prefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false)
+            ).commit();
+            Utils.hardRestartApp(requireContext());
+            return;
+        }
+
+        if (key.equals(PreferencesKeys.VSI_LANGUAGE)) {
             Utils.hardRestartApp(requireContext());
         }
     }

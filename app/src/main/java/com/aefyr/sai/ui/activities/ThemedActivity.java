@@ -1,6 +1,7 @@
 package com.aefyr.sai.ui.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -9,11 +10,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.aefyr.sai.utils.Theme;
+import com.aefyr.sai.utils.VsiLocaleHelper;
 
 @SuppressLint("Registered") //This is only a base class for other activities
 public class ThemedActivity extends AppCompatActivity {
 
     private Theme.ThemeDescriptor mAppliedTheme;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(VsiLocaleHelper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

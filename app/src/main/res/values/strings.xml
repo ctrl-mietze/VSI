@@ -511,4 +511,18 @@
     <string name="vsi_queue_waiting">Waiting sessions</string>
     <string name="vsi_queue_none_active">No active installation.</string>
     <string name="vsi_queue_none_waiting">Queue is empty.</string>
+    <string name="settings_main_installer_feedback">Installer feedback</string>
+    <string name="settings_main_installer_feedback_summary">Choose how VSI reports successful or failed installations.</string>
+    <string name="settings_main_language">App language</string>
+    <string name="settings_main_language_summary">System mode uses German only for German locales in Germany, Austria or Switzerland; otherwise VSI uses English.</string>
+    <string name="vsi_feedback_notification_channel">Installation results</string>
+    <string name="vsi_feedback_notification_channel_summary">VSI notifications for successful and failed installations.</string>
+    <string name="vsi_feedback_success_title">Installation successful</string>
+    <string name="vsi_feedback_success_message">%1$s was installed successfully.</string>
+    <string name="vsi_feedback_failure_title">Installation failed</string>
+    <string name="vsi_feedback_failure_message">%1$s failed: %2$s</string>
+    <string name="vsi_feedback_unknown_error">Unknown installation error</string>
+    <string name="vsi_feedback_popup_success">Installation successful.</string>
+    <string name="vsi_feedback_popup_failure">Installation failed because: %1$s</string>
+    <string name="vsi_feedback_more">More</string>
 </resources>

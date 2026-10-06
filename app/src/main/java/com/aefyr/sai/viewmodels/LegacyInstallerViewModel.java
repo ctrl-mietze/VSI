@@ -17,8 +17,11 @@ import com.aefyr.sai.installer.PackageInstallerProvider;
 import com.aefyr.sai.installer.SAIPackageInstaller;
 import com.aefyr.sai.model.apksource.ApkSource;
 import com.aefyr.sai.utils.Event;
+import com.aefyr.sai.R;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiInstallerFeedback;
+import com.aefyr.sai.utils.VsiLocaleHelper;
 import com.aefyr.sai.utils.VsiSessionHistoryStore;
 
 import java.io.File;
@@ -169,6 +172,20 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
                     clearCurrentSources();
                 }
 
+                if (VsiInstallerFeedback.MODE_NOTIFICATION.equals(
+                        mPrefsHelper.getInstallerFeedbackMode())) {
+                    Context localized = VsiLocaleHelper.wrap(mContext);
+                    String app = packageNameOrErrorDescription == null
+                            ? localized.getString(R.string.installer_unknown_app)
+                            : packageNameOrErrorDescription;
+                    VsiInstallerFeedback.showNotification(
+                            localized,
+                            true,
+                            localized.getString(R.string.vsi_feedback_success_title),
+                            localized.getString(R.string.vsi_feedback_success_message, app)
+                    );
+                }
+
                 mEvents.setValue(new Event<>(new String[]{EVENT_PACKAGE_INSTALLED, packageNameOrErrorDescription}));
                 break;
 
@@ -184,6 +201,22 @@ public class LegacyInstallerViewModel extends AndroidViewModel implements SAIPac
                 );
 
                 clearCurrentSources();
+
+                if (VsiInstallerFeedback.MODE_NOTIFICATION.equals(
+                        mPrefsHelper.getInstallerFeedbackMode())) {
+                    Context localized = VsiLocaleHelper.wrap(mContext);
+                    String reason = packageNameOrErrorDescription;
+                    if (reason == null || reason.trim().isEmpty())
+                        reason = localized.getString(R.string.vsi_feedback_unknown_error);
+
+                    VsiInstallerFeedback.showNotification(
+                            localized,
+                            false,
+                            localized.getString(R.string.vsi_feedback_failure_title),
+                            reason
+                    );
+                }
+
                 mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLATION_FAILED, packageNameOrErrorDescription}));
                 break;
         }

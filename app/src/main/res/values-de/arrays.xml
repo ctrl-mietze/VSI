@@ -43,4 +43,17 @@
         <item>Intern (VSI)</item>
         <item>System (Android)</item>
     </string-array>
+
+    <string-array name="installer_feedback_modes">
+        <item>Keine</item>
+        <item>App-Dialog</item>
+        <item>Benachrichtigung</item>
+        <item>Pop-up</item>
+    </string-array>
+
+    <string-array name="vsi_languages">
+        <item>System (DE / AT / CH → Deutsch, sonst English)</item>
+        <item>Deutsch</item>
+        <item>English</item>
+    </string-array>
 </resources>

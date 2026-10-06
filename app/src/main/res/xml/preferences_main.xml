@@ -40,13 +40,27 @@
             android:title="@string/settings_main_use_old_installer"
             android:summary="@string/settings_main_use_old_installer_summary" />
 
-        <SwitchPreference
+        <ListPreference
             android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_show_dialogs"
-            android:key="show_installer_dialogs"
-            android:title="@string/settings_main_installer_show_dialogs"
-            android:summary="@string/settings_main_installer_show_dialogs_summary"
-            android:defaultValue="true" />
+            android:key="installer_feedback_mode"
+            android:title="@string/settings_main_installer_feedback"
+            android:summary="@string/settings_main_installer_feedback_summary"
+            android:entries="@array/installer_feedback_modes"
+            android:entryValues="@array/installer_feedback_modes_values"
+            android:defaultValue="dialog"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_language"
+            android:title="@string/settings_main_language"
+            android:summary="@string/settings_main_language_summary"
+            android:entries="@array/vsi_languages"
+            android:entryValues="@array/vsi_language_values"
+            android:defaultValue="system"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
             android:layout="@layout/preference_vsi_row"

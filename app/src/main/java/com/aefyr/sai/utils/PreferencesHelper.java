@@ -131,8 +131,34 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false);
     }
 
+    public String getInstallerFeedbackMode() {
+        if (mPrefs.contains(PreferencesKeys.INSTALLER_FEEDBACK_MODE)) {
+            return mPrefs.getString(
+                    PreferencesKeys.INSTALLER_FEEDBACK_MODE,
+                    VsiInstallerFeedback.MODE_DIALOG
+            );
+        }
+
+        // Automatic migration from the old boolean setting.
+        boolean oldDialogs = mPrefs.getBoolean(PreferencesKeys.SHOW_INSTALLER_DIALOGS, true);
+        String migrated = oldDialogs
+                ? VsiInstallerFeedback.MODE_DIALOG
+                : VsiInstallerFeedback.MODE_NONE;
+
+        mPrefs.edit()
+                .putString(PreferencesKeys.INSTALLER_FEEDBACK_MODE, migrated)
+                .apply();
+
+        return migrated;
+    }
+
+    @Deprecated
     public boolean showInstallerDialogs() {
-        return mPrefs.getBoolean(PreferencesKeys.SHOW_INSTALLER_DIALOGS, true);
+        return VsiInstallerFeedback.MODE_DIALOG.equals(getInstallerFeedbackMode());
+    }
+
+    public String getLanguageMode() {
+        return mPrefs.getString(PreferencesKeys.VSI_LANGUAGE, VsiLocaleHelper.MODE_SYSTEM);
     }
 
     public boolean shouldShowAppFeatures() {

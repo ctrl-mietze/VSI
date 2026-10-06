@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,10 +29,12 @@ import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Utils;
+import com.aefyr.sai.utils.VsiInstallerFeedback;
 import com.aefyr.sai.utils.saf.SafUtils;
 import com.aefyr.sai.viewmodels.LegacyInstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,12 +82,29 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
                 return;
 
             String[] eventData = event.consume();
+            String feedbackMode = mHelper.getInstallerFeedbackMode();
+
+            if (VsiInstallerFeedback.MODE_NONE.equals(feedbackMode)
+                    || VsiInstallerFeedback.MODE_NOTIFICATION.equals(feedbackMode)) {
+                return;
+            }
+
             switch (eventData[0]) {
                 case LegacyInstallerViewModel.EVENT_PACKAGE_INSTALLED:
-                    showPackageInstalledAlert(eventData[1]);
+                    if (VsiInstallerFeedback.MODE_POPUP.equals(feedbackMode))
+                        showInstallSuccessPopup(eventData[1]);
+                    else
+                        showPackageInstalledAlert(eventData[1]);
                     break;
+
                 case LegacyInstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    ErrorLogDialogFragment.newInstance(getString(R.string.installer_installation_failed), eventData[1]).show(getChildFragmentManager(), "installation_error_dialog");
+                    if (VsiInstallerFeedback.MODE_POPUP.equals(feedbackMode))
+                        showInstallFailurePopup(eventData[1]);
+                    else
+                        ErrorLogDialogFragment.newInstance(
+                                getString(R.string.installer_installation_failed),
+                                eventData[1]
+                        ).show(getChildFragmentManager(), "installation_error_dialog");
                     break;
             }
         });
@@ -180,6 +200,41 @@ public class LegacyInstallerFragment extends InstallerFragment implements FilePi
 
     private void showPackageInstalledAlert(String packageName) {
         AppInstalledDialogFragment.newInstance(packageName).show(getChildFragmentManager(), "dialog_app_installed");
+    }
+
+    private void showInstallSuccessPopup(@Nullable String packageName) {
+        Snackbar snackbar = Snackbar.make(
+                requireView(),
+                R.string.vsi_feedback_popup_success,
+                Snackbar.LENGTH_LONG
+        );
+        snackbar.setBackgroundTint(Color.rgb(20, 20, 20));
+        snackbar.show();
+    }
+
+    private void showInstallFailurePopup(@Nullable String error) {
+        String reason = error;
+        if (reason == null || reason.trim().isEmpty())
+            reason = getString(R.string.vsi_feedback_unknown_error);
+
+        String compact = reason.replace('\n', ' ').trim();
+        if (compact.length() > 180)
+            compact = compact.substring(0, 177) + "...";
+
+        Snackbar snackbar = Snackbar.make(
+                requireView(),
+                getString(R.string.vsi_feedback_popup_failure, compact),
+                Snackbar.LENGTH_LONG
+        );
+        snackbar.setBackgroundTint(Color.rgb(20, 20, 20));
+        final String fullReason = reason;
+        snackbar.setAction(R.string.vsi_feedback_more, v ->
+                ErrorLogDialogFragment.newInstance(
+                        getString(R.string.installer_installation_failed),
+                        fullReason
+                ).show(getChildFragmentManager(), "installation_error_dialog")
+        );
+        snackbar.show();
     }
 
     private void setNavigationEnabled(boolean enabled) {

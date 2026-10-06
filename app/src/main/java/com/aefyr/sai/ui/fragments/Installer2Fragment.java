@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,11 +35,13 @@ import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.Theme;
+import com.aefyr.sai.utils.VsiInstallerFeedback;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.utils.saf.SafUtils;
 import com.aefyr.sai.viewmodels.InstallerViewModel;
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
+import com.google.android.material.snackbar.Snackbar;
 import com.tomergoldst.tooltips.ToolTip;
 import com.tomergoldst.tooltips.ToolTipsManager;
 
@@ -95,21 +98,47 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
             if (isStateSaved())
                 return;
 
-            if (event.type().equals(InstallerViewModel.EVENT_PACKAGE_INSTALLED))
-
-            if (!mHelper.showInstallerDialogs()) {
-                event.consume();
-                return;
-            }
+            String feedbackMode = mHelper.getInstallerFeedbackMode();
 
             switch (event.type()) {
-                case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
-                    showPackageInstalledAlert(event.consume());
+                case InstallerViewModel.EVENT_PACKAGE_INSTALLED: {
+                    String packageName = event.consume();
+
+                    if (VsiInstallerFeedback.MODE_NONE.equals(feedbackMode)
+                            || VsiInstallerFeedback.MODE_NOTIFICATION.equals(feedbackMode)) {
+                        return;
+                    }
+
+                    if (VsiInstallerFeedback.MODE_POPUP.equals(feedbackMode)) {
+                        showInstallSuccessPopup(packageName);
+                        return;
+                    }
+
+                    showPackageInstalledAlert(packageName);
                     break;
-                case InstallerViewModel.EVENT_INSTALLATION_FAILED:
+                }
+
+                case InstallerViewModel.EVENT_INSTALLATION_FAILED: {
                     String[] errors = event.consume();
-                    ErrorLogDialogFragment2.newInstance(getString(R.string.installer_installation_failed), errors[0], errors[1], false).show(getChildFragmentManager(), "installation_error_dialog");
+
+                    if (VsiInstallerFeedback.MODE_NONE.equals(feedbackMode)
+                            || VsiInstallerFeedback.MODE_NOTIFICATION.equals(feedbackMode)) {
+                        return;
+                    }
+
+                    if (VsiInstallerFeedback.MODE_POPUP.equals(feedbackMode)) {
+                        showInstallFailurePopup(errors);
+                        return;
+                    }
+
+                    ErrorLogDialogFragment2.newInstance(
+                            getString(R.string.installer_installation_failed),
+                            errors[0],
+                            errors[1],
+                            false
+                    ).show(getChildFragmentManager(), "installation_error_dialog");
                     break;
+                }
             }
         });
         mViewModel.getSessions().observe(getViewLifecycleOwner(), (sessions) -> {
@@ -274,6 +303,51 @@ public class Installer2Fragment extends InstallerFragment implements FilePickerD
 
     private void showPackageInstalledAlert(String packageName) {
         AppInstalledDialogFragment.newInstance(packageName).show(getChildFragmentManager(), "dialog_app_installed");
+    }
+
+    private void showInstallSuccessPopup(@Nullable String packageName) {
+        Snackbar snackbar = Snackbar.make(
+                requireView(),
+                R.string.vsi_feedback_popup_success,
+                Snackbar.LENGTH_LONG
+        );
+        snackbar.setBackgroundTint(Color.rgb(20, 20, 20));
+
+        if (packageName != null && !packageName.trim().isEmpty()) {
+            snackbar.setAction(R.string.installer_open, v -> launchApp(packageName));
+        }
+
+        snackbar.show();
+    }
+
+    private void showInstallFailurePopup(String[] errors) {
+        String shortError = errors != null && errors.length > 0 ? errors[0] : null;
+        String fullError = errors != null && errors.length > 1 ? errors[1] : shortError;
+
+        if (shortError == null || shortError.trim().isEmpty())
+            shortError = getString(R.string.vsi_feedback_unknown_error);
+
+        String compactReason = shortError.replace('\n', ' ').trim();
+        if (compactReason.length() > 180)
+            compactReason = compactReason.substring(0, 177) + "...";
+
+        Snackbar snackbar = Snackbar.make(
+                requireView(),
+                getString(R.string.vsi_feedback_popup_failure, compactReason),
+                Snackbar.LENGTH_LONG
+        );
+        snackbar.setBackgroundTint(Color.rgb(20, 20, 20));
+        final String finalShortError = shortError;
+        final String finalFullError = fullError;
+        snackbar.setAction(R.string.vsi_feedback_more, v ->
+                ErrorLogDialogFragment2.newInstance(
+                        getString(R.string.installer_installation_failed),
+                        finalShortError,
+                        finalFullError,
+                        false
+                ).show(getChildFragmentManager(), "installation_error_dialog")
+        );
+        snackbar.show();
     }
 
     @Override
