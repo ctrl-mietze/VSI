@@ -77,6 +77,31 @@
         android:title="@string/settings_category_main_installer"
         app:iconSpaceReserved="false">
 
+        <ListPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_root"
+            android:key="vsi_app_mode"
+            android:title="@string/vsi_app_mode_title"
+            android:summary="@string/vsi_app_mode_summary"
+            android:entries="@array/vsi_app_modes"
+            android:entryValues="@array/vsi_app_mode_values"
+            android:defaultValue="normal"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_mode_function_info"
+            android:title="@string/vsi_mode_function_info"
+            android:summary="@string/vsi_mode_function_info_summary" />
+
+        <Preference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_battery_optimization"
+            android:title="@string/vsi_battery_optimization"
+            android:summary="@string/vsi_battery_optimization_summary" />
+
         <SwitchPreference
             android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_pro_mode"
@@ -84,13 +109,6 @@
             android:title="@string/settings_main_use_installerx"
             android:summary="@string/settings_main_use_installerx_summary"
             android:defaultValue="true" />
-
-        <Preference
-        android:layout="@layout/preference_vsi_row"
-            android:icon="@drawable/ic_pref_root"
-            android:key="installer"
-            android:title="@string/settings_main_installer"
-            android:summary="@string/settings_main_installer_summary" />
 
         <Preference
             android:layout="@layout/preference_vsi_row"
