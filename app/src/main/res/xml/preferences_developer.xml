@@ -34,6 +34,13 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
+            android:key="vsi_dev_permanent_kernel_root_functions"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_permanent_kernel_root_functions"
+            android:summary="@string/vsi_dev_permanent_kernel_root_functions_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:key="vsi_dev_force_downgrade"
             android:defaultValue="false"
             android:title="@string/vsi_dev_force_downgrade"
@@ -184,6 +191,13 @@
             android:title="@string/vsi_dev_never_delete_source"
             android:summary="@string/vsi_dev_never_delete_source_summary"
             app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_advanced_apk_analysis"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_advanced_apk_analysis"
+            android:summary="@string/vsi_dev_advanced_apk_analysis_summary"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -202,6 +216,13 @@
             android:defaultValue="true"
             android:title="@string/vsi_dev_xposed_stock_fallback"
             android:summary="@string/vsi_dev_xposed_stock_fallback_summary"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_signature_verification_override"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_signature_verification_override"
+            android:summary="@string/vsi_dev_signature_verification_override_summary"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
