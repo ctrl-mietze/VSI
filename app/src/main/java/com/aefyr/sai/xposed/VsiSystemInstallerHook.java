@@ -415,7 +415,7 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
         while (iterator.hasNext()) {
             Map.Entry<Integer, Long> entry = iterator.next();
             if (now - entry.getValue() > SESSION_STALE_MS)
-                iterator.remove();
+                ACTIVE_INSTALL_SESSIONS.remove(entry.getKey(), entry.getValue());
         }
 
         if (!ACTIVE_INSTALL_SESSIONS.isEmpty())
