@@ -94,7 +94,7 @@ public final class VsiAdvancedApkAnalyzer {
         out.append("Package: ").append(info.packageName).append("\n");
         out.append("Version: ").append(info.versionName).append(" (")
                 .append(longVersionCode(info)).append(")\n");
-        out.append("minSdk: ").append(info.applicationInfo.minSdkVersion).append("\n");
+        out.append("minSdk: ").append(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? info.applicationInfo.minSdkVersion : 0).append("\n");
         out.append("targetSdk: ").append(info.applicationInfo.targetSdkVersion).append("\n");
         out.append("debuggable: ")
                 .append((info.applicationInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0)
