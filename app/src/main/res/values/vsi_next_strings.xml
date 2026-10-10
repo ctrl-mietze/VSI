@@ -57,4 +57,6 @@
     <string name="vsi_patcher_pro_remove">Remove Patcher Pro</string>
     <string name="vsi_patcher_pro_remove_summary">Mark the Patcher Pro module for removal on the next reboot.</string>
     <string name="vsi_dev_category_permanent_root">Permanent root functions</string>
+    <string name="vsi_profile_rootxposed_power">RootXposed Power</string>
+    <string name="vsi_profile_rootxposed_power_summary">Root-backed installation plus Xposed/Vector system-installer integration.</string>
 </resources>

@@ -51,4 +51,6 @@
     <string name="vsi_patcher_pro_remove">Patcher Pro हटाएँ</string>
     <string name="vsi_patcher_pro_remove_summary">अगले reboot पर module हटाने के लिए mark करता है।</string>
     <string name="vsi_dev_category_permanent_root">Permanent root functions</string>
+    <string name="vsi_profile_rootxposed_power">RootXposed Power</string>
+    <string name="vsi_profile_rootxposed_power_summary">Root installation के साथ Xposed/Vector system-installer integration.</string>
 </resources>

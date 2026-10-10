@@ -11,6 +11,7 @@ import androidx.preference.PreferenceScreen;
 import com.aefyr.sai.R;
 import com.aefyr.sai.shell.ShizukuShell;
 import com.aefyr.sai.shell.SuShell;
+import com.aefyr.sai.utils.VsiBatteryOptimizationHelper;
 import com.aefyr.sai.utils.VsiInstallProfileManager;
 import com.aefyr.sai.xposed.VsiXposedRuntimeProbe;
 
@@ -37,6 +38,15 @@ public class VsiInstallProfilesFragment extends PreferenceFragmentCompat {
                     if (!SuShell.getInstance().requestRoot())
                         throw new IllegalStateException(getString(R.string.settings_main_use_root_error));
                     mProfiles.applyRootPower();
+                });
+
+        addProfile(builtIn, R.string.vsi_profile_rootxposed_power, R.string.vsi_profile_rootxposed_power_summary,
+                () -> {
+                    if (!SuShell.getInstance().requestRoot())
+                        throw new IllegalStateException(getString(R.string.settings_main_use_root_error));
+                    if (!VsiXposedRuntimeProbe.isActive())
+                        throw new IllegalStateException(getString(R.string.settings_main_installer_error_no_xposed));
+                    mProfiles.applyRootXposedPower();
                 });
 
         addProfile(builtIn, R.string.vsi_profile_shizuku_power, R.string.vsi_profile_shizuku_power_summary,
@@ -74,6 +84,15 @@ public class VsiInstallProfilesFragment extends PreferenceFragmentCompat {
         apply.setTitle(R.string.vsi_profile_apply_custom);
         apply.setSummary(R.string.vsi_profile_apply_custom_summary);
         apply.setOnPreferenceClickListener(p -> {
+            if (!VsiBatteryOptimizationHelper.isExempt(requireContext())) {
+                Toast.makeText(
+                        requireContext(),
+                        R.string.vsi_battery_optimization_required,
+                        Toast.LENGTH_LONG
+                ).show();
+                return true;
+            }
+
             toast(mProfiles.applyCustom() ? R.string.vsi_profile_applied : R.string.vsi_profile_no_custom);
             return true;
         });
@@ -86,6 +105,9 @@ public class VsiInstallProfilesFragment extends PreferenceFragmentCompat {
         pref.setSummary(summary);
         pref.setOnPreferenceClickListener(p -> {
             try {
+                if (!VsiBatteryOptimizationHelper.isExempt(requireContext()))
+                    throw new IllegalStateException(getString(R.string.vsi_battery_optimization_required));
+
                 action.run();
                 toast(R.string.vsi_profile_applied);
             } catch (Exception e) {

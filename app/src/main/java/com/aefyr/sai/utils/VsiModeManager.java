@@ -83,6 +83,13 @@ public final class VsiModeManager {
     public static void startCorrectService(Context context, VsiAppMode mode) {
         Context app = context.getApplicationContext();
 
+        if (!VsiBatteryOptimizationHelper.isExempt(app)) {
+            app.stopService(new Intent(app, VsiLiteService.class));
+            app.stopService(new Intent(app, VsiVService.class));
+            app.stopService(new Intent(app, VsiSystemService.class));
+            return;
+        }
+
         Class<?> serviceClass;
         switch (mode.serviceKind()) {
             case VSERVICE:
