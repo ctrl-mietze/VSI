@@ -93,6 +93,12 @@ public final class VsiModeManager {
     }
 
     public static Availability applyMode(Context context, VsiAppMode mode) {
+        if (!isBatteryOptimizationDisabled(context)) {
+            return Availability.unavailable(
+                    "Battery optimization must be disabled for VSI first."
+            );
+        }
+
         Availability availability = checkAvailability(context, mode);
         if (!availability.available)
             return availability;
