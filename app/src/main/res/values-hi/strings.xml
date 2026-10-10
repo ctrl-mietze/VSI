@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vsi_app_mode_title">ऐप मोड</string>
+    <string name="vsi_app_mode_summary">यह तय करता है कि VSI Android पैकेज इंस्टॉलेशन में कितनी गहराई से जुड़ता है।</string>
+    <string name="vsi_mode_function_info">फ़ंक्शन जानकारी</string>
+    <string name="vsi_mode_function_info_summary">चुने हुए मोड में उपलब्ध सभी क्षमताएँ दिखाएँ।</string>
+    <string name="vsi_battery_optimization">बैटरी ऑप्टिमाइज़ेशन</string>
+    <string name="vsi_battery_optimization_summary">VSI runtime services के लिए बैटरी ऑप्टिमाइज़ेशन बंद होना चाहिए।</string>
+    <string name="vsi_mode_battery_ok">VSI के लिए बंद ✓</string>
+    <string name="vsi_mode_battery_required">पहले VSI के लिए बैटरी ऑप्टिमाइज़ेशन बंद करें।</string>
+    <string name="vsi_mode_shizuku_permission_wait">Shizuku अनुमति दें और फिर मोड दोबारा चुनें।</string>
+    <string name="vsi_mode_applied">VSI App Mode लागू हो गया।</string>
+    <string name="vsi_mode_normal">Normal</string>
+    <string name="vsi_mode_shizuku">Shizuku</string>
+    <string name="vsi_mode_xposed">Xposed Software</string>
+    <string name="vsi_mode_root">Root</string>
+    <string name="vsi_mode_root_xposed">RootXposed</string>
+    <string name="vsi_mode_info_title">VSI %1$s Mode</string>
+    <string name="vsi_mode_info_summary">%1$d फ़ंक्शन · बैटरी: %2$s · Xposed: %3$s</string>
+    <string name="vsi_mode_functions">%1$d उपलब्ध फ़ंक्शन</string>
+    <string name="vsi_mode_xposed_active">सक्रिय</string>
+    <string name="vsi_mode_xposed_inactive">निष्क्रिय</string>
+
+    <string name="vsi_tools_analyzer">Extreme APK Analysis</string>
+    <string name="vsi_tools_analyzer_summary">पैकेज, split, certificate, permission और runtime का गहरा विश्लेषण।</string>
+    <string name="vsi_tools_security">अस्थायी सुरक्षा टूल</string>
+    <string name="vsi_tools_patcher">VSI Patcher</string>
+    <string name="vsi_tools_patcher_summary">Patch Lite, Profile 0 और Patcher Pro नियंत्रण।</string>
+    <string name="vsi_security_downgrade_window">App Downgrade Override · 3 मिनट</string>
+    <string name="vsi_security_downgrade_window_summary">AOSP PackageManager downgrade compatibility hooks को अस्थायी रूप से सक्रिय करता है।</string>
+    <string name="vsi_security_signature_window">Signature Verification Override · 3 मिनट</string>
+    <string name="vsi_security_signature_window_summary">सिर्फ सक्रिय install sessions के आसपास अलग signature की compatibility अस्थायी रूप से सक्षम करता है।</string>
+    <string name="vsi_security_disarm">Security Overrides बंद करें</string>
+    <string name="vsi_security_disarm_summary">दोनों अस्थायी सुरक्षा विंडो तुरंत बंद करें।</string>
+    <string name="vsi_security_requires_xposed">इस फ़ंक्शन के लिए Xposed Software या RootXposed mode चाहिए।</string>
+    <string name="vsi_security_signature_armed">Signature Verification override 3 मिनट के लिए सक्रिय है।</string>
+    <string name="vsi_security_downgrade_armed">App Downgrade override 3 मिनट के लिए सक्रिय है।</string>
+    <string name="vsi_security_disarmed">अस्थायी security overrides बंद हैं।</string>
+
+    <string name="vsi_dev_extreme_apk_analysis">Extreme APK Analysis</string>
+    <string name="vsi_dev_extreme_apk_analysis_summary">बहुत विस्तृत analyzer सक्रिय करें। डिफ़ॉल्ट रूप से बंद; कम से कम Shizuku या Xposed mode चाहिए।</string>
+    <string name="vsi_dev_category_permanent_root">स्थायी kernel-root फ़ंक्शन</string>
+    <string name="vsi_dev_permanent_kernel_root_functions">Activate Permanent Kernel Root Functions</string>
+    <string name="vsi_dev_permanent_kernel_root_functions_summary">Patcher Pro अनलॉक करता है। केवल persistent KernelSU/Magisk root के साथ उपयोग करें।</string>
+
+    <string name="vsi_patcher_title">VSI Patcher</string>
+    <string name="vsi_patcher_summary">Installer integration tiers: Patch Lite session-oriented है, Patch VSI profile 0 को बदलता है और Patcher Pro persistent systemless priv-app module बनाता है।</string>
+    <string name="vsi_patcher_temp_category">अस्थायी / Session</string>
+    <string name="vsi_patcher_danger_category">स्थायी / जोखिमपूर्ण</string>
+    <string name="vsi_patch_lite">Patch Lite</string>
+    <string name="vsi_patch_lite_summary">KernelSU/Magisk service module बनाता है जो root उपलब्ध होने पर VSI routing सक्रिय करता है। System partition file नहीं बदली जाती।</string>
+    <string name="vsi_patch_lite_remove">Patch Lite हटाएँ</string>
+    <string name="vsi_patch_lite_remove_summary">Patch Lite module हटाएँ।</string>
+    <string name="vsi_patch_profile0">Patch VSI · Profile 0</string>
+    <string name="vsi_patch_profile0_summary">जोखिमपूर्ण: Android user 0 के लिए stock APK installer component को persistent रूप से बदलता है।</string>
+    <string name="vsi_patch_profile0_confirm">Temp root समाप्त होने के बाद भी यह बदलाव रह सकता है। VSI restore के लिए original component सहेजता है। जारी रखें?</string>
+    <string name="vsi_patch_profile0_restore">Profile 0 stock installer restore करें</string>
+    <string name="vsi_patch_profile0_restore_summary">Patch VSI द्वारा सहेजा गया stock component restore करें।</string>
+    <string name="vsi_patcher_pro">Patcher Pro</string>
+    <string name="vsi_patcher_pro_summary">केवल persistent root: KernelSU/Magisk के माध्यम से VSI को systemless priv-app module के रूप में mount करता है।</string>
+    <string name="vsi_patcher_pro_confirm">Patcher Pro boot-time module mounts बदलता है और reboot चाहिए। Temporary-only root पर यह block रहेगा। जारी रखें?</string>
+    <string name="vsi_patcher_pro_remove">Patcher Pro हटाएँ</string>
+    <string name="vsi_patcher_pro_remove_summary">Persistent VSI systemless module हटाएँ।</string>
+    <string name="vsi_patcher_status">Patch स्थिति</string>
+    <string name="vsi_patcher_refresh">Patch स्थिति अपडेट करें</string>
+    <string name="vsi_patcher_refresh_summary">Patch Lite, Profile 0 और Patcher Pro की root स्थिति पढ़ें।</string>
+    <string name="vsi_patcher_ok">VSI Patcher</string>
+    <string name="vsi_patcher_reboot_required">इस स्थायी बदलाव के लिए reboot आवश्यक है।</string>
+
+    <string name="vsi_analyzer_title">Extreme APK Analysis</string>
+    <string name="vsi_analyzer_summary">Mode के अनुसार बढ़ने वाला APK analyzer। Root और RootXposed में PackageManager, filesystem और SELinux details भी मिलती हैं।</string>
+    <string name="vsi_analyzer_choose">APK / package container चुनें</string>
+    <string name="vsi_analyzer_copy">Analysis कॉपी करें</string>
+    <string name="vsi_analyzer_disabled">Extreme APK Analysis बंद है। पहले Developer Options में इसे सक्रिय करें।</string>
+    <string name="vsi_analyzer_requires_mode">Extreme APK Analysis के लिए कम से कम Shizuku या Xposed mode चाहिए।</string>
+    <string name="vsi_analyzer_copied">Analysis कॉपी हो गया।</string>
+</resources>
