@@ -97,8 +97,10 @@ public final class VsiPmsSecurityHook {
                         return;
 
                     Object result = param.getResult();
-                    if (!(result instanceof Integer) || !signatureActive())
+                    if (!(result instanceof Integer)
+                            || (!signatureActive() && !downgradeActive())) {
                         return;
+                    }
 
                     int sessionId = (Integer) result;
                     if (sessionId > 0) {
@@ -149,7 +151,7 @@ public final class VsiPmsSecurityHook {
                             refreshConfig();
                             sLastInstallRealtime = SystemClock.elapsedRealtime();
 
-                            if (!downgradeActive())
+                            if (!downgradeActiveForInstall())
                                 return;
 
                             if (param.method instanceof Method) {
@@ -236,11 +238,18 @@ public final class VsiPmsSecurityHook {
     }
 
     private static boolean signatureActiveForInstall() {
-        if (!signatureActive()) {
-            ACTIVE_SESSIONS.clear();
+        if (!signatureActive())
             return false;
-        }
+        return hasRecentVsiInstall();
+    }
 
+    private static boolean downgradeActiveForInstall() {
+        if (!downgradeActive())
+            return false;
+        return hasRecentVsiInstall();
+    }
+
+    private static boolean hasRecentVsiInstall() {
         long now = SystemClock.elapsedRealtime();
 
         for (Map.Entry<Integer, Long> entry : ACTIVE_SESSIONS.entrySet()) {
