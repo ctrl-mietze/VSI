@@ -56,4 +56,5 @@
     <string name="vsi_patcher_pro_confirm">Patcher Pro stages VSI as a privileged systemless app. Reboot and module removal are the restore boundary. Continue?</string>
     <string name="vsi_patcher_pro_remove">Remove Patcher Pro</string>
     <string name="vsi_patcher_pro_remove_summary">Mark the Patcher Pro module for removal on the next reboot.</string>
+    <string name="vsi_dev_category_permanent_root">Permanent root functions</string>
 </resources>
