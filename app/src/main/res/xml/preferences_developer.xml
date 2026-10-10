@@ -34,13 +34,6 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:key="vsi_dev_permanent_kernel_root_functions"
-            android:defaultValue="false"
-            android:title="@string/vsi_dev_permanent_kernel_root_functions"
-            android:summary="@string/vsi_dev_permanent_kernel_root_functions_summary"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreference
             android:key="vsi_dev_force_downgrade"
             android:defaultValue="false"
             android:title="@string/vsi_dev_force_downgrade"
@@ -223,6 +216,18 @@
             android:defaultValue="false"
             android:title="@string/vsi_dev_signature_verification_override"
             android:summary="@string/vsi_dev_signature_verification_override_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_permanent_root"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_permanent_kernel_root_functions"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_permanent_kernel_root_functions"
+            android:summary="@string/vsi_dev_permanent_kernel_root_functions_summary"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
