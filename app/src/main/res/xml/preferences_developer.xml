@@ -194,18 +194,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/vsi_dev_category_permanent_root"
-        app:iconSpaceReserved="false">
-
-        <SwitchPreference
-            android:key="vsi_dev_permanent_kernel_root_functions"
-            android:defaultValue="false"
-            android:title="@string/vsi_dev_permanent_kernel_root_functions"
-            android:summary="@string/vsi_dev_permanent_kernel_root_functions_summary"
-            app:iconSpaceReserved="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/vsi_dev_category_xposed"
         app:iconSpaceReserved="false">
 
@@ -221,6 +209,18 @@
             android:defaultValue="true"
             android:title="@string/vsi_dev_xposed_stock_fallback"
             android:summary="@string/vsi_dev_xposed_stock_fallback_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_permanent_root"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_permanent_kernel_root_functions"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_permanent_kernel_root_functions"
+            android:summary="@string/vsi_dev_permanent_kernel_root_functions_summary"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
