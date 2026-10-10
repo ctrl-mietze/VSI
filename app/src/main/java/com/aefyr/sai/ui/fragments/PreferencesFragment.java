@@ -38,7 +38,6 @@ import com.aefyr.sai.utils.AlertsUtils;
 import com.aefyr.sai.utils.PermissionsUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
-import com.aefyr.sai.utils.PreferencesValues;
 import com.aefyr.sai.utils.Theme;
 import com.aefyr.sai.utils.VsiAppMode;
 import com.aefyr.sai.utils.VsiBatteryOptimizationHelper;
@@ -366,10 +365,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         }
 
         if (requestCode == PermissionsUtils.REQUEST_CODE_SHIZUKU) {
-            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
+            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_shizuku);
-            else {
-                mHelper.setInstaller(PreferencesValues.INSTALLER_SHIZUKU);
+            } else {
+                VsiAppMode mode = mPendingModeAfterShizuku != null
+                        ? mPendingModeAfterShizuku
+                        : VsiAppMode.SHIZUKU;
+                mPendingModeAfterShizuku = null;
+                VsiModeManager.applyMode(requireContext(), mode);
                 updateInstallerSummary();
             }
         }
