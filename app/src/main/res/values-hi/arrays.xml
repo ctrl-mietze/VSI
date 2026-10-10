@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="installer_feedback_modes">
+        <item>कोई नहीं</item>
+        <item>ऐप डायलॉग</item>
+        <item>सूचना</item>
+        <item>पॉप-अप</item>
+    </string-array>
+
+    <string-array name="vsi_languages">
+        <item>सिस्टम (DE / AT / CH में जर्मन, अन्यथा English)</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>हिन्दी</item>
+    </string-array>
+
+    <string-array name="vsi_app_modes">
+        <item>Normal (अनुशंसित नहीं)</item>
+        <item>Shizuku (सामान्य उपयोगकर्ताओं के लिए)</item>
+        <item>Xposed Software</item>
+        <item>Root (Professional)</item>
+        <item>RootXposed (root के साथ सर्वोत्तम)</item>
+    </string-array>
+</resources>
