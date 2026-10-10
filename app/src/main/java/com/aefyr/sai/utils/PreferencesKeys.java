@@ -12,6 +12,7 @@ public class PreferencesKeys {
     public static final String EXTRACT_ARCHIVES = "extract_archives";
     public static final String USE_ZIPFILE = "use_zipfile";
     public static final String INSTALLER = "installer";
+    public static final String VSI_APP_MODE = "vsi_app_mode";
     public static final String BACKUP_FILE_NAME_FORMAT = "backup_file_name_format";
     public static final String INSTALL_LOCATION = "install_location";
     public static final String USE_OLD_INSTALLER = "use_old_installer";
@@ -35,4 +36,6 @@ public class PreferencesKeys {
     public static final String TARGET_USER_ID = "target_user_id";
     public static final String DELETE_SOURCE_AFTER_INSTALL = "delete_source_after_install";
     public static final String ENABLE_APK_ACTION_VIEW = "enable_apk_action_view";
+    public static final String SIGNATURE_VERIFICATION_OVERRIDE = "vsi_signature_verification_override";
+    public static final String SECURITY_POLICY_TIMESTAMP = "vsi_security_policy_timestamp";
 }
