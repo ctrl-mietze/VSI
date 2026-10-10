@@ -14,6 +14,8 @@ public final class VsiLocaleHelper {
     public static final String MODE_SYSTEM = "system";
     public static final String MODE_DE = "de";
     public static final String MODE_EN = "en";
+    public static final String MODE_ES = "es";
+    public static final String MODE_HI = "hi";
 
     private static final String KEY = "vsi_language";
 
@@ -40,6 +42,10 @@ public final class VsiLocaleHelper {
             return Locale.GERMAN;
         if (MODE_EN.equals(mode))
             return Locale.ENGLISH;
+        if (MODE_ES.equals(mode))
+            return new Locale("es");
+        if (MODE_HI.equals(mode))
+            return new Locale("hi");
 
         Locale systemLocale;
         Configuration configuration = context.getResources().getConfiguration();
