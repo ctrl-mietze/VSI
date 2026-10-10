@@ -80,7 +80,7 @@ public class VsiPatcherActivity extends ThemedActivity {
     ) {
         MaterialButton button = new MaterialButton(this);
         button.setText(title);
-        button.setTextAllCaps(false);
+        button.setAllCaps(false);
         button.setOnClickListener(v -> action.run());
         root.addView(button);
 

@@ -43,7 +43,7 @@ public class VsiAdvancedAnalyzerActivity extends ThemedActivity {
 
         MaterialButton pick = new MaterialButton(this);
         pick.setText(R.string.vsi_analyzer_pick);
-        pick.setTextAllCaps(false);
+        pick.setAllCaps(false);
         pick.setOnClickListener(v -> pickApk());
         root.addView(pick);
 
