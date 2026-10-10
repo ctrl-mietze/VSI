@@ -350,10 +350,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         mFilePickerSortPref.setSummary(getString(R.string.settings_main_file_picker_sort_summary, getResources().getStringArray(R.array.file_picker_sort_variants)[mHelper.getFilePickerRawSort()]));
     }
 
-    private void updateInstallerSummary() {
-        mInstallerPref.setSummary(getString(R.string.settings_main_installer_summary, getResources().getStringArray(R.array.installers)[mHelper.getInstaller()]));
-    }
-
     private void updateThemeSummary() {
         mThemePref.setSummary(Theme.getInstance(requireContext()).getConcreteTheme().getName(requireContext()));
     }
@@ -382,8 +378,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED)
                 AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_shizuku);
             else {
-                mHelper.setInstaller(PreferencesValues.INSTALLER_SHIZUKU);
-                updateInstallerSummary();
+                VsiModeManager.applyMode(requireContext(), VsiAppMode.SHIZUKU);
+                ListPreference appMode = findPreference("vsi_app_mode");
+                if (appMode != null)
+                    appMode.setValue(VsiAppMode.SHIZUKU.id());
             }
         }
     }
@@ -432,76 +430,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 updateFilePickerSortSummary();
                 return true;
 
-            case "installer":
-                final int previousInstaller = mHelper.getInstaller();
 
-                switch (selectedItemIndex) {
-                    case PreferencesValues.INSTALLER_ROOTLESS:
-                        mHelper.setInstaller(selectedItemIndex);
-                        updateInstallerSummary();
-                        return true;
-
-                    case PreferencesValues.INSTALLER_ROOTED:
-                        if (!SuShell.getInstance().requestRoot()) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_use_root_error);
-                            return false;
-                        }
-
-                        mHelper.setInstaller(selectedItemIndex);
-                        updateInstallerSummary();
-                        return true;
-
-                    case PreferencesValues.INSTALLER_SHIZUKU:
-                        if (!Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_shizuku_pre_m);
-                            return false;
-                        }
-
-                        if (!Shizuku.pingBinder()) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_shizuku);
-                            return false;
-                        }
-
-                        if (!Shizuku.isPreV11() && Shizuku.getVersion() >= 11) {
-                            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-                                mHelper.setInstaller(selectedItemIndex);
-                                updateInstallerSummary();
-                            } else {
-                                Shizuku.requestPermission(PermissionsUtils.REQUEST_CODE_SHIZUKU);
-                            }
-                        } else if (PermissionsUtils.checkAndRequestShizukuPermissions(this)) {
-                            mHelper.setInstaller(selectedItemIndex);
-                            updateInstallerSummary();
-                        }
-
-                        // Permission requests are asynchronous; keep the old value until granted.
-                        return true;
-
-                    case PreferencesValues.INSTALLER_XPOSED:
-                        if (!VsiXposedRuntimeProbe.isActive()) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_xposed);
-                            return false;
-                        }
-
-                        mHelper.setInstaller(selectedItemIndex);
-                        updateInstallerSummary();
-                        return true;
-                }
-
-                restoreInstallerSelection(previousInstaller);
-                return false;
         }
 
         return true;
-    }
-
-    private void restoreInstallerSelection(int previousInstaller) {
-        mHelper.setInstaller(previousInstaller);
-        updateInstallerSummary();
     }
 
     private void updateBatteryOptimizationSummary() {
