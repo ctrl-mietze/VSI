@@ -8,7 +8,6 @@ import com.aefyr.sai.shell.SuShell;
 
 public final class VsiRootSystemInstallerBridge {
 
-    private static final String STOCK_INSTALLER = "com.google.android.packageinstaller";
     private static final String VSI_PROXY =
             BuildConfig.APPLICATION_ID + "/com.aefyr.sai.ui.activities.ApkActionViewProxyActivity";
 
@@ -27,19 +26,38 @@ public final class VsiRootSystemInstallerBridge {
             ));
             append(log, enableProxy);
 
-            Shell.Result clearStock = shell.exec(new Shell.Command(
-                    "cmd", "package", "clear-package-preferred-activities", STOCK_INSTALLER
-            ));
-            append(log, clearStock);
+            String script =
+                    "STOCK=$(cmd package resolve-activity --brief --user current "
+                            + "-a android.intent.action.VIEW "
+                            + "-d file:///data/local/tmp/vsi-placeholder.apk "
+                            + "-t application/vnd.android.package-archive 2>/dev/null | tail -n 1); "
+                            + "PKG=$" + "{STOCK%%/*}; "
+                            + "case \"$PKG\" in "
+                            + "''|" + BuildConfig.APPLICATION_ID + ") ;; "
+                            + "*) cmd package clear-package-preferred-activities \"$PKG\" ;; "
+                            + "esac; "
+                            + "cmd package clear-package-preferred-activities "
+                            + BuildConfig.APPLICATION_ID + " >/dev/null 2>&1; "
+                            + "exit 0";
 
-            // We deliberately do NOT disable or replace the stock package. Clearing its
-            // preferred mapping lets Android offer VSI as the APK handler while keeping
-            // the system confirmation path intact and reversible.
-            return new Result(enableProxy.isSuccessful() && clearStock.isSuccessful(), log.toString());
+            Shell.Result clearResolved = shell.exec(new Shell.Command(
+                    "sh",
+                    "-c",
+                    shell.makeLiteral(script)
+            ));
+            append(log, clearResolved);
+
+            return new Result(
+                    enableProxy.isSuccessful() && clearResolved.isSuccessful(),
+                    log.toString()
+            );
         }
 
         Shell.Result clearVsi = shell.exec(new Shell.Command(
-                "cmd", "package", "clear-package-preferred-activities", BuildConfig.APPLICATION_ID
+                "cmd",
+                "package",
+                "clear-package-preferred-activities",
+                BuildConfig.APPLICATION_ID
         ));
         append(log, clearVsi);
 
@@ -55,7 +73,10 @@ public final class VsiRootSystemInstallerBridge {
         ));
         append(log, proxyState);
 
-        return new Result(clearVsi.isSuccessful() && proxyState.isSuccessful(), log.toString());
+        return new Result(
+                clearVsi.isSuccessful() && proxyState.isSuccessful(),
+                log.toString()
+        );
     }
 
     private static void append(StringBuilder sb, Shell.Result result) {
