@@ -50,4 +50,5 @@
     <string name="vsi_patcher_pro_confirm">¿Preparar VSI como app privilegiada systemless?</string>
     <string name="vsi_patcher_pro_remove">Eliminar Patcher Pro</string>
     <string name="vsi_patcher_pro_remove_summary">Marca el módulo para eliminarlo tras reiniciar.</string>
+    <string name="vsi_dev_category_permanent_root">Funciones root permanentes</string>
 </resources>
