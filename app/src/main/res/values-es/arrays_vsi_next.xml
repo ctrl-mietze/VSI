@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="vsi_app_modes">
+        <item>Normal (no recomendado)</item>
+        <item>Shizuku</item>
+        <item>Software Xposed</item>
+        <item>Root (profesional, compatible con root temporal)</item>
+        <item>RootXposed (mejor con root)</item>
+    </string-array>
+
+    <string-array name="vsi_languages">
+        <item>Sistema (alemán solo en DE / AT / CH, si no inglés)</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>हिन्दी</item>
+    </string-array>
+</resources>
