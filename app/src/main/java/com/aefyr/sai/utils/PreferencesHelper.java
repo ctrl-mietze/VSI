@@ -127,10 +127,6 @@ public class PreferencesHelper {
         }
     }
 
-    public boolean useOldInstaller() {
-        return mPrefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false);
-    }
-
     public String getInstallerFeedbackMode() {
         if (mPrefs.contains(PreferencesKeys.INSTALLER_FEEDBACK_MODE)) {
             return mPrefs.getString(

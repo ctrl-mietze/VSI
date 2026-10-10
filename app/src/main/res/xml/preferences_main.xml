@@ -33,13 +33,6 @@
             android:title="@string/settings_main_auto_theme_picker"
             android:summary="@string/settings_main_auto_theme_picker_summary" />
 
-        <SwitchPreference
-            android:layout="@layout/preference_vsi_row"
-            android:icon="@drawable/ic_pref_old_installer"
-            android:key="use_old_installer"
-            android:title="@string/settings_main_use_old_installer"
-            android:summary="@string/settings_main_use_old_installer_summary" />
-
         <ListPreference
             android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_show_dialogs"

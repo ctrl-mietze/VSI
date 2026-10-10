@@ -546,15 +546,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     @SuppressLint("ApplySharedPref")
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals(PreferencesKeys.USE_OLD_INSTALLER)) {
-            prefs.edit().putBoolean(
-                    PreferencesKeys.USE_OLD_INSTALLER,
-                    prefs.getBoolean(PreferencesKeys.USE_OLD_INSTALLER, false)
-            ).commit();
-            Utils.hardRestartApp(requireContext());
-            return;
-        }
-
         if (key.equals(PreferencesKeys.VSI_LANGUAGE)) {
             Utils.hardRestartApp(requireContext());
         }

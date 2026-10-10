@@ -15,7 +15,6 @@ public class PreferencesKeys {
     public static final String VSI_APP_MODE = "vsi_app_mode";
     public static final String BACKUP_FILE_NAME_FORMAT = "backup_file_name_format";
     public static final String INSTALL_LOCATION = "install_location";
-    public static final String USE_OLD_INSTALLER = "use_old_installer";
     // Legacy boolean kept for migration from older VSI builds.
     public static final String SHOW_INSTALLER_DIALOGS = "show_installer_dialogs";
     public static final String INSTALLER_FEEDBACK_MODE = "installer_feedback_mode";
