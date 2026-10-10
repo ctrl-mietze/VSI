@@ -184,6 +184,25 @@
             android:title="@string/vsi_dev_never_delete_source"
             android:summary="@string/vsi_dev_never_delete_source_summary"
             app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="vsi_dev_extreme_apk_analysis"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_extreme_apk_analysis"
+            android:summary="@string/vsi_dev_extreme_apk_analysis_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/vsi_dev_category_permanent_root"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="vsi_dev_permanent_kernel_root_functions"
+            android:defaultValue="false"
+            android:title="@string/vsi_dev_permanent_kernel_root_functions"
+            android:summary="@string/vsi_dev_permanent_kernel_root_functions_summary"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
