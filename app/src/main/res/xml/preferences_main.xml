@@ -86,18 +86,25 @@
             android:defaultValue="true" />
 
         <Preference
-        android:layout="@layout/preference_vsi_row"
+            android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_root"
-            android:key="installer"
-            android:title="@string/settings_main_installer"
-            android:summary="@string/settings_main_installer_summary" />
+            android:key="vsi_app_mode"
+            android:title="@string/settings_main_app_mode"
+            android:summary="@string/settings_main_app_mode_summary_placeholder" />
 
         <Preference
             android:layout="@layout/preference_vsi_row"
-            android:icon="@drawable/ic_pref_pro_mode"
-            android:key="vsi_system_hook_info"
-            android:title="@string/vsi_system_hook_title"
-            android:summary="@string/vsi_system_hook_summary" />
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_mode_info"
+            android:title="@string/vsi_mode_info_title"
+            android:summary="@string/vsi_mode_info_summary" />
+
+        <Preference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="vsi_battery_optimization"
+            android:title="@string/vsi_battery_optimization_title"
+            android:summary="@string/vsi_battery_optimization_required" />
 
         <SwitchPreference
             android:layout="@layout/preference_vsi_row"
