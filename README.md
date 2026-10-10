@@ -14,12 +14,27 @@ VSI has since been changed substantially. Among other things, it has its own bra
 
 Because VSI is based on GPLv3-licensed SAI code, this repository remains licensed under the GNU General Public License v3.0. The original upstream project is not responsible for VSI-specific changes, bugs or behavior.
 
-## Current installation backends
+## VSI 0.2 Runtime Modes
 
-- Rootless
-- Root
-- Shizuku
-- Xposed / Vector system-installer integration
+VSI 0.2 introduces five runtime tiers:
+
+- **Normal** — basic Android PackageInstaller workflow.
+- **Shizuku** — privileged shell-backed installation without full root.
+- **Xposed Software** — in-memory system-installer and PackageManager compatibility hooks.
+- **Root** — professional root-backed installer and system tooling.
+- **RootXposed** — combines Root with Xposed system integration while keeping the stock system partition untouched in normal runtime operation.
+
+Battery optimization should be disabled for reliable VSI runtime services. VSI uses a different foreground service tier for Normal, Shizuku/Xposed and Root/RootXposed.
+
+### Temporary security compatibility
+
+The App Downgrade and Signature Verification compatibility hooks are deliberately time-limited. They automatically expire after three minutes, and signature compatibility is additionally scoped around active/recent package installation sessions.
+
+### Patcher tiers
+
+- **Patch Lite** — systemless service/routing module; no system partition files are replaced.
+- **Patch VSI (Profile 0)** — dangerous profile-0 component routing with a stored restore target.
+- **Patcher Pro** — persistent-root-only systemless priv-app mount, guarded by an explicit Developer Option and blocked on temporary-only root environments.
 
 ## Supported package sources
 
@@ -37,7 +52,8 @@ VSI is distributed under the [GNU General Public License v3.0](LICENSE), in acco
 
 - [SAI — Split APKs Installer](https://github.com/Aefyr/SAI) — original upstream project and major technical foundation.
 - Aefyr / polychromaticfox — original SAI author.
-- Android, Shizuku, LSPosed / Xposed-compatible tooling and the wider open-source Android community.
+- [PixelTweaks](https://github.com/hohojia886/PixelTweaks) by hohojia886 — the VSI 0.2 App Downgrade and Signature Verification compatibility-hook design was adapted specifically from PixelTweaks' GPL-3.0 PackageManager security implementation. No other PixelTweaks feature set is imported.
+- Android, Shizuku, LSPosed / Xposed-compatible tooling, KernelSU/Magisk and the wider open-source Android community.
 
 ---
 
