@@ -55,5 +55,15 @@
         <item>System (DE / AT / CH → Deutsch, sonst English)</item>
         <item>Deutsch</item>
         <item>English</item>
+        <item>Español</item>
+        <item>हिन्दी</item>
+    </string-array>
+
+    <string-array name="vsi_app_modes">
+        <item>Normal (nicht empfohlen)</item>
+        <item>Shizuku (für normale Nutzer empfohlen)</item>
+        <item>Xposed Software</item>
+        <item>Root (Professionell)</item>
+        <item>RootXposed (am besten mit Root)</item>
     </string-array>
 </resources>
