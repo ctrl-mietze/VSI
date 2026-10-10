@@ -20,16 +20,12 @@ import de.robv.android.xposed.callbacks.XCallback;
 
 public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
 
-    public static final String TARGET_PACKAGE = "com.google.android.packageinstaller";
     public static final String EXTRA_FROM_SYSTEM_HOOK =
             "ctrl.mietze.vsi.extra.FROM_SYSTEM_INSTALLER_HOOK";
     public static final String EXTRA_BYPASS_SYSTEM_HOOK =
             "ctrl.mietze.vsi.extra.BYPASS_SYSTEM_INSTALLER_HOOK";
 
-    private static final String[] ENTRY_ACTIVITIES = new String[]{
-            "com.android.packageinstaller.InstallStart",
-            "com.android.packageinstaller.v2.ui.InstallLaunch"
-    };
+    private static boolean sInstallerActivityHooked;
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -38,11 +34,25 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
             return;
         }
 
-        if (!TARGET_PACKAGE.equals(lpparam.packageName))
+        if ("android".equals(lpparam.packageName)) {
+            VsiPmsSecurityHook.hook(lpparam.classLoader);
+            return;
+        }
+
+        if (!isPackageInstallerProcess(lpparam.packageName))
             return;
 
-        for (String activityClassName : ENTRY_ACTIVITIES)
-            hookEntryActivity(activityClassName, lpparam.classLoader);
+        hookInstallerActivityBase();
+    }
+
+    private boolean isPackageInstallerProcess(String packageName) {
+        if (packageName == null)
+            return false;
+
+        return "com.google.android.packageinstaller".equals(packageName)
+                || "com.android.packageinstaller".equals(packageName)
+                || "com.samsung.android.packageinstaller".equals(packageName)
+                || packageName.endsWith(".packageinstaller");
     }
 
     private void hookVsiRuntimeProbe(ClassLoader classLoader) {
@@ -63,58 +73,63 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
         XposedBridge.log("VSI System Hook: runtime probe active");
     }
 
-    private void hookEntryActivity(String className, ClassLoader classLoader) {
-        Class<?> activityClass = XposedHelpers.findClassIfExists(className, classLoader);
-        if (activityClass == null) {
-            XposedBridge.log("VSI System Hook: class not present: " + className);
+    private synchronized void hookInstallerActivityBase() {
+        if (sInstallerActivityHooked)
             return;
-        }
+        sInstallerActivityHooked = true;
 
-        XposedHelpers.findAndHookMethod(
-                activityClass,
-                "onCreate",
-                Bundle.class,
-                new XC_MethodHook(XCallback.PRIORITY_HIGHEST) {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        if (!(param.thisObject instanceof Activity))
-                            return;
+        try {
+            XposedHelpers.findAndHookMethod(
+                    Activity.class,
+                    "onCreate",
+                    Bundle.class,
+                    new XC_MethodHook(XCallback.PRIORITY_HIGHEST) {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            if (!(param.thisObject instanceof Activity))
+                                return;
 
-                        Activity activity = (Activity) param.thisObject;
-                        Intent original = activity.getIntent();
-                        HookConfig config = readConfig(activity);
+                            Activity activity = (Activity) param.thisObject;
+                            Intent original = activity.getIntent();
+                            HookConfig config = readConfig(activity);
 
-                        if (!shouldRedirect(config, original))
-                            return;
+                            if (!shouldRedirect(config, original))
+                                return;
 
-                        try {
-                            Intent vsiIntent = buildVsiIntent(original);
-                            activity.startActivity(vsiIntent);
-                            activity.finish();
-                            activity.overridePendingTransition(0, 0);
-                            param.setResult(null);
-
-                            if (config.verbose) {
-                                XposedBridge.log(
-                                        "VSI System Hook: redirected "
-                                                + original.getAction()
-                                                + " -> Quick Install Sheet"
-                                );
-                            }
-                        } catch (Throwable t) {
-                            XposedBridge.log("VSI System Hook: redirect failed");
-                            XposedBridge.log(t);
-
-                            if (!config.stockFallback) {
+                            try {
+                                Intent vsiIntent = buildVsiIntent(original);
+                                activity.startActivity(vsiIntent);
                                 activity.finish();
+                                activity.overridePendingTransition(0, 0);
                                 param.setResult(null);
-                            } else if (config.verbose) {
-                                XposedBridge.log("VSI System Hook: falling back to stock installer");
+
+                                if (config.verbose) {
+                                    XposedBridge.log(
+                                            "VSI System Hook: redirected "
+                                                    + activity.getClass().getName()
+                                                    + " -> VSI Quick Install"
+                                    );
+                                }
+                            } catch (Throwable t) {
+                                XposedBridge.log("VSI System Hook: redirect failed");
+                                XposedBridge.log(t);
+
+                                if (!config.stockFallback) {
+                                    activity.finish();
+                                    param.setResult(null);
+                                } else if (config.verbose) {
+                                    XposedBridge.log(
+                                            "VSI System Hook: fail-open to stock installer"
+                                    );
+                                }
                             }
                         }
                     }
-                }
-        );
+            );
+        } catch (Throwable t) {
+            XposedBridge.log("VSI System Hook: generic Activity hook failed");
+            XposedBridge.log(t);
+        }
     }
 
     private boolean shouldRedirect(HookConfig config, Intent intent) {
@@ -125,15 +140,18 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
             return false;
 
         String action = intent.getAction();
-        if (!Intent.ACTION_VIEW.equals(action) && !Intent.ACTION_INSTALL_PACKAGE.equals(action))
+        if (!Intent.ACTION_VIEW.equals(action)
+                && !Intent.ACTION_INSTALL_PACKAGE.equals(action)) {
             return false;
+        }
 
         Uri data = intent.getData();
         if (data == null)
             return false;
 
         String scheme = data.getScheme();
-        return "content".equalsIgnoreCase(scheme) || "file".equalsIgnoreCase(scheme);
+        return "content".equalsIgnoreCase(scheme)
+                || "file".equalsIgnoreCase(scheme);
     }
 
     private HookConfig readConfig(Activity activity) {
@@ -144,7 +162,7 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
 
         try (Cursor cursor = activity.getContentResolver().query(
                 statusUri,
-                new String[]{"enabled", "installer", "verbose", "stockFallback"},
+                new String[]{"enabled", "appMode", "verbose", "stockFallback"},
                 null,
                 null,
                 null
@@ -155,10 +173,16 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
             config.enabled = readBool(cursor, "enabled", false);
             config.verbose = readBool(cursor, "verbose", false);
             config.stockFallback = readBool(cursor, "stockFallback", true);
+
+            int modeIndex = cursor.getColumnIndex("appMode");
+            if (modeIndex >= 0)
+                config.appMode = cursor.getString(modeIndex);
+
             return config;
         } catch (Throwable t) {
             XposedBridge.log("VSI System Hook: unable to read VSI hook config");
-            XposedBridge.log(t);
+            if (config.verbose)
+                XposedBridge.log(t);
             return config;
         }
     }
@@ -204,5 +228,6 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
         boolean enabled;
         boolean verbose;
         boolean stockFallback = true;
+        String appMode;
     }
 }
