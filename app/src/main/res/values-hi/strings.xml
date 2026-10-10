@@ -74,4 +74,18 @@
     <string name="vsi_analyzer_disabled">Extreme APK Analysis बंद है। पहले Developer Options में इसे सक्रिय करें।</string>
     <string name="vsi_analyzer_requires_mode">Extreme APK Analysis के लिए कम से कम Shizuku या Xposed mode चाहिए।</string>
     <string name="vsi_analyzer_copied">Analysis कॉपी हो गया।</string>
+    <string name="settings_main_installer_feedback">इंस्टॉलर प्रतिक्रिया</string>
+    <string name="settings_main_installer_feedback_summary">चुनें कि VSI सफल या असफल इंस्टॉलेशन की सूचना कैसे दे।</string>
+    <string name="settings_main_language">ऐप भाषा</string>
+    <string name="settings_main_language_summary">सिस्टम मोड में VSI केवल DE / AT / CH में जर्मन उपयोग करता है; अन्य जगह अंग्रेज़ी। भाषा मैन्युअल रूप से भी चुनी जा सकती है।</string>
+    <string name="vsi_feedback_notification_channel">इंस्टॉलेशन परिणाम</string>
+    <string name="vsi_feedback_notification_channel_summary">सफल और असफल इंस्टॉलेशन के लिए VSI सूचनाएँ।</string>
+    <string name="vsi_feedback_success_title">इंस्टॉलेशन सफल</string>
+    <string name="vsi_feedback_success_message">%1$s सफलतापूर्वक इंस्टॉल हुआ।</string>
+    <string name="vsi_feedback_failure_title">इंस्टॉलेशन असफल</string>
+    <string name="vsi_feedback_failure_message">%1$s असफल: %2$s</string>
+    <string name="vsi_feedback_unknown_error">अज्ञात इंस्टॉलेशन त्रुटि</string>
+    <string name="vsi_feedback_popup_success">इंस्टॉलेशन सफल।</string>
+    <string name="vsi_feedback_popup_failure">इंस्टॉलेशन असफल क्योंकि: %1$s</string>
+    <string name="vsi_feedback_more">और</string>
 </resources>
