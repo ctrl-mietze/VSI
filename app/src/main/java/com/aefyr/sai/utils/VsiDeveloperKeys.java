@@ -28,4 +28,7 @@ public final class VsiDeveloperKeys {
     public static final String XPOSED_STOCK_FALLBACK = "vsi_dev_xposed_stock_fallback";
     public static final String SHOW_SOURCE_IDENTITY = "vsi_dev_show_source_identity";
     public static final String CUSTOM_INSTALL_CREATE = "vsi_dev_custom_install_create";
+    public static final String ADVANCED_APK_ANALYSIS = "vsi_dev_advanced_apk_analysis";
+    public static final String SIGNATURE_VERIFICATION_OVERRIDE = "vsi_dev_signature_verification_override";
+    public static final String PERMANENT_KERNEL_ROOT_FUNCTIONS = "vsi_dev_permanent_kernel_root_functions";
 }
