@@ -14,7 +14,7 @@ public class VsiBootReceiver extends BroadcastReceiver {
             return;
         }
 
-        VsiAppMode mode = VsiModeManager.getCurrentMode(context);
+        VsiAppMode mode = VsiModeManager.restoreSafeModeAfterBoot(context);
         if (VsiModeManager.isBatteryOptimizationDisabled(context))
             VsiRuntimeServices.sync(context, mode);
     }
