@@ -23,6 +23,7 @@ public final class VsiPmsSecurityHook {
     private static final long CONFIG_CACHE_MS = 750L;
 
     private static final Map<Integer, Long> ACTIVE_SESSIONS = new ConcurrentHashMap<>();
+    private static final ThreadLocal<Boolean> CREATE_SESSION_OWNED_BY_VSI = new ThreadLocal<>();
 
     private static volatile boolean sHooked;
     private static volatile long sLastInstallRealtime;
@@ -58,6 +59,13 @@ public final class VsiPmsSecurityHook {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     refreshConfig();
+
+                    boolean ownedByVsi = isVsiCreateSession(param.args);
+                    CREATE_SESSION_OWNED_BY_VSI.set(ownedByVsi);
+
+                    if (!ownedByVsi)
+                        return;
+
                     sLastInstallRealtime = SystemClock.elapsedRealtime();
 
                     if (!downgradeActive())
@@ -80,6 +88,14 @@ public final class VsiPmsSecurityHook {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     refreshConfig();
+
+                    boolean ownedByVsi =
+                            Boolean.TRUE.equals(CREATE_SESSION_OWNED_BY_VSI.get());
+                    CREATE_SESSION_OWNED_BY_VSI.remove();
+
+                    if (!ownedByVsi)
+                        return;
+
                     Object result = param.getResult();
                     if (!(result instanceof Integer) || !signatureActive())
                         return;
@@ -203,6 +219,20 @@ public final class VsiPmsSecurityHook {
         } catch (Throwable t) {
             XposedBridge.log(TAG + ": SigningDetails hook failed: " + t);
         }
+    }
+
+    private static boolean isVsiCreateSession(Object[] args) {
+        if (args == null)
+            return false;
+
+        for (Object arg : args) {
+            if (arg instanceof String
+                    && BuildConfig.APPLICATION_ID.equals(arg)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static boolean signatureActiveForInstall() {
