@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_main_app_mode">App Mode</string>
+    <string name="settings_main_app_mode_summary">%1$s · %2$d available functions</string>
+    <string name="settings_main_app_mode_summary_placeholder">Choose how deeply VSI integrates with Android.</string>
+
+    <string name="vsi_mode_info_title">Function Info</string>
+    <string name="vsi_mode_info_summary">Shows exactly what the currently selected App Mode can do.</string>
+    <string name="vsi_mode_info_current">Current mode: %1$s</string>
+    <string name="vsi_mode_info_count">%1$d functions · Service: %2$s</string>
+    <string name="vsi_mode_info_functions">Available functions</string>
+
+    <string name="vsi_battery_optimization_title">Battery optimization</string>
+    <string name="vsi_battery_optimization_disabled">Disabled for VSI ✅</string>
+    <string name="vsi_battery_optimization_required">Must be disabled for reliable VSI services.</string>
+    <string name="vsi_battery_optimization_select_mode_again">Disable battery optimization for VSI, then select the App Mode again.</string>
+
+    <string name="vsi_service_channel">VSI services</string>
+    <string name="vsi_service_channel_summary">Persistent VSI mode service notifications.</string>
+    <string name="vsi_service_lite_title">VSI Lite Service</string>
+    <string name="vsi_service_lite_text">Normal mode is active. Basic installer routing and session handling are running.</string>
+    <string name="vsi_service_v_title">VSI VService</string>
+    <string name="vsi_service_v_text">Shizuku/Xposed integration is active and VSI is watching installer sessions.</string>
+    <string name="vsi_service_system_title">VSI System Service</string>
+    <string name="vsi_service_system_text">Root/RootXposed mode is active with privileged installer integration.</string>
+
+    <string name="vsi_analyzer_title">Advanced APK Analysis</string>
+    <string name="vsi_analyzer_summary">Deep package inspection: hashes, certificates, permissions, exported components, ABIs, DEX, splits and privileged package diagnostics. Disabled by default.</string>
+    <string name="vsi_analyzer_pick">Choose APK</string>
+    <string name="vsi_analyzer_disabled">Advanced APK Analysis is disabled. Enable it in Developer Options first.</string>
+    <string name="vsi_analyzer_requires_privileged_mode">Advanced APK Analysis requires Shizuku, Xposed, Root or RootXposed mode.</string>
+
+    <string name="vsi_dev_advanced_apk_analysis">Advanced APK Analysis</string>
+    <string name="vsi_dev_advanced_apk_analysis_summary">Enable VSI\'s deep APK analyzer. Starts at Shizuku/Xposed level and gains privileged diagnostics in Root modes.</string>
+    <string name="vsi_dev_signature_verification_override">Signature Verification Override</string>
+    <string name="vsi_dev_signature_verification_override_summary">RootXposed only. Temporarily relax signature checks only during active install sessions. Automatically expires after 3 minutes.</string>
+    <string name="vsi_dev_signature_requires_rootxposed">Signature Verification Override is available only in RootXposed mode.</string>
+    <string name="vsi_dev_signature_timeout_notice">Signature policy armed for at most 3 minutes and only around active install sessions.</string>
+    <string name="vsi_dev_permanent_kernel_root_functions">Activate permanent kernel root functions</string>
+    <string name="vsi_dev_permanent_kernel_root_functions_summary">Unlock Patcher Pro and other persistent KernelSU/Magisk functions. Keep disabled for temp-root use.</string>
+
+    <string name="vsi_patcher_title">VSI Patcher</string>
+    <string name="vsi_patcher_summary">Temp-root, user-0 and systemless privileged integration. Every patch has an explicit restore path.</string>
+    <string name="vsi_patch_lite">Patch Lite</string>
+    <string name="vsi_patch_lite_summary">Temp-root friendly KernelSU/Magisk module. Arms VSI routing whenever the root framework loads; no system file is modified.</string>
+    <string name="vsi_patch_lite_confirm">Install Patch Lite into /data/adb/modules and activate its routing script for this root session?</string>
+    <string name="vsi_patch_lite_remove">Remove Patch Lite</string>
+    <string name="vsi_patch_lite_remove_summary">Delete the Patch Lite module.</string>
+    <string name="vsi_patch_vsi">Patch VSI (User 0)</string>
+    <string name="vsi_patch_vsi_summary">Dangerous. Persistently disables detected stock installer entry Activities only for Android user 0 and routes APK opens to VSI.</string>
+    <string name="vsi_patch_vsi_confirm">Patch VSI changes PackageManager component state for user 0 and survives reboot. Continue?</string>
+    <string name="vsi_patch_vsi_restore">Restore Patch VSI</string>
+    <string name="vsi_patch_vsi_restore_summary">Re-enable every stock installer component saved by Patch VSI.</string>
+    <string name="vsi_patcher_pro">Patcher Pro</string>
+    <string name="vsi_patcher_pro_summary">Creates a systemless KernelSU/Magisk priv-app overlay for VSI. Requires permanent root functions to be enabled.</string>
+    <string name="vsi_patcher_pro_confirm">Patcher Pro stages VSI as a privileged systemless app. Reboot and module removal are the restore boundary. Continue?</string>
+    <string name="vsi_patcher_pro_remove">Remove Patcher Pro</string>
+    <string name="vsi_patcher_pro_remove_summary">Mark the Patcher Pro module for removal on the next reboot.</string>
+</resources>
