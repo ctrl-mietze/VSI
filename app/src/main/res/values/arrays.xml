@@ -11,10 +11,26 @@
     </string-array>
 
     <string-array name="installers">
-        <item>"Rootless (recommended)"</item>
-        <item>"Rooted (requires root)"</item>
-        <item>"Shizuku (requires Shizuku 3.x)"</item>
-        <item>"Xposed / Vector (Xposed required)"</item>
+        <item>"Rootless (legacy)"</item>
+        <item>"Rooted (legacy)"</item>
+        <item>"Shizuku (legacy)"</item>
+        <item>"Xposed / Vector (legacy)"</item>
+    </string-array>
+
+    <string-array name="vsi_app_modes">
+        <item>Normal (not recommended)</item>
+        <item>Shizuku</item>
+        <item>Xposed software</item>
+        <item>Root (professional, temp root supported)</item>
+        <item>RootXposed (best with root)</item>
+    </string-array>
+
+    <string-array name="vsi_app_mode_values" translatable="false">
+        <item>normal</item>
+        <item>shizuku</item>
+        <item>xposed</item>
+        <item>root</item>
+        <item>root_xposed</item>
     </string-array>
 
     <string-array name="size_units">
@@ -81,12 +97,16 @@
         <item>System (German in DE / AT / CH, otherwise English)</item>
         <item>Deutsch</item>
         <item>English</item>
+        <item>Español</item>
+        <item>हिन्दी</item>
     </string-array>
 
     <string-array name="vsi_language_values" translatable="false">
         <item>system</item>
         <item>de</item>
         <item>en</item>
+        <item>es</item>
+        <item>hi</item>
     </string-array>
 
 </resources>
