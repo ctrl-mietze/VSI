@@ -40,6 +40,9 @@ import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
 import com.aefyr.sai.utils.PreferencesValues;
 import com.aefyr.sai.utils.Theme;
+import com.aefyr.sai.utils.VsiAppMode;
+import com.aefyr.sai.utils.VsiBatteryOptimizationHelper;
+import com.aefyr.sai.utils.VsiModeManager;
 import com.aefyr.sai.utils.Utils;
 import com.aefyr.sai.xposed.VsiXposedRuntimeProbe;
 import com.github.angads25.filepicker.model.DialogConfigs;
@@ -60,6 +63,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
     private Preference mInstallerPref;
+    private Preference mBatteryOptimizationPref;
+    private VsiAppMode mPendingModeAfterShizuku;
     private Preference mThemePref;
     private SwitchPreference mAutoThemeSwitch;
     private Preference mAutoThemePicker;
@@ -158,21 +163,39 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             });
         }
 
-        mInstallerPref = findPreference("installer");
+        mInstallerPref = findPreference(PreferencesKeys.VSI_APP_MODE);
         updateInstallerSummary();
         mInstallerPref.setOnPreferenceClickListener((p -> {
-            SingleChoiceListDialogFragment.newInstance(getText(R.string.settings_main_installer), R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), "installer");
+            SingleChoiceListDialogFragment.newInstance(
+                    getText(R.string.settings_main_app_mode),
+                    R.array.vsi_app_modes,
+                    VsiModeManager.getMode(requireContext()).ordinal()
+            ).show(getChildFragmentManager(), "app_mode");
             return true;
         }));
 
-        Preference systemHookInfoPref = findPreference("vsi_system_hook_info");
-        Objects.requireNonNull(systemHookInfoPref).setOnPreferenceClickListener(preference -> {
-            SimpleAlertDialogFragment.newInstance(requireContext(),
-                    R.string.vsi_system_hook_title,
-                    R.string.vsi_system_hook_details)
-                    .show(getChildFragmentManager(), "vsi_system_hook_info");
-            return true;
-        });
+        Preference modeInfo = findPreference("vsi_mode_info");
+        if (modeInfo != null) {
+            modeInfo.setOnPreferenceClickListener(p -> {
+                PreferencesActivity.open(
+                        requireContext(),
+                        VsiModeInfoFragment.class,
+                        getString(R.string.vsi_mode_info_title)
+                );
+                return true;
+            });
+        }
+
+        mBatteryOptimizationPref = findPreference("vsi_battery_optimization");
+        updateBatteryOptimizationSummary();
+        if (mBatteryOptimizationPref != null) {
+            mBatteryOptimizationPref.setOnPreferenceClickListener(p -> {
+                Intent intent = VsiBatteryOptimizationHelper.buildRequestIntent(requireContext());
+                if (intent != null)
+                    startActivity(intent);
+                return true;
+            });
+        }
 
         EditTextPreference targetUserPref = Objects.requireNonNull(findPreference(PreferencesKeys.TARGET_USER_ID));
         targetUserPref.setOnBindEditTextListener(editText -> {
@@ -293,7 +316,29 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     private void updateInstallerSummary() {
-        mInstallerPref.setSummary(getString(R.string.settings_main_installer_summary, getResources().getStringArray(R.array.installers)[mHelper.getInstaller()]));
+        if (mInstallerPref == null)
+            return;
+
+        VsiAppMode mode = VsiModeManager.getMode(requireContext());
+        String[] modes = getResources().getStringArray(R.array.vsi_app_modes);
+        String label = mode.ordinal() < modes.length ? modes[mode.ordinal()] : mode.name();
+
+        mInstallerPref.setSummary(getString(
+                R.string.settings_main_app_mode_summary,
+                label,
+                mode.capabilityCount()
+        ));
+    }
+
+    private void updateBatteryOptimizationSummary() {
+        if (mBatteryOptimizationPref == null)
+            return;
+
+        mBatteryOptimizationPref.setSummary(
+                VsiBatteryOptimizationHelper.isExempt(requireContext())
+                        ? R.string.vsi_battery_optimization_disabled
+                        : R.string.vsi_battery_optimization_required
+        );
     }
 
     private void updateThemeSummary() {
@@ -374,76 +419,106 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 updateFilePickerSortSummary();
                 return true;
 
-            case "installer":
-                final int previousInstaller = mHelper.getInstaller();
+            case "app_mode": {
+                if (selectedItemIndex < 0 || selectedItemIndex >= VsiAppMode.values().length)
+                    return false;
 
-                switch (selectedItemIndex) {
-                    case PreferencesValues.INSTALLER_ROOTLESS:
-                        mHelper.setInstaller(selectedItemIndex);
-                        updateInstallerSummary();
-                        return true;
+                final VsiAppMode selectedMode = VsiAppMode.values()[selectedItemIndex];
 
-                    case PreferencesValues.INSTALLER_ROOTED:
-                        if (!SuShell.getInstance().requestRoot()) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_use_root_error);
-                            return false;
-                        }
+                if (!VsiBatteryOptimizationHelper.isExempt(requireContext())) {
+                    Intent batteryIntent = VsiBatteryOptimizationHelper.buildRequestIntent(requireContext());
+                    if (batteryIntent != null)
+                        startActivity(batteryIntent);
 
-                        mHelper.setInstaller(selectedItemIndex);
-                        updateInstallerSummary();
-                        return true;
+                    Toast.makeText(
+                            requireContext(),
+                            R.string.vsi_battery_optimization_select_mode_again,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return false;
+                }
 
-                    case PreferencesValues.INSTALLER_SHIZUKU:
+                switch (selectedMode) {
+                    case NORMAL:
+                        break;
+
+                    case SHIZUKU:
                         if (!Utils.apiIsAtLeast(Build.VERSION_CODES.M)) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_shizuku_pre_m);
+                            AlertsUtils.showAlert(
+                                    this,
+                                    R.string.error,
+                                    R.string.settings_main_installer_error_shizuku_pre_m
+                            );
                             return false;
                         }
 
                         if (!Shizuku.pingBinder()) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_shizuku);
+                            AlertsUtils.showAlert(
+                                    this,
+                                    R.string.error,
+                                    R.string.settings_main_installer_error_no_shizuku
+                            );
                             return false;
                         }
 
-                        if (!Shizuku.isPreV11() && Shizuku.getVersion() >= 11) {
-                            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-                                mHelper.setInstaller(selectedItemIndex);
-                                updateInstallerSummary();
-                            } else {
-                                Shizuku.requestPermission(PermissionsUtils.REQUEST_CODE_SHIZUKU);
-                            }
-                        } else if (PermissionsUtils.checkAndRequestShizukuPermissions(this)) {
-                            mHelper.setInstaller(selectedItemIndex);
-                            updateInstallerSummary();
+                        if (!Shizuku.isPreV11()
+                                && Shizuku.getVersion() >= 11
+                                && Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
+                            mPendingModeAfterShizuku = VsiAppMode.SHIZUKU;
+                            Shizuku.requestPermission(PermissionsUtils.REQUEST_CODE_SHIZUKU);
+                            return false;
                         }
+                        break;
 
-                        // Permission requests are asynchronous; keep the old value until granted.
-                        return true;
-
-                    case PreferencesValues.INSTALLER_XPOSED:
+                    case XPOSED:
                         if (!VsiXposedRuntimeProbe.isActive()) {
-                            restoreInstallerSelection(previousInstaller);
-                            AlertsUtils.showAlert(this, R.string.error, R.string.settings_main_installer_error_no_xposed);
+                            AlertsUtils.showAlert(
+                                    this,
+                                    R.string.error,
+                                    R.string.settings_main_installer_error_no_xposed
+                            );
                             return false;
                         }
+                        break;
 
-                        mHelper.setInstaller(selectedItemIndex);
-                        updateInstallerSummary();
-                        return true;
+                    case ROOT:
+                        if (!SuShell.getInstance().requestRoot()) {
+                            AlertsUtils.showAlert(
+                                    this,
+                                    R.string.error,
+                                    R.string.settings_main_use_root_error
+                            );
+                            return false;
+                        }
+                        break;
+
+                    case ROOT_XPOSED:
+                        if (!SuShell.getInstance().requestRoot()) {
+                            AlertsUtils.showAlert(
+                                    this,
+                                    R.string.error,
+                                    R.string.settings_main_use_root_error
+                            );
+                            return false;
+                        }
+                        if (!VsiXposedRuntimeProbe.isActive()) {
+                            AlertsUtils.showAlert(
+                                    this,
+                                    R.string.error,
+                                    R.string.settings_main_installer_error_no_xposed
+                            );
+                            return false;
+                        }
+                        break;
                 }
 
-                restoreInstallerSelection(previousInstaller);
-                return false;
+                VsiModeManager.applyMode(requireContext(), selectedMode);
+                updateInstallerSummary();
+                return true;
+            }
         }
 
         return true;
-    }
-
-    private void restoreInstallerSelection(int previousInstaller) {
-        mHelper.setInstaller(previousInstaller);
-        updateInstallerSummary();
     }
 
     @Override
@@ -483,6 +558,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateInstallerSummary();
+        updateBatteryOptimizationSummary();
+    }
+
+    @Override
     public void onThemesChosen(@Nullable String tag, Theme.ThemeDescriptor lightTheme, Theme.ThemeDescriptor darkTheme) {
         Theme theme = Theme.getInstance(requireContext());
         theme.setLightTheme(lightTheme);
@@ -496,7 +578,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 if (grantResult == PackageManager.PERMISSION_DENIED)
                     AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_shizuku);
                 else {
-                    mHelper.setInstaller(PreferencesValues.INSTALLER_SHIZUKU);
+                    VsiAppMode mode = mPendingModeAfterShizuku != null
+                            ? mPendingModeAfterShizuku
+                            : VsiAppMode.SHIZUKU;
+                    mPendingModeAfterShizuku = null;
+                    VsiModeManager.applyMode(requireContext(), mode);
                     updateInstallerSummary();
                 }
                 break;
