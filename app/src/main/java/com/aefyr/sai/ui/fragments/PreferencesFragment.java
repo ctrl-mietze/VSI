@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -24,6 +25,8 @@ import com.aefyr.sai.R;
 import com.aefyr.sai.analytics.AnalyticsProvider;
 import com.aefyr.sai.analytics.DefaultAnalyticsProvider;
 import com.aefyr.sai.shell.SuShell;
+import com.aefyr.sai.runtime.VsiAppMode;
+import com.aefyr.sai.runtime.VsiModeManager;
 import com.aefyr.sai.ui.activities.AboutActivity;
 import com.aefyr.sai.ui.activities.ApkActionViewProxyActivity;
 import com.aefyr.sai.ui.activities.BackupSettingsActivity;
@@ -59,7 +62,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
 
     private Preference mHomeDirPref;
     private Preference mFilePickerSortPref;
-    private Preference mInstallerPref;
     private Preference mThemePref;
     private SwitchPreference mAutoThemeSwitch;
     private Preference mAutoThemePicker;
@@ -158,12 +160,68 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
             });
         }
 
-        mInstallerPref = findPreference("installer");
-        updateInstallerSummary();
-        mInstallerPref.setOnPreferenceClickListener((p -> {
-            SingleChoiceListDialogFragment.newInstance(getText(R.string.settings_main_installer), R.array.installers, mHelper.getInstaller()).show(getChildFragmentManager(), "installer");
+        ListPreference appModePref = Objects.requireNonNull(findPreference("vsi_app_mode"));
+        appModePref.setValue(VsiModeManager.getCurrentMode(requireContext()).id());
+        appModePref.setOnPreferenceChangeListener((preference, newValue) -> {
+            VsiAppMode requested = VsiAppMode.fromId(String.valueOf(newValue));
+
+            if (!VsiModeManager.isBatteryOptimizationDisabled(requireContext())) {
+                Toast.makeText(
+                        requireContext(),
+                        R.string.vsi_mode_battery_required,
+                        Toast.LENGTH_LONG
+                ).show();
+                VsiModeManager.requestBatteryOptimizationExemption(requireContext());
+                return false;
+            }
+
+            if (requested == VsiAppMode.SHIZUKU
+                    && Shizuku.pingBinder()
+                    && !Shizuku.isPreV11()
+                    && Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
+                Shizuku.requestPermission(PermissionsUtils.REQUEST_CODE_SHIZUKU);
+                Toast.makeText(
+                        requireContext(),
+                        R.string.vsi_mode_shizuku_permission_wait,
+                        Toast.LENGTH_LONG
+                ).show();
+                return false;
+            }
+
+            VsiModeManager.Availability availability =
+                    VsiModeManager.applyMode(requireContext(), requested);
+
+            if (!availability.available) {
+                Toast.makeText(
+                        requireContext(),
+                        availability.reason,
+                        Toast.LENGTH_LONG
+                ).show();
+                return false;
+            }
+
+            updateBatteryOptimizationSummary();
+            Toast.makeText(requireContext(), R.string.vsi_mode_applied, Toast.LENGTH_SHORT).show();
             return true;
-        }));
+        });
+
+        Preference functionInfo = Objects.requireNonNull(findPreference("vsi_mode_function_info"));
+        functionInfo.setOnPreferenceClickListener(preference -> {
+            PreferencesActivity.open(
+                    requireContext(),
+                    VsiModeInfoFragment.class,
+                    getString(R.string.vsi_mode_function_info)
+            );
+            return true;
+        });
+
+        Preference batteryOptimization =
+                Objects.requireNonNull(findPreference("vsi_battery_optimization"));
+        batteryOptimization.setOnPreferenceClickListener(preference -> {
+            VsiModeManager.requestBatteryOptimizationExemption(requireContext());
+            return true;
+        });
+        updateBatteryOptimizationSummary();
 
         Preference systemHookInfoPref = findPreference("vsi_system_hook_info");
         Objects.requireNonNull(systemHookInfoPref).setOnPreferenceClickListener(preference -> {
@@ -446,6 +504,31 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
         updateInstallerSummary();
     }
 
+    private void updateBatteryOptimizationSummary() {
+        Preference battery = findPreference("vsi_battery_optimization");
+        if (battery == null)
+            return;
+
+        battery.setSummary(
+                VsiModeManager.isBatteryOptimizationDisabled(requireContext())
+                        ? R.string.vsi_mode_battery_ok
+                        : R.string.vsi_mode_battery_required
+        );
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateBatteryOptimizationSummary();
+
+        if (VsiModeManager.isBatteryOptimizationDisabled(requireContext())) {
+            VsiModeManager.applyMode(
+                    requireContext(),
+                    VsiModeManager.getCurrentMode(requireContext())
+            );
+        }
+    }
+
     @Override
     public void onDialogDismissed(@NonNull String dialogTag) {
         switch (dialogTag) {
@@ -496,8 +579,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Fil
                 if (grantResult == PackageManager.PERMISSION_DENIED)
                     AlertsUtils.showAlert(this, R.string.error, R.string.permissions_required_shizuku);
                 else {
-                    mHelper.setInstaller(PreferencesValues.INSTALLER_SHIZUKU);
-                    updateInstallerSummary();
+                    VsiModeManager.applyMode(requireContext(), VsiAppMode.SHIZUKU);
+                    ListPreference appMode = findPreference("vsi_app_mode");
+                    if (appMode != null)
+                        appMode.setValue(VsiAppMode.SHIZUKU.id());
                 }
                 break;
         }
