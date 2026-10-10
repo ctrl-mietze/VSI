@@ -47,30 +47,19 @@ public class VsiModeInfoFragment extends PreferenceFragmentCompat {
     }
 
     private String displayName(VsiAppMode mode) {
-        switch (mode) {
-            case SHIZUKU:
-                return "Shizuku";
-            case XPOSED:
-                return "Xposed";
-            case ROOT:
-                return "Root";
-            case ROOT_XPOSED:
-                return "RootXposed";
-            case NORMAL:
-            default:
-                return "Normal";
-        }
+        String[] labels = getResources().getStringArray(R.array.vsi_app_modes);
+        return mode.ordinal() < labels.length ? labels[mode.ordinal()] : mode.name();
     }
 
     private String serviceName(VsiAppMode mode) {
         switch (mode.serviceKind()) {
             case VSERVICE:
-                return "VSI VService";
+                return getString(R.string.vsi_service_v_title);
             case SYSTEM:
-                return "VSI System Service";
+                return getString(R.string.vsi_service_system_title);
             case LITE:
             default:
-                return "VSI Lite Service";
+                return getString(R.string.vsi_service_lite_title);
         }
     }
 }
