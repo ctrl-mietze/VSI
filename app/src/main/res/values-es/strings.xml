@@ -380,4 +380,18 @@
     <string name="vsi_analyzer_disabled">El análisis extremo está desactivado. Actívalo en Opciones de desarrollador.</string>
     <string name="vsi_analyzer_requires_mode">Requiere al menos modo Shizuku o Xposed.</string>
     <string name="vsi_analyzer_copied">Análisis copiado.</string>
+    <string name="settings_main_installer_feedback">Respuesta del instalador</string>
+    <string name="settings_main_installer_feedback_summary">Elige cómo VSI informa instalaciones correctas o fallidas.</string>
+    <string name="settings_main_language">Idioma de la app</string>
+    <string name="settings_main_language_summary">En modo sistema, VSI usa alemán solo para DE / AT / CH; en otros países usa inglés. También puedes elegir el idioma manualmente.</string>
+    <string name="vsi_feedback_notification_channel">Resultados de instalación</string>
+    <string name="vsi_feedback_notification_channel_summary">Notificaciones de VSI para instalaciones correctas y fallidas.</string>
+    <string name="vsi_feedback_success_title">Instalación correcta</string>
+    <string name="vsi_feedback_success_message">%1$s se instaló correctamente.</string>
+    <string name="vsi_feedback_failure_title">Instalación fallida</string>
+    <string name="vsi_feedback_failure_message">%1$s falló: %2$s</string>
+    <string name="vsi_feedback_unknown_error">Error de instalación desconocido</string>
+    <string name="vsi_feedback_popup_success">Instalación correcta.</string>
+    <string name="vsi_feedback_popup_failure">La instalación falló porque: %1$s</string>
+    <string name="vsi_feedback_more">Más</string>
 </resources>
