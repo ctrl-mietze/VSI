@@ -35,7 +35,7 @@ public final class VsiPatcherManager {
                 "author=Veyra\n" +
                 "description=Temporary/systemless VSI installer routing for KernelSU/Magisk sessions.\n";
 
-        String service = buildRoutingScript();
+        String service = buildRoutingScript(null, false);
 
         String script =
                 "set -e\n" +
@@ -159,7 +159,10 @@ public final class VsiPatcherManager {
                 "  </privapp-permissions>\n" +
                 "</permissions>\n";
 
-        String service = buildRoutingScript();
+        List<ComponentName> stockComponents =
+                VsiSystemInstallerResolver.findInstallerActivities(context);
+        String service = buildRoutingScript(stockComponents, true);
+        String uninstall = buildRestoreScript(stockComponents);
 
         String script =
                 "set -e\n" +
@@ -174,7 +177,10 @@ public final class VsiPatcherManager {
                         PATCHER_PRO_DIR + "/system/etc/permissions/privapp-permissions-vsi.xml\n" +
                 "printf %s " + shell.makeLiteral(service) + " > " +
                         PATCHER_PRO_DIR + "/service.sh\n" +
+                "printf %s " + shell.makeLiteral(uninstall) + " > " +
+                        PATCHER_PRO_DIR + "/uninstall.sh\n" +
                 "chmod 0755 " + PATCHER_PRO_DIR + "/service.sh\n" +
+                "chmod 0755 " + PATCHER_PRO_DIR + "/uninstall.sh\n" +
                 "find " + PATCHER_PRO_DIR + "/system -type d -exec chmod 0755 {} \\;\n" +
                 "find " + PATCHER_PRO_DIR + "/system -type f -exec chmod 0644 {} \\;\n";
 
@@ -195,7 +201,10 @@ public final class VsiPatcherManager {
         return new Result(result.isSuccessful(), result.toString());
     }
 
-    private static String buildRoutingScript() {
+    private static String buildRoutingScript(
+            List<ComponentName> stockComponents,
+            boolean disableStockEntries
+    ) {
         StringBuilder script = new StringBuilder();
         script.append("#!/system/bin/sh\n");
         script.append("until [ \"$(getprop sys.boot_completed)\" = \"1\" ]; do sleep 2; done\n");
@@ -203,10 +212,37 @@ public final class VsiPatcherManager {
                 .append(BuildConfig.APPLICATION_ID)
                 .append("/com.aefyr.sai.ui.activities.ApkActionViewProxyActivity >/dev/null 2>&1\n");
 
+        if (disableStockEntries && stockComponents != null) {
+            for (ComponentName component : stockComponents) {
+                script.append("pm disable-user --user 0 ")
+                        .append(component.flattenToString())
+                        .append(" >/dev/null 2>&1\n");
+            }
+        }
+
         for (String pkg : VsiSystemInstallerResolver.commonInstallerPackages()) {
             script.append("cmd package clear-package-preferred-activities ")
                     .append(pkg)
                     .append(" >/dev/null 2>&1\n");
+        }
+
+        script.append("cmd package clear-package-preferred-activities ")
+                .append(BuildConfig.APPLICATION_ID)
+                .append(" >/dev/null 2>&1\n");
+
+        return script.toString();
+    }
+
+    private static String buildRestoreScript(List<ComponentName> stockComponents) {
+        StringBuilder script = new StringBuilder();
+        script.append("#!/system/bin/sh\n");
+
+        if (stockComponents != null) {
+            for (ComponentName component : stockComponents) {
+                script.append("pm enable --user 0 ")
+                        .append(component.flattenToString())
+                        .append(" >/dev/null 2>&1\n");
+            }
         }
 
         script.append("cmd package clear-package-preferred-activities ")
