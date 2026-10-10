@@ -27,11 +27,21 @@ public final class VsiModeManager {
     }
 
     public static void applyMode(Context context, VsiAppMode mode) {
-        PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putString(PreferencesKeys.VSI_APP_MODE, mode.value())
-                .putInt(PreferencesKeys.INSTALLER, mode.installerBackend())
-                .apply();
+        android.content.SharedPreferences.Editor editor =
+                PreferenceManager.getDefaultSharedPreferences(context)
+                        .edit()
+                        .putString(PreferencesKeys.VSI_APP_MODE, mode.value())
+                        .putInt(PreferencesKeys.INSTALLER, mode.installerBackend());
+
+        if (mode != VsiAppMode.ROOT_XPOSED) {
+            editor.putBoolean(
+                    VsiDeveloperKeys.SIGNATURE_VERIFICATION_OVERRIDE,
+                    false
+            );
+            editor.putLong(PreferencesKeys.SECURITY_POLICY_TIMESTAMP, 0L);
+        }
+
+        editor.apply();
 
         startCorrectService(context, mode);
     }
