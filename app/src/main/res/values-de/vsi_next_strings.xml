@@ -56,4 +56,5 @@
     <string name="vsi_patcher_pro_confirm">Patcher Pro staged VSI als privilegierte systemlose App. Neustart und Modul-Entfernung bilden die Wiederherstellungsgrenze. Fortfahren?</string>
     <string name="vsi_patcher_pro_remove">Patcher Pro entfernen</string>
     <string name="vsi_patcher_pro_remove_summary">Markiert das Patcher-Pro-Modul zur Entfernung beim nächsten Neustart.</string>
+    <string name="vsi_dev_category_permanent_root">Permanente Root-Funktionen</string>
 </resources>
