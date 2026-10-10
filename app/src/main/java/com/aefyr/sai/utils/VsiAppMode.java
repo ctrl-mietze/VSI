@@ -5,7 +5,7 @@ public enum VsiAppMode {
     SHIZUKU("shizuku", 30, PreferencesValues.INSTALLER_SHIZUKU, ServiceKind.VSERVICE),
     XPOSED("xposed", 30, PreferencesValues.INSTALLER_XPOSED, ServiceKind.VSERVICE),
     ROOT("root", 50, PreferencesValues.INSTALLER_ROOTED, ServiceKind.SYSTEM),
-    ROOT_XPOSED("root_xposed", 60, PreferencesValues.INSTALLER_XPOSED, ServiceKind.SYSTEM);
+    ROOT_XPOSED("root_xposed", 60, PreferencesValues.INSTALLER_ROOTED, ServiceKind.SYSTEM);
 
     public enum ServiceKind {
         LITE,
