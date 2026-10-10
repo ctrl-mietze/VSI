@@ -48,8 +48,14 @@ public final class VsiRuntimeServices {
 
         try {
             ContextCompat.startForegroundService(context, intent);
-        } catch (Exception ignored) {
-            context.startService(intent);
+        } catch (Exception firstFailure) {
+            try {
+                context.startService(intent);
+            } catch (Exception ignored) {
+                // Android/OEM background restrictions may reject both starts.
+                // The selected mode stays saved and can restart the service
+                // when VSI returns to the foreground.
+            }
         }
     }
 
@@ -90,7 +96,11 @@ public final class VsiRuntimeServices {
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_install_full)
                     .setContentTitle(serviceName())
-                    .setContentText("VSI " + mode.id() + " · " + mode.capabilityCount() + " functions")
+                    .setContentText(getString(
+                            R.string.vsi_runtime_service_text,
+                            mode.id(),
+                            mode.capabilityCount()
+                    ))
                     .setContentIntent(pending)
                     .setOngoing(true)
                     .setOnlyAlertOnce(true)
@@ -118,10 +128,10 @@ public final class VsiRuntimeServices {
 
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    "VSI Runtime Service",
+                    getString(R.string.vsi_runtime_service_channel),
                     NotificationManager.IMPORTANCE_LOW
             );
-            channel.setDescription("Keeps the selected VSI installer runtime ready.");
+            channel.setDescription(getString(R.string.vsi_runtime_service_channel_summary));
             manager.createNotificationChannel(channel);
         }
     }
