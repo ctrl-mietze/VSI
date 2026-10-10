@@ -49,6 +49,8 @@ public final class VsiDeveloperOptions {
     public boolean xposedVerbose() { return b(VsiDeveloperKeys.XPOSED_VERBOSE, false); }
     public boolean xposedStockFallback() { return b(VsiDeveloperKeys.XPOSED_STOCK_FALLBACK, true); }
     public boolean showSourceIdentity() { return b(VsiDeveloperKeys.SHOW_SOURCE_IDENTITY, true); }
+    public boolean extremeApkAnalysis() { return b(VsiDeveloperKeys.EXTREME_APK_ANALYSIS, false); }
+    public boolean permanentKernelRootFunctions() { return b(VsiDeveloperKeys.ACTIVATE_PERMANENT_KERNEL_ROOT_FUNCTIONS, false); }
 
     public int queueParallelism() {
         String raw = mPrefs.getString(VsiDeveloperKeys.QUEUE_PARALLELISM, "1");
