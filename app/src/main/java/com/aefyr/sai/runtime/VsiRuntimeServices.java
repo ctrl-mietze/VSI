@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.MainActivity;
+import com.aefyr.sai.utils.VsiLocaleHelper;
 
 public final class VsiRuntimeServices {
 
@@ -66,6 +67,11 @@ public final class VsiRuntimeServices {
     }
 
     public abstract static class Base extends Service {
+
+        @Override
+        protected void attachBaseContext(Context base) {
+            super.attachBaseContext(VsiLocaleHelper.wrap(base));
+        }
 
         protected abstract String serviceName();
 
