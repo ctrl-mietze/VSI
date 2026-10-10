@@ -43,4 +43,26 @@
         <item>Selector de archivos interno</item>
         <item>Selector de ficheros de sistema</item>
     </string-array>
+    <string-array name="installer_feedback_modes">
+        <item>Ninguno</item>
+        <item>Diálogo de la app</item>
+        <item>Notificación</item>
+        <item>Ventana emergente</item>
+    </string-array>
+
+    <string-array name="vsi_languages">
+        <item>Sistema (alemán solo en DE / AT / CH; si no, inglés)</item>
+        <item>Deutsch</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>हिन्दी</item>
+    </string-array>
+
+    <string-array name="vsi_app_modes">
+        <item>Normal (no recomendado)</item>
+        <item>Shizuku (recomendado para usuarios normales)</item>
+        <item>Software Xposed</item>
+        <item>Root (Profesional)</item>
+        <item>RootXposed (mejor con root)</item>
+    </string-array>
 </resources>
