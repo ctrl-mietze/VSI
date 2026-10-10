@@ -132,10 +132,23 @@ public final class VsiModeManager {
     }
 
     public static void requestBatteryOptimizationExemption(Context context) {
-        Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+        Intent direct = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
                 .setData(Uri.parse("package:" + context.getPackageName()))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+
+        try {
+            context.startActivity(direct);
+            return;
+        } catch (Exception ignored) {
+        }
+
+        Intent fallback = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        try {
+            context.startActivity(fallback);
+        } catch (Exception ignored) {
+        }
     }
 
     public static final class Availability {
