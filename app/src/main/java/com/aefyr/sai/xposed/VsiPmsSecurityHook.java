@@ -156,12 +156,11 @@ public final class VsiPmsSecurityHook {
 
                             if (param.method instanceof Method) {
                                 Class<?> returnType = ((Method) param.method).getReturnType();
-                                if (returnType == boolean.class || returnType == Boolean.class)
+                                if (returnType == boolean.class || returnType == Boolean.class) {
                                     param.setResult(true);
-                                else
+                                } else if (returnType == void.class || returnType == Void.class) {
                                     param.setResult(null);
-                            } else {
-                                param.setResult(null);
+                                }
                             }
                         }
                     });
