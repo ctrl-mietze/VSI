@@ -1,12 +1,16 @@
 name: VSI 0.2 Runtime Modes Build
 
-# Rebuild marker: runtime-modes-v5-analyzer
+# Rebuild marker: runtime-modes-v6-final
 
 on:
   push:
     branches:
       - v0.2-runtime-modes
   workflow_dispatch:
+
+concurrency:
+  group: vsi-v02-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
