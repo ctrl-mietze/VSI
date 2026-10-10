@@ -83,21 +83,23 @@ public final class VsiModeManager {
     public static void startCorrectService(Context context, VsiAppMode mode) {
         Context app = context.getApplicationContext();
 
-        app.stopService(new Intent(app, VsiLiteService.class));
-        app.stopService(new Intent(app, VsiVService.class));
-        app.stopService(new Intent(app, VsiSystemService.class));
-
         Class<?> serviceClass;
         switch (mode.serviceKind()) {
             case VSERVICE:
                 serviceClass = VsiVService.class;
+                app.stopService(new Intent(app, VsiLiteService.class));
+                app.stopService(new Intent(app, VsiSystemService.class));
                 break;
             case SYSTEM:
                 serviceClass = VsiSystemService.class;
+                app.stopService(new Intent(app, VsiLiteService.class));
+                app.stopService(new Intent(app, VsiVService.class));
                 break;
             case LITE:
             default:
                 serviceClass = VsiLiteService.class;
+                app.stopService(new Intent(app, VsiVService.class));
+                app.stopService(new Intent(app, VsiSystemService.class));
                 break;
         }
 
