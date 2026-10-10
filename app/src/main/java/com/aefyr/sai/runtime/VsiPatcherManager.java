@@ -15,7 +15,7 @@ public final class VsiPatcherManager {
             BuildConfig.APPLICATION_ID + "/com.aefyr.sai.ui.activities.ApkActionViewProxyActivity";
 
     private static final String PROFILE0_STATE =
-            "/data/local/tmp/vsi-profile0-stock-component";
+            "/data/adb/vsi/profile0-stock-component";
 
     private VsiPatcherManager() {}
 
@@ -79,6 +79,8 @@ public final class VsiPatcherManager {
                 + "  */*) ;;\n"
                 + "  *) exit 22 ;;\n"
                 + "esac\n"
+                + "mkdir -p /data/adb/vsi\n"
+                + "chmod 0700 /data/adb/vsi\n"
                 + "printf '%s' \"$STOCK\" > " + PROFILE0_STATE + "\n"
                 + "pm enable --user 0 " + PROXY_COMPONENT + "\n"
                 + "pm disable-user --user 0 \"$STOCK\"\n"
@@ -169,7 +171,9 @@ public final class VsiPatcherManager {
                 + "cat > \"$MOD/service.sh\" <<'EOF'\n"
                 + "#!/system/bin/sh\n"
                 + "until [ \"$(getprop sys.boot_completed)\" = \"1\" ]; do sleep 2; done\n"
-                + "STATE=/data/local/tmp/vsi-patcher-pro-stock-component\n"
+                + "mkdir -p /data/adb/vsi\n"
+                + "chmod 0700 /data/adb/vsi\n"
+                + "STATE=/data/adb/vsi/patcher-pro-stock-component\n"
                 + "STOCK=$(cmd package resolve-activity --brief --user 0 "
                 + "-a android.intent.action.VIEW "
                 + "-d file:///data/local/tmp/vsi-placeholder.apk "
