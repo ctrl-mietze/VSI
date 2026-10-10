@@ -10,16 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.utils.PreferencesHelper;
-import com.aefyr.sai.utils.PreferencesValues;
+import com.aefyr.sai.utils.PreferencesKeys;
+import com.aefyr.sai.utils.VsiAppMode;
 import com.aefyr.sai.utils.VsiDeveloperOptions;
+import com.aefyr.sai.utils.VsiModeManager;
 
 public class VsiHookConfigProvider extends ContentProvider {
 
     private static final String[] COLUMNS = new String[]{
             "enabled",
-            "installer",
+            "appMode",
             "verbose",
-            "stockFallback"
+            "stockFallback",
+            "allowDowngrade",
+            "signatureOverride",
+            "securityTimestamp"
     };
 
     @Override
@@ -32,15 +37,24 @@ public class VsiHookConfigProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection,
                         @Nullable String selection, @Nullable String[] selectionArgs,
                         @Nullable String sortOrder) {
-        int installer = PreferencesHelper.getInstance(getContext()).getInstaller();
+        PreferencesHelper prefs = PreferencesHelper.getInstance(getContext());
         VsiDeveloperOptions dev = VsiDeveloperOptions.getInstance(getContext());
+        VsiAppMode mode = VsiModeManager.getMode(getContext());
+
+        long securityTimestamp = prefs.getPrefs().getLong(
+                PreferencesKeys.SECURITY_POLICY_TIMESTAMP,
+                0L
+        );
 
         MatrixCursor cursor = new MatrixCursor(COLUMNS, 1);
         cursor.addRow(new Object[]{
-                installer == PreferencesValues.INSTALLER_XPOSED ? 1 : 0,
-                installer,
+                mode.hasXposed() ? 1 : 0,
+                mode.value(),
                 dev.xposedVerbose() ? 1 : 0,
-                dev.xposedStockFallback() ? 1 : 0
+                dev.xposedStockFallback() ? 1 : 0,
+                prefs.shouldAllowDowngrade() ? 1 : 0,
+                dev.signatureVerificationOverride() ? 1 : 0,
+                securityTimestamp
         });
         return cursor;
     }
