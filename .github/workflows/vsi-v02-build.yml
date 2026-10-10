@@ -1,5 +1,7 @@
 name: VSI 0.2 Runtime Modes Build
 
+# Rebuild marker: runtime-modes-v2
+
 on:
   push:
     branches:
