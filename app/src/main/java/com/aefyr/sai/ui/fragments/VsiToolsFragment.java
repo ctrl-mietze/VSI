@@ -10,7 +10,9 @@ import androidx.preference.PreferenceScreen;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.PreferencesActivity;
+import com.aefyr.sai.ui.activities.VsiAdvancedAnalyzerActivity;
 import com.aefyr.sai.ui.activities.VsiPackageConverterActivity;
+import com.aefyr.sai.ui.activities.VsiPatcherActivity;
 import com.aefyr.sai.ui.activities.VsiPackageRepairActivity;
 
 public class VsiToolsFragment extends PreferenceFragmentCompat {
@@ -46,6 +48,9 @@ public class VsiToolsFragment extends PreferenceFragmentCompat {
         add(packages, R.string.vsi_tools_repair, R.string.vsi_tools_repair_summary, () ->
                 startActivity(new Intent(requireContext(), VsiPackageRepairActivity.class)));
 
+        add(packages, R.string.vsi_analyzer_title, R.string.vsi_analyzer_summary, () ->
+                startActivity(new Intent(requireContext(), VsiAdvancedAnalyzerActivity.class)));
+
         PreferenceCategory runtime = new PreferenceCategory(requireContext());
         runtime.setTitle(R.string.vsi_tools_runtime);
         screen.addPreference(runtime);
@@ -53,6 +58,13 @@ public class VsiToolsFragment extends PreferenceFragmentCompat {
         add(runtime, R.string.vsi_tools_xposed_diag, R.string.vsi_tools_xposed_diag_summary, () ->
                 PreferencesActivity.open(requireContext(), VsiXposedDiagnosticsFragment.class,
                         getString(R.string.vsi_tools_xposed_diag)));
+
+        add(runtime, R.string.vsi_mode_info_title, R.string.vsi_mode_info_summary, () ->
+                PreferencesActivity.open(requireContext(), VsiModeInfoFragment.class,
+                        getString(R.string.vsi_mode_info_title)));
+
+        add(runtime, R.string.vsi_patcher_title, R.string.vsi_patcher_summary, () ->
+                startActivity(new Intent(requireContext(), VsiPatcherActivity.class)));
 
         add(runtime, R.string.vsi_developer_options, R.string.vsi_developer_options_summary, () ->
                 PreferencesActivity.open(requireContext(), VsiDeveloperOptionsFragment.class,
