@@ -7,11 +7,15 @@ import android.widget.Toast;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.shell.SuShell;
+import com.aefyr.sai.utils.PreferencesKeys;
+import com.aefyr.sai.utils.VsiAppMode;
 import com.aefyr.sai.utils.VsiDeveloperKeys;
+import com.aefyr.sai.utils.VsiModeManager;
 import com.aefyr.sai.utils.VsiRootSystemInstallerBridge;
 
 import java.util.Objects;
@@ -82,6 +86,59 @@ public class VsiDeveloperOptionsFragment extends PreferenceFragmentCompat {
 
             return result.success;
         });
+
+        SwitchPreference permanentRoot = findPreference(
+                VsiDeveloperKeys.PERMANENT_KERNEL_ROOT_FUNCTIONS
+        );
+        if (permanentRoot != null) {
+            permanentRoot.setOnPreferenceChangeListener((preference, newValue) -> {
+                if (Boolean.TRUE.equals(newValue) && !SuShell.getInstance().requestRoot()) {
+                    Toast.makeText(
+                            requireContext(),
+                            R.string.settings_main_use_root_error,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        SwitchPreference signatureOverride = findPreference(
+                VsiDeveloperKeys.SIGNATURE_VERIFICATION_OVERRIDE
+        );
+        if (signatureOverride != null) {
+            signatureOverride.setOnPreferenceChangeListener((preference, newValue) -> {
+                boolean enabled = Boolean.TRUE.equals(newValue);
+
+                if (enabled && VsiModeManager.getMode(requireContext()) != VsiAppMode.ROOT_XPOSED) {
+                    Toast.makeText(
+                            requireContext(),
+                            R.string.vsi_dev_signature_requires_rootxposed,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return false;
+                }
+
+                PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        .edit()
+                        .putLong(
+                                PreferencesKeys.SECURITY_POLICY_TIMESTAMP,
+                                enabled ? System.currentTimeMillis() : 0L
+                        )
+                        .apply();
+
+                if (enabled) {
+                    Toast.makeText(
+                            requireContext(),
+                            R.string.vsi_dev_signature_timeout_notice,
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+
+                return true;
+            });
+        }
 
         Preference xposedVerbose = findPreference(VsiDeveloperKeys.XPOSED_VERBOSE);
         if (xposedVerbose != null) {
