@@ -394,4 +394,7 @@
     <string name="vsi_feedback_popup_success">Instalación correcta.</string>
     <string name="vsi_feedback_popup_failure">La instalación falló porque: %1$s</string>
     <string name="vsi_feedback_more">Más</string>
+    <string name="vsi_runtime_service_channel">VSI Runtime Service</string>
+    <string name="vsi_runtime_service_channel_summary">Mantiene preparado el runtime del instalador VSI seleccionado.</string>
+    <string name="vsi_runtime_service_text">VSI %1$s · %2$d funciones</string>
 </resources>
