@@ -121,8 +121,27 @@ public final class VsiModeManager {
                 .putInt(PreferencesKeys.INSTALLER, backend)
                 .apply();
 
+        if (!mode.usesXposed())
+            VsiSecurityWindowManager.disarmAll(context);
+
         VsiRuntimeServices.sync(context.getApplicationContext(), mode);
         return Availability.available();
+    }
+
+    public static VsiAppMode restoreSafeModeAfterBoot(Context context) {
+        VsiAppMode mode = getCurrentMode(context);
+
+        if (mode.usesRoot() && !SuShell.getInstance().requestRoot()) {
+            PreferenceManager.getDefaultSharedPreferences(context)
+                    .edit()
+                    .putString(KEY_APP_MODE, VsiAppMode.NORMAL.id())
+                    .putInt(PreferencesKeys.INSTALLER, PreferencesValues.INSTALLER_ROOTLESS)
+                    .apply();
+            VsiSecurityWindowManager.disarmAll(context);
+            return VsiAppMode.NORMAL;
+        }
+
+        return mode;
     }
 
     public static boolean isBatteryOptimizationDisabled(Context context) {
