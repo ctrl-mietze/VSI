@@ -72,6 +72,8 @@ public final class VsiPatcherManager {
                 + "-t application/vnd.android.package-archive 2>/dev/null | tail -n 1)\n"
                 + "case \"$STOCK\" in\n"
                 + "  " + BuildConfig.APPLICATION_ID + "/*|'') exit 21 ;;\n"
+                + "  */*) ;;\n"
+                + "  *) exit 22 ;;\n"
                 + "esac\n"
                 + "printf '%s' \"$STOCK\" > " + PROFILE0_STATE + "\n"
                 + "pm enable --user 0 " + PROXY_COMPONENT + "\n"
@@ -163,7 +165,17 @@ public final class VsiPatcherManager {
                 + "cat > \"$MOD/service.sh\" <<'EOF'\n"
                 + "#!/system/bin/sh\n"
                 + "until [ \"$(getprop sys.boot_completed)\" = \"1\" ]; do sleep 2; done\n"
+                + "STATE=/data/local/tmp/vsi-patcher-pro-stock-component\n"
+                + "STOCK=$(cmd package resolve-activity --brief --user 0 "
+                + "-a android.intent.action.VIEW "
+                + "-d file:///data/local/tmp/vsi-placeholder.apk "
+                + "-t application/vnd.android.package-archive 2>/dev/null | tail -n 1)\n"
+                + "case \"$STOCK\" in\n"
+                + "  " + BuildConfig.APPLICATION_ID + "/*|'') ;;\n"
+                + "  */*) printf '%s' \"$STOCK\" > \"$STATE\"; pm disable-user --user 0 \"$STOCK\" >/dev/null 2>&1 ;;\n"
+                + "esac\n"
                 + "pm enable --user 0 " + PROXY_COMPONENT + " >/dev/null 2>&1\n"
+                + "cmd package clear-package-preferred-activities " + BuildConfig.APPLICATION_ID + " >/dev/null 2>&1\n"
                 + "am start-foreground-service -n " + systemService + " --es mode root_xposed >/dev/null 2>&1\n"
                 + "EOF\n"
                 + "chmod 0755 \"$MOD/service.sh\"\n"
@@ -177,7 +189,23 @@ public final class VsiPatcherManager {
     }
 
     public static Result removePatcherPro() {
-        return execRoot("rm -rf /data/adb/modules/vsi_patcher_pro");
+        SuShell shell = SuShell.getInstance();
+        if (!shell.requestRoot())
+            return Result.fail("Root access unavailable.");
+
+        String script =
+                "STATE=/data/local/tmp/vsi-patcher-pro-stock-component\n"
+                + "if [ -f \"$STATE\" ]; then\n"
+                + "  STOCK=$(cat \"$STATE\")\n"
+                + "  case \"$STOCK\" in */*) pm default-state --user 0 \"$STOCK\" >/dev/null 2>&1 ;; esac\n"
+                + "  rm -f \"$STATE\"\n"
+                + "fi\n"
+                + "rm -rf /data/adb/modules/vsi_patcher_pro\n"
+                + "cmd package clear-package-preferred-activities " + BuildConfig.APPLICATION_ID + " >/dev/null 2>&1\n"
+                + "exit 0";
+
+        Shell.Result result = execScript(shell, script);
+        return new Result(result.isSuccessful(), result.toString(), true);
     }
 
     public static Result status() {
@@ -187,7 +215,10 @@ public final class VsiPatcherManager {
                         + "echo 'Profile 0:'; "
                         + "[ -f " + PROFILE0_STATE + " ] && cat " + PROFILE0_STATE + " || echo stock; "
                         + "echo 'Patcher Pro:'; "
-                        + "[ -d /data/adb/modules/vsi_patcher_pro ] && echo installed || echo off"
+                        + "[ -d /data/adb/modules/vsi_patcher_pro ] && echo installed || echo off; "
+                        + "echo 'Patcher Pro stock component:'; "
+                        + "[ -f /data/local/tmp/vsi-patcher-pro-stock-component ] "
+                        + "&& cat /data/local/tmp/vsi-patcher-pro-stock-component || echo none"
         );
     }
 
