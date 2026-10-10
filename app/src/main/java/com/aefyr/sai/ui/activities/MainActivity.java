@@ -21,6 +21,7 @@ import com.aefyr.sai.utils.FragmentNavigator;
 import com.aefyr.sai.utils.MiuiUtils;
 import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesKeys;
+import com.aefyr.sai.utils.VsiModeManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends ThemedActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FragmentNavigator.FragmentFactory {
@@ -41,6 +42,7 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
         //TODO is this ok?
         DefaultBackupManager.getInstance(this);
 
+        VsiModeManager.startCorrectService(this);
         showMiuiWarning();
 
 
@@ -142,5 +144,6 @@ public class MainActivity extends ThemedActivity implements BottomNavigationView
     @Override
     protected void onResume() {
         super.onResume();
+        VsiModeManager.startCorrectService(this);
     }
 }
