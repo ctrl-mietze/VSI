@@ -50,4 +50,5 @@
     <string name="vsi_patcher_pro_confirm">VSI को privileged systemless app के रूप में stage करें?</string>
     <string name="vsi_patcher_pro_remove">Patcher Pro हटाएँ</string>
     <string name="vsi_patcher_pro_remove_summary">अगले reboot पर module हटाने के लिए mark करता है।</string>
+    <string name="vsi_dev_category_permanent_root">Permanent root functions</string>
 </resources>
