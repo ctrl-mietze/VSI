@@ -51,13 +51,13 @@ public class VsiApkAnalyzerActivity extends ThemedActivity {
 
         MaterialButton choose = new MaterialButton(this);
         choose.setText(R.string.vsi_analyzer_choose);
-        choose.setTextAllCaps(false);
+        choose.setAllCaps(false);
         choose.setOnClickListener(v -> choose());
         root.addView(choose);
 
         mCopy = new MaterialButton(this);
         mCopy.setText(R.string.vsi_analyzer_copy);
-        mCopy.setTextAllCaps(false);
+        mCopy.setAllCaps(false);
         mCopy.setEnabled(false);
         mCopy.setOnClickListener(v -> copy());
         root.addView(mCopy);
