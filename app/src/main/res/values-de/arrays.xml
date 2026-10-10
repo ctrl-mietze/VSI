@@ -9,10 +9,18 @@
         <item>"Größte Dateigröße zuerst"</item>
     </string-array>
     <string-array name="installers">
-        <item>"Ohne Root (empfohlen)"</item>
-        <item>"Mit Root (Root erforderlich)"</item>
-        <item>"Shizuku (Shizuku 3.x erforderlich)"</item>
-        <item>"Xposed / Vector (Xposed erforderlich)"</item>
+        <item>"Ohne Root (Legacy)"</item>
+        <item>"Mit Root (Legacy)"</item>
+        <item>"Shizuku (Legacy)"</item>
+        <item>"Xposed / Vector (Legacy)"</item>
+    </string-array>
+
+    <string-array name="vsi_app_modes">
+        <item>Normal (nicht empfohlen)</item>
+        <item>Shizuku</item>
+        <item>Xposed Software</item>
+        <item>Root (Professionell, Temp-Root unterstützt)</item>
+        <item>RootXposed (am besten mit Root)</item>
     </string-array>
     <string-array name="size_units">
         <item>B</item>
@@ -55,5 +63,7 @@
         <item>System (DE / AT / CH → Deutsch, sonst English)</item>
         <item>Deutsch</item>
         <item>English</item>
+        <item>Español</item>
+        <item>हिन्दी</item>
     </string-array>
 </resources>
