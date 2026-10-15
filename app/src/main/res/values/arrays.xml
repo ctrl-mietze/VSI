@@ -109,4 +109,18 @@
         <item>hi</item>
     </string-array>
 
+    <string-array name="vsi_rollback_modes">
+        <item>Off</item>
+        <item>Restore app data on rollback</item>
+        <item>Wipe app data on rollback</item>
+        <item>Retain current app data on rollback</item>
+    </string-array>
+
+    <string-array name="vsi_rollback_mode_values" translatable="false">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

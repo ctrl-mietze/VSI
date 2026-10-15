@@ -38,9 +38,15 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
     private static final long ACTIVE_INSTALL_WINDOW_MS = 60 * 1000L;
     private static final long SESSION_STALE_MS = 5 * 60 * 1000L;
     private static final long CONFIG_CACHE_MS = 1000L;
+    private static final long REDIRECT_DEBOUNCE_MS = 1500L;
 
     private static final ConcurrentHashMap<Integer, Long> ACTIVE_INSTALL_SESSIONS =
             new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Boolean> HOOKED_INSTALLER_PROCESSES =
+            new ConcurrentHashMap<>();
+
+    private static volatile String sLastRedirectKey;
+    private static volatile long sLastRedirectRealtime;
 
     private static volatile long sLastInstallSessionRealtime;
     private static volatile long sLastSystemConfigReadRealtime;
@@ -61,7 +67,11 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
         if (!VsiSystemInstallerResolver.looksLikeInstallerPackage(lpparam.packageName))
             return;
 
-        hookGenericInstallerActivity(lpparam.packageName, lpparam.classLoader);
+        hookGenericInstallerActivity(
+                lpparam.packageName,
+                lpparam.processName,
+                lpparam.classLoader
+        );
     }
 
     private void hookVsiRuntimeProbe(ClassLoader classLoader) {
@@ -82,8 +92,13 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
 
     private void hookGenericInstallerActivity(
             String packageName,
+            String processName,
             ClassLoader classLoader
     ) {
+        String hookKey = packageName + ":" + (processName == null ? "?" : processName);
+        if (HOOKED_INSTALLER_PROCESSES.putIfAbsent(hookKey, true) != null)
+            return;
+
         try {
             Class<?> activityClass = XposedHelpers.findClass(
                     "android.app.Activity",
@@ -107,9 +122,13 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
                             if (!shouldRedirect(config, original))
                                 return;
 
+                            if (wasRecentlyRedirected(original))
+                                return;
+
                             try {
                                 Intent vsiIntent = buildVsiIntent(original);
                                 activity.startActivity(vsiIntent);
+                                markRedirect(original);
                                 activity.finish();
                                 activity.overridePendingTransition(0, 0);
                                 param.setResult(null);
@@ -313,8 +332,46 @@ public class VsiSystemInstallerHook implements IXposedHookLoadPackage {
             return false;
 
         String scheme = data.getScheme();
-        return "content".equalsIgnoreCase(scheme)
-                || "file".equalsIgnoreCase(scheme);
+        if (!"content".equalsIgnoreCase(scheme)
+                && !"file".equalsIgnoreCase(scheme))
+            return false;
+
+        if (Intent.ACTION_INSTALL_PACKAGE.equals(action))
+            return true;
+
+        String type = intent.getType();
+        if ("application/vnd.android.package-archive".equalsIgnoreCase(type))
+            return true;
+
+        String name = data.getLastPathSegment();
+        if (name == null)
+            return false;
+
+        String lower = name.toLowerCase();
+        return lower.endsWith(".apk")
+                || lower.endsWith(".apks")
+                || lower.endsWith(".apkm")
+                || lower.endsWith(".xapk")
+                || lower.endsWith(".zip");
+    }
+
+    private boolean wasRecentlyRedirected(Intent intent) {
+        Uri data = intent == null ? null : intent.getData();
+        String key = String.valueOf(intent == null ? null : intent.getAction())
+                + "|"
+                + String.valueOf(data);
+
+        long now = SystemClock.elapsedRealtime();
+        return key.equals(sLastRedirectKey)
+                && now - sLastRedirectRealtime >= 0L
+                && now - sLastRedirectRealtime < REDIRECT_DEBOUNCE_MS;
+    }
+
+    private void markRedirect(Intent intent) {
+        sLastRedirectKey = String.valueOf(intent.getAction())
+                + "|"
+                + String.valueOf(intent.getData());
+        sLastRedirectRealtime = SystemClock.elapsedRealtime();
     }
 
     private HookConfig getSystemConfig(ClassLoader classLoader) {

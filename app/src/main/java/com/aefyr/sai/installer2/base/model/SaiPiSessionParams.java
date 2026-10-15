@@ -16,6 +16,7 @@ public class SaiPiSessionParams {
     private boolean mAllowDowngrade;
     private boolean mAllowTestApks;
     private int mTargetUserId = -1;
+    private int mRollbackMode = -1;
     private boolean mDeleteSourceAfterSuccess;
     private List<Uri> mSourceUris = Collections.emptyList();
 
@@ -44,6 +45,15 @@ public class SaiPiSessionParams {
 
     public boolean allowTestApks() {
         return mAllowTestApks;
+    }
+
+    public SaiPiSessionParams setRollbackMode(int rollbackMode) {
+        mRollbackMode = rollbackMode;
+        return this;
+    }
+
+    public int rollbackMode() {
+        return mRollbackMode;
     }
 
     public SaiPiSessionParams setTargetUserId(int targetUserId) {

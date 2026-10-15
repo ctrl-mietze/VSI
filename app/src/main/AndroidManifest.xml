@@ -345,6 +345,7 @@
         <activity android:name=".ui.activities.PreferencesActivity" />
         <activity android:name=".ui.activities.VsiPackageConverterActivity" />
         <activity android:name=".ui.activities.VsiPackageRepairActivity" />
+        <activity android:name=".ui.activities.VsiInstallerDoctorActivity" />
         <activity android:name=".ui.activities.VsiAdvancedAnalyzerActivity" />
         <activity android:name=".ui.activities.VsiPatcherActivity" />
         <activity android:name=".ui.activities.AboutActivity" />

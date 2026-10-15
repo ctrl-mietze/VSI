@@ -106,6 +106,20 @@ public class PreferencesHelper {
         return mPrefs.getBoolean(PreferencesKeys.DELETE_SOURCE_AFTER_INSTALL, false);
     }
 
+    /**
+     * Android PackageManager rollback data policy.
+     * -1 = disabled, 0 = restore, 1 = wipe, 2 = retain.
+     */
+    public int getRollbackMode() {
+        String raw = mPrefs.getString(PreferencesKeys.ROLLBACK_MODE, "-1");
+        try {
+            int mode = Integer.parseInt(raw);
+            return mode >= -1 && mode <= 2 ? mode : -1;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
     public void setBackupFileNameFormat(String format) {
         mPrefs.edit().putString(PreferencesKeys.BACKUP_FILE_NAME_FORMAT, format).apply();
     }

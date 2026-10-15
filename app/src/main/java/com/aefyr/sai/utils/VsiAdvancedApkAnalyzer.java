@@ -35,9 +35,6 @@ public final class VsiAdvancedApkAnalyzer {
     private VsiAdvancedApkAnalyzer() {}
 
     public static String analyze(Context context, Uri source, VsiAppMode mode) throws Exception {
-        if (mode == VsiAppMode.NORMAL)
-            throw new IllegalStateException("Advanced APK Analysis requires Shizuku, Xposed or Root mode.");
-
         File temp = null;
         File apk;
 
@@ -131,6 +128,18 @@ public final class VsiAdvancedApkAnalyzer {
         out.append("  ABIs: ").append(zip.abis).append("\n");
         out.append("  Embedded APKs: ").append(zip.embeddedApkCount).append("\n");
 
+        out.append("\nDevice compatibility:\n");
+        out.append("  Device API: ").append(Build.VERSION.SDK_INT).append("\n");
+        out.append("  Device ABIs: ").append(Arrays.toString(Build.SUPPORTED_ABIS)).append("\n");
+        out.append("  minSdk compatible: ")
+                .append(Build.VERSION.SDK_INT >= (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                        ? info.applicationInfo.minSdkVersion : 0))
+                .append("\n");
+        out.append("  Native ABI compatible: ")
+                .append(isAbiCompatible(zip.abis))
+                .append(zip.abis.isEmpty() ? " (no native libraries)" : "")
+                .append("\n");
+
         PackageInfo installed = null;
         try {
             installed = pm.getPackageInfo(info.packageName, flags);
@@ -142,9 +151,41 @@ public final class VsiAdvancedApkAnalyzer {
                     .append(" (").append(longVersionCode(installed)).append(")\n");
             out.append("  Incoming version: ").append(info.versionName)
                     .append(" (").append(longVersionCode(info)).append(")\n");
-            out.append("  Signature match: ")
-                    .append(certificates(installed).equals(certs))
+
+            long installedCode = longVersionCode(installed);
+            long incomingCode = longVersionCode(info);
+            out.append("  Operation: ")
+                    .append(incomingCode > installedCode ? "UPDATE"
+                            : incomingCode < installedCode ? "DOWNGRADE"
+                            : "REINSTALL")
                     .append("\n");
+
+            List<String> installedCerts = certificates(installed);
+            out.append("  Signature match: ")
+                    .append(certificatesOverlap(installedCerts, certs))
+                    .append("\n");
+
+            Set<String> incomingPermissions = new LinkedHashSet<>();
+            if (info.requestedPermissions != null)
+                incomingPermissions.addAll(Arrays.asList(info.requestedPermissions));
+
+            Set<String> installedPermissions = new LinkedHashSet<>();
+            if (installed.requestedPermissions != null)
+                installedPermissions.addAll(Arrays.asList(installed.requestedPermissions));
+
+            Set<String> added = new LinkedHashSet<>(incomingPermissions);
+            added.removeAll(installedPermissions);
+
+            Set<String> removed = new LinkedHashSet<>(installedPermissions);
+            removed.removeAll(incomingPermissions);
+
+            out.append("  Added permissions (").append(added.size()).append("):\n");
+            for (String permission : added)
+                out.append("    + ").append(permission).append("\n");
+
+            out.append("  Removed permissions (").append(removed.size()).append("):\n");
+            for (String permission : removed)
+                out.append("    - ").append(permission).append("\n");
         }
 
         Shell shell = shellFor(mode);
@@ -225,6 +266,29 @@ public final class VsiAdvancedApkAnalyzer {
             out.add(hex(MessageDigest.getInstance("SHA-256").digest(signature.toByteArray())));
 
         return out;
+    }
+
+    private static boolean certificatesOverlap(List<String> a, List<String> b) {
+        if (a == null || b == null || a.isEmpty() || b.isEmpty())
+            return false;
+
+        for (String cert : a) {
+            if (b.contains(cert))
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isAbiCompatible(Set<String> apkAbis) {
+        if (apkAbis == null || apkAbis.isEmpty())
+            return true;
+
+        for (String deviceAbi : Build.SUPPORTED_ABIS) {
+            if (apkAbis.contains(deviceAbi))
+                return true;
+        }
+
+        return false;
     }
 
     private static String sha256(File file) throws Exception {

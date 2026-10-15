@@ -1,26 +1,37 @@
 package com.aefyr.sai.ui.activities;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.aefyr.sai.R;
 import com.aefyr.sai.utils.VsiAdvancedApkAnalyzer;
-import com.aefyr.sai.utils.VsiAppMode;
-import com.aefyr.sai.utils.VsiDeveloperOptions;
 import com.aefyr.sai.utils.VsiModeManager;
+import com.aefyr.sai.utils.VsiReportExporter;
 import com.google.android.material.button.MaterialButton;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class VsiAdvancedAnalyzerActivity extends ThemedActivity {
 
     private static final int PICK_APK = 9401;
+
     private TextView mOutput;
+    private MaterialButton mCopy;
+    private MaterialButton mExport;
+    private String mLastReport;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +58,20 @@ public class VsiAdvancedAnalyzerActivity extends ThemedActivity {
         pick.setOnClickListener(v -> pickApk());
         root.addView(pick);
 
+        mCopy = new MaterialButton(this);
+        mCopy.setText(R.string.vsi_analyzer_copy);
+        mCopy.setAllCaps(false);
+        mCopy.setEnabled(false);
+        mCopy.setOnClickListener(v -> copyReport());
+        root.addView(mCopy);
+
+        mExport = new MaterialButton(this);
+        mExport.setText(R.string.vsi_analyzer_export);
+        mExport.setAllCaps(false);
+        mExport.setEnabled(false);
+        mExport.setOnClickListener(v -> exportReport());
+        root.addView(mExport);
+
         mOutput = new TextView(this);
         mOutput.setTextIsSelectable(true);
         mOutput.setPadding(0, dp(18), 0, dp(32));
@@ -60,18 +85,6 @@ public class VsiAdvancedAnalyzerActivity extends ThemedActivity {
         ));
 
         setContentView(root);
-
-        if (!VsiDeveloperOptions.getInstance(this).advancedApkAnalysis()) {
-            mOutput.setText(R.string.vsi_analyzer_disabled);
-            pick.setEnabled(false);
-            return;
-        }
-
-        VsiAppMode mode = VsiModeManager.getMode(this);
-        if (mode == VsiAppMode.NORMAL) {
-            mOutput.setText(R.string.vsi_analyzer_requires_privileged_mode);
-            pick.setEnabled(false);
-        }
     }
 
     private void pickApk() {
@@ -82,15 +95,25 @@ public class VsiAdvancedAnalyzerActivity extends ThemedActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(
+            int requestCode,
+            int resultCode,
+            @Nullable Intent data
+    ) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode != PICK_APK || resultCode != Activity.RESULT_OK
-                || data == null || data.getData() == null)
+        if (requestCode != PICK_APK
+                || resultCode != Activity.RESULT_OK
+                || data == null
+                || data.getData() == null) {
             return;
+        }
 
         Uri uri = data.getData();
         mOutput.setText(R.string.vsi_tools_working);
+        mCopy.setEnabled(false);
+        mExport.setEnabled(false);
+        mLastReport = null;
 
         new Thread(() -> {
             try {
@@ -99,13 +122,69 @@ public class VsiAdvancedAnalyzerActivity extends ThemedActivity {
                         uri,
                         VsiModeManager.getMode(this)
                 );
-                runOnUiThread(() -> mOutput.setText(report));
+                runOnUiThread(() -> {
+                    mLastReport = report;
+                    mOutput.setText(report);
+                    mCopy.setEnabled(true);
+                    mExport.setEnabled(true);
+                });
             } catch (Exception e) {
                 runOnUiThread(() -> mOutput.setText(
-                        getString(R.string.vsi_tools_error, e.getLocalizedMessage())
+                        getString(
+                                R.string.vsi_tools_error,
+                                e.getLocalizedMessage()
+                        )
                 ));
             }
         }, "VSI Advanced Analyzer").start();
+    }
+
+    private void copyReport() {
+        if (mLastReport == null)
+            return;
+
+        ClipboardManager clipboard =
+                (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(
+                    ClipData.newPlainText("VSI APK Analysis", mLastReport)
+            );
+            Toast.makeText(
+                    this,
+                    R.string.vsi_analyzer_copied,
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+    }
+
+    private void exportReport() {
+        if (mLastReport == null)
+            return;
+
+        String stamp = new SimpleDateFormat(
+                "yyyyMMdd-HHmmss",
+                Locale.US
+        ).format(new Date());
+
+        try {
+            VsiReportExporter.Result result = VsiReportExporter.saveText(
+                    this,
+                    "VSI-APK-Analysis-" + stamp + ".txt",
+                    mLastReport
+            );
+            Toast.makeText(
+                    this,
+                    getString(R.string.vsi_analyzer_exported, result.location),
+                    Toast.LENGTH_LONG
+            ).show();
+        } catch (Exception e) {
+            Toast.makeText(
+                    this,
+                    getString(R.string.vsi_tools_error, e.getLocalizedMessage()),
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
 
     private int dp(int value) {

@@ -66,4 +66,11 @@
         <item>Español</item>
         <item>हिन्दी</item>
     </string-array>
+    <string-array name="vsi_rollback_modes">
+        <item>Aus</item>
+        <item>App-Daten bei Rollback wiederherstellen</item>
+        <item>App-Daten bei Rollback löschen</item>
+        <item>Aktuelle App-Daten bei Rollback behalten</item>
+    </string-array>
+
 </resources>

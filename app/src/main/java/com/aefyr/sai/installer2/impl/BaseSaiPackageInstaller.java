@@ -51,6 +51,21 @@ public abstract class BaseSaiPackageInstaller implements SaiPackageInstaller {
     }
 
     @Override
+    public boolean discardSession(String sessionId) {
+        SaiPiSessionParams removed = mCreatedSessions.remove(sessionId);
+        if (removed == null)
+            return false;
+
+        mSessionStates.remove(sessionId);
+        try {
+            removed.apkSource().close();
+        } catch (Exception e) {
+            Logs.w(tag(), "Unable to close discarded VSI session source " + sessionId, e);
+        }
+        return true;
+    }
+
+    @Override
     public void registerSessionObserver(SaiPiSessionObserver observer) {
         mObservers.add(observer);
     }

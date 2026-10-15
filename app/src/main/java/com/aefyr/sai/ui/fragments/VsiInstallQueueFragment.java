@@ -1,7 +1,9 @@
 package com.aefyr.sai.ui.fragments;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -42,6 +44,20 @@ public class VsiInstallQueueFragment extends PreferenceFragmentCompat {
         ));
         screen.addPreference(status);
 
+        Preference pause = new Preference(requireContext());
+        pause.setTitle(installer.isQueuePaused()
+                ? R.string.vsi_queue_resume
+                : R.string.vsi_queue_pause);
+        pause.setSummary(installer.isQueuePaused()
+                ? R.string.vsi_queue_resume_summary
+                : R.string.vsi_queue_pause_summary);
+        pause.setOnPreferenceClickListener(p -> {
+            installer.setQueuePaused(!installer.isQueuePaused());
+            rebuild();
+            return true;
+        });
+        screen.addPreference(pause);
+
         Preference refresh = new Preference(requireContext());
         refresh.setTitle(R.string.vsi_queue_refresh);
         refresh.setSummary(R.string.vsi_queue_refresh_summary);
@@ -60,35 +76,30 @@ public class VsiInstallQueueFragment extends PreferenceFragmentCompat {
         ));
         screen.addPreference(config);
 
-        addSessionCategory(
+        addActiveCategory(
                 screen,
-                R.string.vsi_queue_active,
-                installer.activeQueueSessionIds(),
-                R.string.vsi_queue_none_active
+                installer.activeQueueSessionIds()
         );
 
-        addSessionCategory(
+        addWaitingCategory(
                 screen,
-                R.string.vsi_queue_waiting,
-                installer.pendingQueueSessionIds(),
-                R.string.vsi_queue_none_waiting
+                installer,
+                installer.pendingQueueSessionIds()
         );
     }
 
-    private void addSessionCategory(
+    private void addActiveCategory(
             PreferenceScreen screen,
-            int title,
-            List<String> ids,
-            int emptyText
+            List<String> ids
     ) {
         PreferenceCategory category = new PreferenceCategory(requireContext());
-        category.setTitle(title);
+        category.setTitle(R.string.vsi_queue_active);
         screen.addPreference(category);
 
         if (ids.isEmpty()) {
             Preference empty = new Preference(requireContext());
             empty.setSelectable(false);
-            empty.setTitle(emptyText);
+            empty.setTitle(R.string.vsi_queue_none_active);
             category.addPreference(empty);
             return;
         }
@@ -97,7 +108,51 @@ public class VsiInstallQueueFragment extends PreferenceFragmentCompat {
             Preference session = new Preference(requireContext());
             session.setSelectable(false);
             session.setTitle(shortSession(id));
-            session.setSummary(id);
+            session.setSummary(getString(R.string.vsi_queue_active_session_summary, id));
+            category.addPreference(session);
+        }
+    }
+
+    private void addWaitingCategory(
+            PreferenceScreen screen,
+            FlexSaiPackageInstaller installer,
+            List<String> ids
+    ) {
+        PreferenceCategory category = new PreferenceCategory(requireContext());
+        category.setTitle(R.string.vsi_queue_waiting);
+        screen.addPreference(category);
+
+        if (ids.isEmpty()) {
+            Preference empty = new Preference(requireContext());
+            empty.setSelectable(false);
+            empty.setTitle(R.string.vsi_queue_none_waiting);
+            category.addPreference(empty);
+            return;
+        }
+
+        for (String id : ids) {
+            Preference session = new Preference(requireContext());
+            session.setTitle(shortSession(id));
+            session.setSummary(getString(R.string.vsi_queue_waiting_session_summary, id));
+            session.setOnPreferenceClickListener(p -> {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.vsi_queue_remove_title)
+                        .setMessage(R.string.vsi_queue_remove_message)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(R.string.vsi_queue_remove, (dialog, which) -> {
+                            boolean removed = installer.removePendingSession(id);
+                            Toast.makeText(
+                                    requireContext(),
+                                    removed
+                                            ? R.string.vsi_queue_removed
+                                            : R.string.vsi_queue_remove_failed,
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            rebuild();
+                        })
+                        .show();
+                return true;
+            });
             category.addPreference(session);
         }
     }

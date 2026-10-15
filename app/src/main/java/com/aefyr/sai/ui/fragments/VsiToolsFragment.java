@@ -11,6 +11,7 @@ import androidx.preference.PreferenceScreen;
 import com.aefyr.sai.R;
 import com.aefyr.sai.ui.activities.PreferencesActivity;
 import com.aefyr.sai.ui.activities.VsiAdvancedAnalyzerActivity;
+import com.aefyr.sai.ui.activities.VsiInstallerDoctorActivity;
 import com.aefyr.sai.ui.activities.VsiPackageConverterActivity;
 import com.aefyr.sai.ui.activities.VsiPatcherActivity;
 import com.aefyr.sai.ui.activities.VsiPackageRepairActivity;
@@ -54,6 +55,9 @@ public class VsiToolsFragment extends PreferenceFragmentCompat {
         PreferenceCategory runtime = new PreferenceCategory(requireContext());
         runtime.setTitle(R.string.vsi_tools_runtime);
         screen.addPreference(runtime);
+
+        add(runtime, R.string.vsi_doctor_title, R.string.vsi_doctor_summary, () ->
+                startActivity(new Intent(requireContext(), VsiInstallerDoctorActivity.class)));
 
         add(runtime, R.string.vsi_tools_xposed_diag, R.string.vsi_tools_xposed_diag_summary, () ->
                 PreferencesActivity.open(requireContext(), VsiXposedDiagnosticsFragment.class,

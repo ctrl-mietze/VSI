@@ -115,6 +115,17 @@
             android:summary="@string/settings_main_allow_test_apks_summary"
             android:defaultValue="false" />
 
+        <ListPreference
+            android:layout="@layout/preference_vsi_row"
+            android:icon="@drawable/ic_pref_feature"
+            android:key="rollback_mode"
+            android:title="@string/settings_main_rollback_mode"
+            android:summary="@string/settings_main_rollback_mode_summary"
+            android:entries="@array/vsi_rollback_modes"
+            android:entryValues="@array/vsi_rollback_mode_values"
+            android:defaultValue="-1"
+            app:useSimpleSummaryProvider="true" />
+
         <EditTextPreference
             android:layout="@layout/preference_vsi_row"
             android:icon="@drawable/ic_pref_root"

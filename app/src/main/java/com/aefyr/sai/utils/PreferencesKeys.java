@@ -34,6 +34,7 @@ public class PreferencesKeys {
     public static final String ALLOW_TEST_APKS = "allow_test_apks";
     public static final String TARGET_USER_ID = "target_user_id";
     public static final String DELETE_SOURCE_AFTER_INSTALL = "delete_source_after_install";
+    public static final String ROLLBACK_MODE = "rollback_mode";
     public static final String ENABLE_APK_ACTION_VIEW = "enable_apk_action_view";
     public static final String SIGNATURE_VERIFICATION_OVERRIDE = "vsi_signature_verification_override";
     public static final String SECURITY_POLICY_TIMESTAMP = "vsi_security_policy_timestamp";

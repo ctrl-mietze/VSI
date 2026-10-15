@@ -11,6 +11,12 @@ public interface SaiPackageInstaller {
 
     void enqueueSession(String sessionId);
 
+    /**
+     * Discards a session that has been created but not yet handed to the
+     * concrete installer backend.
+     */
+    boolean discardSession(String sessionId);
+
     void registerSessionObserver(SaiPiSessionObserver observer);
 
     void unregisterSessionObserver(SaiPiSessionObserver observer);

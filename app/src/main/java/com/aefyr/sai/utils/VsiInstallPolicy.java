@@ -15,6 +15,7 @@ public final class VsiInstallPolicy {
         return params
                 .setAllowDowngrade(prefs.shouldAllowDowngrade() || dev.forceDowngrade())
                 .setAllowTestApks(prefs.shouldAllowTestApks() || dev.forceTestOnly())
+                .setRollbackMode(prefs.getRollbackMode())
                 .setTargetUserId(prefs.getTargetUserId())
                 .setDeleteSourceAfterSuccess(
                         prefs.shouldDeleteSourceAfterInstall() && !dev.neverDeleteSource()
@@ -30,6 +31,8 @@ public final class VsiInstallPolicy {
             sb.append(" -d");
         if (prefs.shouldAllowTestApks() || dev.forceTestOnly())
             sb.append(" -t");
+        if (prefs.getRollbackMode() >= 0)
+            sb.append(" --enable-rollback ").append(prefs.getRollbackMode());
         if (prefs.getTargetUserId() >= 0)
             sb.append(" --user ").append(prefs.getTargetUserId());
 

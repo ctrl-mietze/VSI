@@ -26,6 +26,7 @@ public final class VsiInstallProfileManager {
                 false,
                 false,
                 -1,
+                -1,
                 false,
                 false,
                 false
@@ -37,6 +38,7 @@ public final class VsiInstallProfileManager {
                 VsiAppMode.ROOT,
                 true,
                 true,
+                0,
                 -1,
                 false,
                 false,
@@ -49,6 +51,7 @@ public final class VsiInstallProfileManager {
                 VsiAppMode.ROOT_XPOSED,
                 true,
                 true,
+                0,
                 -1,
                 false,
                 false,
@@ -61,6 +64,7 @@ public final class VsiInstallProfileManager {
                 VsiAppMode.SHIZUKU,
                 true,
                 true,
+                0,
                 -1,
                 false,
                 false,
@@ -74,6 +78,7 @@ public final class VsiInstallProfileManager {
                 false,
                 false,
                 -1,
+                -1,
                 false,
                 false,
                 false
@@ -86,6 +91,7 @@ public final class VsiInstallProfileManager {
                 false,
                 false,
                 -1,
+                -1,
                 true,
                 true,
                 false
@@ -97,6 +103,7 @@ public final class VsiInstallProfileManager {
                 VsiModeManager.getMode(mContext),
                 mPrefs.getBoolean(PreferencesKeys.ALLOW_DOWNGRADE, false),
                 mPrefs.getBoolean(PreferencesKeys.ALLOW_TEST_APKS, false),
+                parseRollbackMode(mPrefs.getString(PreferencesKeys.ROLLBACK_MODE, "-1")),
                 parseUserId(mPrefs.getString(PreferencesKeys.TARGET_USER_ID, "-1")),
                 mPrefs.getBoolean(PreferencesKeys.EXTRACT_ARCHIVES, false),
                 mPrefs.getBoolean(PreferencesKeys.USE_ZIPFILE, false),
@@ -131,6 +138,10 @@ public final class VsiInstallProfileManager {
         mPrefs.edit()
                 .putBoolean(PreferencesKeys.ALLOW_DOWNGRADE, profile.allowDowngrade)
                 .putBoolean(PreferencesKeys.ALLOW_TEST_APKS, profile.allowTest)
+                .putString(
+                        PreferencesKeys.ROLLBACK_MODE,
+                        String.valueOf(profile.rollbackMode == null ? -1 : profile.rollbackMode)
+                )
                 .putString(PreferencesKeys.TARGET_USER_ID, String.valueOf(profile.userId))
                 .putBoolean(PreferencesKeys.EXTRACT_ARCHIVES, profile.extractArchives)
                 .putBoolean(PreferencesKeys.USE_ZIPFILE, profile.useZipFile)
@@ -159,6 +170,15 @@ public final class VsiInstallProfileManager {
         }
     }
 
+    private int parseRollbackMode(String raw) {
+        try {
+            int mode = Integer.parseInt(raw);
+            return mode >= -1 && mode <= 2 ? mode : -1;
+        } catch (Exception ignored) {
+            return -1;
+        }
+    }
+
     private int parseUserId(String raw) {
         try {
             return Integer.parseInt(raw);
@@ -175,6 +195,7 @@ public final class VsiInstallProfileManager {
 
         boolean allowDowngrade;
         boolean allowTest;
+        Integer rollbackMode;
         int userId;
         boolean extractArchives;
         boolean useZipFile;
@@ -184,6 +205,7 @@ public final class VsiInstallProfileManager {
                 VsiAppMode mode,
                 boolean allowDowngrade,
                 boolean allowTest,
+                Integer rollbackMode,
                 int userId,
                 boolean extractArchives,
                 boolean useZipFile,
@@ -193,6 +215,7 @@ public final class VsiInstallProfileManager {
             installer = mode.installerBackend();
             this.allowDowngrade = allowDowngrade;
             this.allowTest = allowTest;
+            this.rollbackMode = rollbackMode;
             this.userId = userId;
             this.extractArchives = extractArchives;
             this.useZipFile = useZipFile;

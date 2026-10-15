@@ -282,6 +282,11 @@ public abstract class ShellSaiPackageInstaller extends BaseSaiPackageInstaller {
         if (params.allowTestApks())
             args.add("-t");
 
+        if (params.rollbackMode() >= 0) {
+            args.add("--enable-rollback");
+            args.add(String.valueOf(params.rollbackMode()));
+        }
+
         if (params.targetUserId() >= 0) {
             args.add("--user");
             args.add(String.valueOf(params.targetUserId()));

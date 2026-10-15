@@ -41,6 +41,7 @@ public class FlexSaiPackageInstaller implements SaiPackageInstaller, SaiPiSessio
     private final Set<String> mActiveQueuedSessions =
             Collections.newSetFromMap(new ConcurrentHashMap<>());
     private final AtomicInteger mActiveQueueCount = new AtomicInteger(0);
+    private volatile boolean mQueuePaused;
 
     public static FlexSaiPackageInstaller getInstance(Context c) {
         synchronized (FlexSaiPackageInstaller.class) {
@@ -101,6 +102,9 @@ public class FlexSaiPackageInstaller implements SaiPackageInstaller, SaiPiSessio
     }
 
     private synchronized void drainQueue() {
+        if (mQueuePaused)
+            return;
+
         int maxParallel = VsiDeveloperOptions.getInstance(mContext).queueParallelism();
 
         while (mActiveQueueCount.get() < maxParallel) {
@@ -112,6 +116,35 @@ public class FlexSaiPackageInstaller implements SaiPackageInstaller, SaiPiSessio
             mActiveQueuedSessions.add(next.sessionId);
             next.installer.enqueueSession(next.sessionId);
         }
+    }
+
+    @Override
+    public boolean discardSession(String sessionId) {
+        SaiPackageInstaller installer = mSessionIdToInstaller.remove(sessionId);
+        return installer != null && installer.discardSession(sessionId);
+    }
+
+    public synchronized void setQueuePaused(boolean paused) {
+        mQueuePaused = paused;
+        if (!paused)
+            drainQueue();
+    }
+
+    public boolean isQueuePaused() {
+        return mQueuePaused;
+    }
+
+    public synchronized boolean removePendingSession(String sessionId) {
+        for (QueuedDispatch dispatch : mPendingQueue) {
+            if (!dispatch.sessionId.equals(sessionId))
+                continue;
+
+            if (!mPendingQueue.remove(dispatch))
+                return false;
+
+            return dispatch.installer.discardSession(sessionId);
+        }
+        return false;
     }
 
     @Override

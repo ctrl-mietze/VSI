@@ -26,6 +26,7 @@ import com.aefyr.sai.utils.PreferencesHelper;
 import com.aefyr.sai.utils.PreferencesValues;
 import com.aefyr.sai.utils.VsiDeveloperOptions;
 import com.aefyr.sai.utils.VsiInstallPolicy;
+import com.aefyr.sai.utils.VsiModeManager;
 import com.aefyr.sai.utils.VsiPackagePreflight;
 import com.aefyr.sai.xposed.VsiXposedRuntimeProbe;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -136,6 +137,32 @@ public class ApkActionViewProxyActivity extends ThemedActivity {
 
         if (VsiDeveloperOptions.getInstance(this).showSourceIdentity())
             meta.append("\n").append(getString(R.string.vsi_history_source)).append(": ").append(mUri);
+
+        PreferencesHelper prefs = PreferencesHelper.getInstance(this);
+        meta.append("\n\n")
+                .append(getString(R.string.vsi_quick_install_plan))
+                .append("\n")
+                .append(getString(R.string.vsi_quick_plan_mode))
+                .append(": ")
+                .append(VsiModeManager.getMode(this).name())
+                .append("\n")
+                .append(getString(R.string.vsi_quick_plan_backend))
+                .append(": ")
+                .append(installerLabel(prefs.getInstaller()))
+                .append("\n")
+                .append(getString(R.string.vsi_quick_plan_user))
+                .append(": ")
+                .append(prefs.getTargetUserId() < 0
+                        ? getString(R.string.vsi_quick_plan_current_user)
+                        : String.valueOf(prefs.getTargetUserId()))
+                .append("\n")
+                .append(getString(R.string.vsi_quick_plan_flags))
+                .append(": ")
+                .append(buildPlanFlags(prefs))
+                .append("\n")
+                .append(getString(R.string.vsi_quick_plan_install_location))
+                .append(": ")
+                .append(prefs.getInstallLocation());
 
         TextView body = text(meta.toString(), 15, false);
         body.setPadding(0, dp(12), 0, dp(18));
@@ -362,6 +389,36 @@ public class ApkActionViewProxyActivity extends ThemedActivity {
         if (mSheet != null)
             mSheet.setOnDismissListener(null);
         finish();
+    }
+
+    private String installerLabel(int installer) {
+        switch (installer) {
+            case PreferencesValues.INSTALLER_ROOTED:
+                return "Root";
+            case PreferencesValues.INSTALLER_SHIZUKU:
+                return "Shizuku";
+            case PreferencesValues.INSTALLER_XPOSED:
+                return "Xposed / Vector";
+            default:
+                return "Rootless";
+        }
+    }
+
+    private String buildPlanFlags(PreferencesHelper prefs) {
+        StringBuilder out = new StringBuilder("-r");
+
+        if (prefs.shouldAllowDowngrade()
+                || VsiDeveloperOptions.getInstance(this).forceDowngrade())
+            out.append(" -d");
+
+        if (prefs.shouldAllowTestApks()
+                || VsiDeveloperOptions.getInstance(this).forceTestOnly())
+            out.append(" -t");
+
+        if (prefs.getRollbackMode() >= 0)
+            out.append(" --enable-rollback ").append(prefs.getRollbackMode());
+
+        return out.toString();
     }
 
     private String operationLabel(VsiPackagePreflight.Operation operation) {
